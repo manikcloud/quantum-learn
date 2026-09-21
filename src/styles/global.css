@@ -108,6 +108,8 @@ a:hover { text-decoration: underline; }
 .search-hit:hover { background: var(--card-hover); text-decoration: none; }
 .search-hit span { display: block; font-weight: 600; font-size: 14px; }
 .search-hit small { color: var(--faint); font-size: 12px; }
+.search-hit small mark, .search-none mark { background: none; color: var(--accent, #7cc4ff); font-weight: 600; }
+.search-none { padding: 12px 14px; color: var(--faint); font-size: 13px; }
 
 .icon-btn {
   border: 1px solid var(--border);

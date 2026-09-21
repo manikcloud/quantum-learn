@@ -6,6 +6,7 @@ export const strings = {
   en: {
     brandSub: "IIT Delhi · QCML companion",
     searchPh: "Search lessons…",
+    searchNone: "No lessons found — try another word.",
     sidebarTitle: "Course modules",
     footerText:
       "Companion notes for the IIT Delhi CEP Certification in Quantum Computing and Machine Learning. Explanations are written for every level — from curious beginners to researchers.",
@@ -39,6 +40,7 @@ export const strings = {
   hi: {
     brandSub: "IIT Delhi · QCML साथी",
     searchPh: "पाठ खोजें…",
+    searchNone: "कोई पाठ नहीं मिला — कोई और शब्द आज़माएँ।",
     sidebarTitle: "पाठ्यक्रम मॉड्यूल",
     footerText:
       "IIT Delhi CEP Certification in Quantum Computing and Machine Learning के लिए साथी notes। व्याख्याएँ हर स्तर के लिए लिखी गई हैं — जिज्ञासु beginners से लेकर researchers तक।",

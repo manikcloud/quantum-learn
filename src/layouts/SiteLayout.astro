@@ -2,7 +2,7 @@
 import "../styles/global.css";
 import { modules, flatLessons, moduleOf } from "../data/curriculum.js";
 import { t } from "../data/i18n.js";
-import { hiModuleTitle, hiLessonTitle, lessonIndex } from "../data/hi-meta.js";
+import { hiModuleTitle, hiLessonTitle } from "../data/hi-meta.js";
 
 const {
   title = "Quantum Learning Hub",
@@ -16,7 +16,8 @@ const {
 
 const isHi = lang === "hi";
 const base = isHi ? "/hi" : "";
-const searchData = lessonIndex(lang, base, flatLessons, moduleOf);
+const searchNone = t(lang, "searchNone");
+const lessonCount = flatLessons.length;
 ---
 <!doctype html>
 <html lang={lang} data-theme="dark">
@@ -30,7 +31,7 @@ const searchData = lessonIndex(lang, base, flatLessons, moduleOf);
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
   </head>
-  <body data-prev={prevUrl || undefined} data-next={nextUrl || undefined}>
+  <body data-prev={prevUrl || undefined} data-next={nextUrl || undefined} data-lesson-count={lessonCount}>
     <header class="topbar">
       <button class="icon-btn" id="menu-toggle" aria-label="Open navigation">☰</button>
       <a class="brand" href={isHi ? "/hi/" : "/"}>
@@ -43,7 +44,7 @@ const searchData = lessonIndex(lang, base, flatLessons, moduleOf);
       <span class="topbar-spacer"></span>
       <div class="search-wrap">
         <span class="search-icon">⌕</span>
-        <input id="site-search" type="search" placeholder={t(lang, "searchPh")} autocomplete="off" />
+        <input id="site-search" type="search" placeholder={t(lang, "searchPh")} data-none={searchNone} autocomplete="off" />
         <div id="search-results" hidden></div>
       </div>
       {altUrl && (
@@ -53,8 +54,6 @@ const searchData = lessonIndex(lang, base, flatLessons, moduleOf);
       )}
       <button class="icon-btn" id="theme-toggle" aria-label="Toggle light/dark mode">◐</button>
     </header>
-
-    <script type="application/json" id="qlh-index">{JSON.stringify(searchData)}</script>
 
     <div class="shell">
       <aside class="sidebar" id="sidebar">
@@ -81,10 +80,11 @@ const searchData = lessonIndex(lang, base, flatLessons, moduleOf);
         }
       </aside>
 
-      <main>
+      <main data-pagefind-body>
+        <span data-pagefind-filter="lang" hidden>{lang}</span>
         <div class="prose">
           <slot />
-          <footer class="site-foot">
+          <footer class="site-foot" data-pagefind-ignore>
             {t(lang, "footerText")}
           </footer>
         </div>
@@ -115,29 +115,60 @@ const searchData = lessonIndex(lang, base, flatLessons, moduleOf);
           sidebar.classList.toggle("open");
         });
 
-        /* search */
+        /* search — Pagefind full-text index (built into /pagefind/) */
         var input = document.getElementById("site-search");
         var results = document.getElementById("search-results");
-        var index = [];
-        try { index = JSON.parse(document.getElementById("qlh-index").textContent); } catch (e) {}
-        function renderSearch(q) {
+        var pagefindApi = null;
+        var searchTimer = null;
+        function escHtml(s) {
+          return String(s).replace(/[&<>"']/g, function (c) {
+            return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+          });
+        }
+        function cleanTitle(t) { return String(t).split(" · ")[0]; }
+        function pagefindReady() {
+          if (pagefindApi) return Promise.resolve(pagefindApi);
+          var pfUrl = "/pagefind/" + "pagefind.js"; /* built at runtime so the bundler leaves it alone */
+          return import(/* @vite-ignore */ pfUrl).then(function (mod) {
+            var ready = mod.init ? mod.init() : Promise.resolve();
+            return ready.then(function () { pagefindApi = mod; return mod; });
+          });
+        }
+        function runSearch(q) {
           if (!q) { results.hidden = true; results.innerHTML = ""; return; }
-          var ql = q.toLowerCase();
-          var hits = index.filter(function (l) {
-            return l.title.toLowerCase().indexOf(ql) !== -1 ||
-                   l.moduleTitle.toLowerCase().indexOf(ql) !== -1;
-          }).slice(0, 8);
-          if (!hits.length) { results.hidden = true; return; }
-          results.innerHTML = hits.map(function (h) {
-            return '<a class="search-hit" href="' + h.url + '">' +
-              "<span>" + h.title + "</span>" +
-              "<small>" + (isHi ? "मॉड्यूल " : "Module ") + h.moduleNumber + " · " + h.moduleTitle + "</small></a>";
-          }).join("");
-          results.hidden = false;
+          pagefindReady().then(function (pf) {
+            var withFilter = pf.search(q, { filters: { lang: isHi ? "hi" : "en" } });
+            return withFilter.catch(function () { return pf.search(q); });
+          }).then(function (res) {
+            if (!res || input.value.trim() !== q) return;
+            var list = (res.results || []).slice(0, 8);
+            if (!list.length) {
+              results.innerHTML = '<div class="search-none">' +
+                escHtml(input.getAttribute("data-none") || "") + "</div>";
+              results.hidden = false;
+              return null;
+            }
+            return Promise.all(list.map(function (r) { return r.data(); })).then(function (datas) {
+              if (input.value.trim() !== q) return;
+              results.innerHTML = datas.map(function (d) {
+                return '<a class="search-hit" href="' + escHtml(d.url) + '">' +
+                  "<span>" + escHtml(cleanTitle(d.meta.title)) + "</span>" +
+                  "<small>" + d.excerpt + "</small></a>";
+              }).join("");
+              results.hidden = false;
+            });
+          }).catch(function () { results.hidden = true; });
         }
         if (input) {
-          input.addEventListener("input", function () { renderSearch(input.value.trim()); });
-          input.addEventListener("focus", function () { renderSearch(input.value.trim()); });
+          input.addEventListener("input", function () {
+            clearTimeout(searchTimer);
+            var q = input.value.trim();
+            searchTimer = setTimeout(function () { runSearch(q); }, 180);
+          });
+          input.addEventListener("focus", function () {
+            pagefindReady().catch(function () {});
+            if (input.value.trim()) runSearch(input.value.trim());
+          });
           input.addEventListener("blur", function () { setTimeout(function () { results.hidden = true; }, 160); });
         }
 
@@ -148,7 +179,7 @@ const searchData = lessonIndex(lang, base, flatLessons, moduleOf);
         function saveDone(list) {
           try { localStorage.setItem("qlh-done", JSON.stringify(list)); } catch (e) {}
         }
-        var total = index.length;
+        var total = parseInt(document.body.getAttribute("data-lesson-count") || "0", 10);
         function paintProgress() {
           var done = doneList();
           var pct = total ? Math.round((done.length / total) * 100) : 0;
