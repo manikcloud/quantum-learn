@@ -18,6 +18,7 @@ const hi = lessonContentHi[lesson.slug];
 const en = lessonContent[lesson.slug];
 const content = hi || en;
 const isTranslated = !!hi;
+const refs = (en && en.references) || (content && content.references);
 const title = hiLessonTitle(lesson);
 const modTitle = hiModuleTitle(mod);
 ---
@@ -63,6 +64,27 @@ const modTitle = hiModuleTitle(mod);
       </section>
 
       <Quiz questions={content.quiz} id={`quiz-hi-${lesson.slug}`} lang="hi" />
+
+      {refs?.length > 0 && (
+        <section class="references">
+          <h2>{t("hi", "references")}</h2>
+          <p class="ref-lead">{t("hi", "referencesIntro")}</p>
+          <ol>
+            {refs.map((r) => (
+              <li>
+                <span set:html={r.cite} />
+                {r.url && (
+                  <>
+                    {" "}· <a href={r.url} target="_blank" rel="noopener">source ↗</a>
+                  </>
+                )}
+                <br />
+                <span class="ref-use">{t("hi", "referencesUsedFor")} {r.usedFor}</span>
+              </li>
+            ))}
+          </ol>
+        </section>
+      )}
     </>
   ) : (
     <div class="note-box">

@@ -49,6 +49,29 @@ const content = lessonContent[lesson.slug];
       </section>
 
       <Quiz questions={content.quiz} id={`quiz-${lesson.slug}`} />
+
+      {content.references?.length > 0 && (
+        <section class="references">
+          <h2>References</h2>
+          <p class="ref-lead">
+            The books, papers, and articles this lesson drew on — with a note on what each one was used for.
+          </p>
+          <ol>
+            {content.references.map((r) => (
+              <li>
+                <span set:html={r.cite} />
+                {r.url && (
+                  <>
+                    {" "}· <a href={r.url} target="_blank" rel="noopener">source ↗</a>
+                  </>
+                )}
+                <br />
+                <span class="ref-use">Used for: {r.usedFor}</span>
+              </li>
+            ))}
+          </ol>
+        </section>
+      )}
     </>
   ) : (
     <div class="note-box">

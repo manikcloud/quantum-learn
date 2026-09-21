@@ -71,6 +71,38 @@ export const philosophyLessons = {
         why: "Aaronson's correction: exponentially many amplitudes exist, but you observe one outcome — the speedup rides on interference sculpting the distribution, not on parallel classical computation.",
       },
     ],
+    references: [
+      {
+        cite: 'David Deutsch, “Quantum theory, the Church–Turing principle and the universal quantum computer,” <em>Proceedings of the Royal Society of London A</em> <strong>400</strong>, 97–117 (1985).',
+        url: "https://royalsocietypublishing.org/doi/10.1098/rspa.1985.0070",
+        usedFor: "The founding paper of quantum computing — the source of Deutsch's physical Church–Turing principle and his Everettian motivation.",
+      },
+      {
+        cite: 'David Deutsch, <em>The Fabric of Reality</em> (Allen Lane, 1997).',
+        usedFor: "The Everettian case for quantum computing, including the challenge: “explain how Shor's algorithm works” without parallel universes.",
+      },
+      {
+        cite: 'Scott Aaronson, <em>Quantum Computing Since Democritus</em> (Cambridge University Press, 2013).',
+        usedFor: "The counterweight — quantum computing as “probability theory with minus signs”; speedup rides on interference, and supremacy experiments add nothing new to the interpretation debate.",
+      },
+      {
+        cite: 'John Bell, <em>Speakable and Unspeakable in Quantum Mechanics</em> (Cambridge University Press, 1987).',
+        usedFor: "Collects Bell's 1964 theorem paper — the moment the Einstein–Bohr argument became a testable inequality.",
+      },
+      {
+        cite: 'Tim Maudlin, <em>Philosophy of Physics: Quantum Theory</em> (Princeton University Press, 2019).',
+        usedFor: "The distinction between a predictive “quantum recipe” and a proper theory — the framing of this lesson's bargain.",
+      },
+      {
+        cite: 'Adam Becker, <em>What Is Real? The Unfinished Quest for the Meaning of Quantum Physics</em> (Basic Books, 2018).',
+        usedFor: "The history of how Copenhagen orthodoxy sidelined alternative interpretations for decades.",
+      },
+      {
+        cite: '“The flawed multiverse,” <em>Physics World</em> (review of Deutsch’s <em>The Beginning of Infinity</em>).',
+        url: "https://physicsworld.com/a/the-flawed-multiverse/",
+        usedFor: "The preferred-basis critique of many-worlds and Deutsch's multiverse account of quantum computation.",
+      },
+    ],
   },
   "phil-interpretations": {
     simple: raw`
@@ -135,6 +167,53 @@ export const philosophyLessons = {
         ],
         answer: 1,
         why: "QBism (Fuchs, Schack, Mermin) makes the wavefunction subjective: collapse is belief update, and there was never an objective distant state to be disturbed.",
+      },
+    ],
+    references: [
+      {
+        cite: 'Stanford Encyclopedia of Philosophy, “Interpretations of Quantum Mechanics” (peer-reviewed; revised regularly).',
+        url: "https://plato.stanford.edu/entries/qm-interpretations/",
+        usedFor: "The citable backbone for the lesson's framing — all interpretations share the mathematics and differ only in ontology.",
+      },
+      {
+        cite: 'Stanford Encyclopedia of Philosophy, “Bohmian Mechanics.”',
+        url: "https://plato.stanford.edu/entries/qm-bohm/",
+        usedFor: "The pilot-wave interpretation — definite particles guided by a real wavefunction.",
+      },
+      {
+        cite: 'Stanford Encyclopedia of Philosophy, “Relational Quantum Mechanics.”',
+        url: "https://plato.stanford.edu/entries/qm-relational/",
+        usedFor: "Rovelli's view — facts exist only relative to a physical system.",
+      },
+      {
+        cite: 'Stanford Encyclopedia of Philosophy, “The Consistent Histories Approach to Quantum Mechanics.”',
+        url: "https://plato.stanford.edu/entries/qm-consistent-histories/",
+        usedFor: "The single-framework rule and “Copenhagen done right.”",
+      },
+      {
+        cite: 'Hugh Everett III, “Relative state formulation of quantum mechanics,” <em>Reviews of Modern Physics</em> <strong>29</strong>, 454–462 (1957).',
+        usedFor: "The original many-worlds paper — no collapse postulate, every term of every superposition equally real.",
+      },
+      {
+        cite: 'Sean Carroll, <em>Something Deeply Hidden: Quantum Worlds and the Emergence of Spacetime</em> (Dutton, 2019).',
+        usedFor: "The accessible modern case for the Everett interpretation.",
+      },
+      {
+        cite: 'Carlo Rovelli, <em>Helgoland: Making Sense of the Quantum Revolution</em> (Riverhead, 2021).',
+        usedFor: "Relational quantum mechanics for general readers.",
+      },
+      {
+        cite: 'David Albert, <em>Quantum Mechanics and Experience</em> (Harvard University Press, 1992).',
+        usedFor: "The measurement problem laid out with unusual clarity — the three ways out.",
+      },
+      {
+        cite: 'Daniela Frauchiger and Renato Renner, “Quantum theory cannot consistently describe the use of itself,” <em>Nature Communications</em> <strong>9</strong>, 3711 (2018).',
+        url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC6346061/",
+        usedFor: "The 2018 thought experiment forcing every interpretation to sacrifice one of: universality, a single world, or inter-agent consistency.",
+      },
+      {
+        cite: 'Christopher A. Fuchs, N. David Mermin and Rüdiger Schack, “An introduction to QBism with an application to the locality of quantum mechanics,” <em>American Journal of Physics</em> <strong>82</strong>, 749–754 (2014).',
+        usedFor: "The QBist position — the wavefunction as an agent's personal degrees of belief.",
       },
     ],
   },
@@ -202,6 +281,42 @@ export const philosophyLessons = {
         why: "Pironio et al. showed nonlocal correlations certify genuine randomness 'without any assumption on the internal working of the devices' — impossible classically, and the basis of device-independent cryptography.",
       },
     ],
+    references: [
+      {
+        cite: 'John S. Bell, “On the Einstein Podolsky Rosen paradox,” <em>Physics</em> <strong>1</strong>, 195–200 (1964); reprinted in <em>Speakable and Unspeakable in Quantum Mechanics</em> (Cambridge University Press, 1987).',
+        usedFor: "The theorem itself — plus Bell's own late reflections, including superdeterminism as the escape he named.",
+      },
+      {
+        cite: 'Nobel Prize in Physics 2022 — awarded to Alain Aspect, John F. Clauser and Anton Zeilinger “for experiments with entangled photons, establishing the violation of Bell inequalities and pioneering quantum information science.”',
+        url: "https://www.nobelprize.org/prizes/physics/2022/summary/",
+        usedFor: "The official account of the Bell-test experiments, from Clauser and Freedman through Aspect (1981–82) to the loophole-free tests of 2015.",
+      },
+      {
+        cite: 'Stanford Encyclopedia of Philosophy, “Bell’s Theorem.”',
+        url: "https://plato.stanford.edu/entries/bell-theorem/",
+        usedFor: "The precise statement of what died: local realism — the conjunction of realism, locality, and statistical independence.",
+      },
+      {
+        cite: 'John H. Conway and Simon Kochen, “The free will theorem,” <em>Foundations of Physics</em> <strong>36</strong>, 1441–1473 (2006); “The strong free will theorem,” <em>Notices of the AMS</em> <strong>56</strong>, 226–232 (2009).',
+        usedFor: "The SPIN–TWIN–FIN argument: if experimenters' choices are not fixed by the past, neither are particles' responses.",
+      },
+      {
+        cite: 'Stefano Pironio et al., “Random numbers certified by Bell’s theorem,” <em>Nature</em> <strong>464</strong>, 1021–1024 (2010).',
+        usedFor: "Device-independent randomness — a Bell violation certifies unpredictability “without any assumption on the internal working of the devices.”",
+      },
+      {
+        cite: 'ETH Zurich (Renner group), May 2026 — 1.5 billion Bell tests on entangled qubits in a 30-metre cryogenic setup; provably perfect randomness certified against an adversary of unbounded power (reported in <em>Nature</em>).',
+        usedFor: "The state of the art in certified randomness cited in this lesson — the operational meaning of “truly random.”",
+      },
+      {
+        cite: 'Anil Ananthaswamy, <em>Through Two Doors at Once: The Elegant Experiment That Captures the Enigma of Our Quantum Reality</em> (Dutton, 2018).',
+        usedFor: "The double-slit experiment as the through-line of the entire randomness debate.",
+      },
+      {
+        cite: 'Scott Aaronson, <em>Quantum Computing Since Democritus</em> (Cambridge University Press, 2013).',
+        usedFor: "Free will, predictability, and computational complexity — the philosopher-physicist's take on what randomness can and cannot buy.",
+      },
+    ],
   },
   "phil-it-from-bit": {
     simple: raw`
@@ -263,6 +378,52 @@ export const philosophyLessons = {
         ],
         answer: 1,
         why: "Deutsch & Marletto (2015): an information medium supports copying of attributes; superinformation media yield no-cloning and complementarity as theorems — though no unique confirmed prediction exists yet.",
+      },
+    ],
+    references: [
+      {
+        cite: 'John Archibald Wheeler, “Information, physics, quantum: the search for links,” in <em>Complexity, Entropy, and the Physics of Information</em> (Santa Fe Institute, 1990; paper delivered 1989).',
+        usedFor: "The original “it from bit” proposal — reality as answers to yes-or-no questions, and the twenty-questions parable.",
+      },
+      {
+        cite: 'John Horgan, “Why information can’t be the basis of reality,” <em>Scientific American</em> (Cross-Check blog).',
+        url: "https://www.scientificamerican.com/blog/cross-check/why-information-cant-be-the-basis-of-reality/",
+        usedFor: "The critique of the contested half — Landauer's “information is physical” does not imply “physics is information.”",
+      },
+      {
+        cite: 'Rolf Landauer, “Irreversibility and heat generation in the computing process,” <em>IBM Journal of Research and Development</em> <strong>5</strong>, 183–191 (1961).',
+        usedFor: "The settled half: erasing one bit costs at least k<sub>B</sub>T ln 2 — the 2→1 map that must dump entropy as heat.",
+      },
+      {
+        cite: 'Antoine Bérut et al., “Experimental verification of Landauer’s principle linking information and thermodynamics,” <em>Nature</em> <strong>483</strong>, 187–189 (2012).',
+        usedFor: "The first direct experimental test of Landauer's bound, using a colloidal particle in a double-well optical trap.",
+      },
+      {
+        cite: 'Charles H. Bennett, “The thermodynamics of computation — a review,” <em>International Journal of Theoretical Physics</em> <strong>21</strong>, 905–940 (1982).',
+        usedFor: "Exorcising Maxwell's demon: the demon's measurements are reversible, but erasing its memory pays Landauer's tax.",
+      },
+      {
+        cite: 'Lucien Hardy, “Quantum theory from five reasonable axioms,” arXiv:quant-ph/0101012 (2001).',
+        url: "https://arxiv.org/abs/quant-ph/0101012",
+        usedFor: "The founding paper of the reconstruction program — Axiom 5 (continuity) as the quantum/classical dividing line.",
+      },
+      {
+        cite: 'Giulio Chiribella, Giacomo Mauro D’Ariano and Paolo Perinotti, “Informational derivation of quantum theory,” <em>Physical Review A</em> <strong>84</strong>, 012311 (2011); popular version “Quantum Theory, Namely the Pure and Reversible Theory of Information,” <em>Entropy</em> (2012).',
+        url: "https://arxiv.org/abs/1209.5533",
+        usedFor: "The purification principle — “ignorance about a part is always compatible with maximal knowledge of a whole” — plus five operational axioms that force quantum theory.",
+      },
+      {
+        cite: 'David Deutsch and Chiara Marletto, “Constructor theory of information,” <em>Proceedings of the Royal Society A</em> <strong>471</strong>, 20140540 (2015).',
+        url: "https://royalsocietypublishing.org/doi/10.1098/rspa.2014.0540",
+        usedFor: "Physics as possible vs impossible tasks; quantum information as “superinformation,” yielding no-cloning and complementarity as theorems.",
+      },
+      {
+        cite: 'David Deutsch, <em>The Beginning of Infinity: Explanations That Transform the World</em> (Allen Lane, 2011).',
+        usedFor: "The constructor-theoretic worldview behind the lesson's framing of computation as physics.",
+      },
+      {
+        cite: 'Jeffrey Bub, <em>Bananaworld: Quantum Mechanics for Primates</em> (Oxford University Press, 2016).',
+        usedFor: "The information-theoretic interpretation of quantum mechanics, explained through parables.",
       },
     ],
   },
