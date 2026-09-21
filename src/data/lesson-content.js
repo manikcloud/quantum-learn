@@ -5,7 +5,7 @@
 //   quiz      — { q, options, answer (index), why }
 //
 // Lessons without an entry here render a "coming soon" placeholder page
-// (nav, prev/next still work). Content gets filled in from the course PPT.
+// (nav, prev/next still work). Content is written lesson by lesson.
 
 const raw = String.raw;
 

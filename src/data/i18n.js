@@ -4,12 +4,12 @@
 
 export const strings = {
   en: {
-    brandSub: "IIT Delhi · QCML companion",
+    brandSub: "Quantum computing, in plain language",
     searchPh: "Search lessons…",
     searchNone: "No lessons found — try another word.",
     sidebarTitle: "Course modules",
     footerText:
-      "Companion notes for the IIT Delhi CEP Certification in Quantum Computing and Machine Learning. Explanations are written for every level — from curious beginners to researchers.",
+      "Independent study notes on quantum computing and quantum machine learning — written from scratch, in plain language. Not affiliated with, endorsed by, or reproducing any institution's course materials.",
     home: "Home",
     moduleWord: "Module",
     simpleKicker: "In simple words",
@@ -26,7 +26,7 @@ export const strings = {
     tipHint: "Tip: press ← / → to turn pages.",
     notesTitle: "Lesson notes are on the way.",
     notesBody:
-      "This page will be filled in from the course PPT — simple explanation, deeper math, and a quiz, like the other lessons. The navigation around it already works.",
+      "This lesson is still being written — simple explanation, deeper math, and a quiz, like the other lessons. The navigation around it already works.",
     lessonsWord: "Lessons",
     prevModule: "← Previous module",
     nextModule: "Next module →",
@@ -38,12 +38,12 @@ export const strings = {
       (correct === total ? " Perfect — on to the next lesson." : " Skim the lesson once more, then move on."),
   },
   hi: {
-    brandSub: "IIT Delhi · QCML साथी",
+    brandSub: "Quantum computing, सरल भाषा में",
     searchPh: "पाठ खोजें…",
     searchNone: "कोई पाठ नहीं मिला — कोई और शब्द आज़माएँ।",
     sidebarTitle: "पाठ्यक्रम मॉड्यूल",
     footerText:
-      "IIT Delhi CEP Certification in Quantum Computing and Machine Learning के लिए साथी notes। व्याख्याएँ हर स्तर के लिए लिखी गई हैं — जिज्ञासु beginners से लेकर researchers तक।",
+      "Quantum computing और quantum machine learning पर स्वतंत्र study notes — सरल भाषा में नए सिरे से लिखे गए। किसी संस्थान के course से संबद्ध, अनुमोदित, या उसकी सामग्री का पुनरुत्पादन नहीं।",
     home: "मुख्य पृष्ठ",
     moduleWord: "मॉड्यूल",
     simpleKicker: "सरल शब्दों में",
@@ -60,7 +60,7 @@ export const strings = {
     tipHint: "सुझाव: पेज बदलने के लिए ← / → दबाएँ।",
     notesTitle: "पाठ की टिप्पणियाँ जल्द आ रही हैं।",
     notesBody:
-      "यह पेज course PPT से भरा जाएगा — सरल व्याख्या, गहरा गणित और quiz, बाकी पाठों की तरह। इसके आस-पास का navigation पहले से काम करता है।",
+      "यह पाठ अभी लिखा जा रहा है — सरल व्याख्या, गहरा गणित और quiz, बाकी पाठों की तरह। इसके आस-पास का navigation पहले से काम करता है।",
     lessonsWord: "पाठ",
     prevModule: "← पिछला मॉड्यूल",
     nextModule: "अगला मॉड्यूल →",

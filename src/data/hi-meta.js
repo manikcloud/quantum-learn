@@ -47,15 +47,15 @@ export const hiModules = {
   },
   "module-8": {
     title: "Quantum Physics की कहानियाँ",
-    tagline: "Syllabus से आगे: वे experiments और ideas जिन्होंने quantum world को उजागर किया।",
+    tagline: "वे experiments और ideas जिन्होंने quantum world को उजागर किया।",
     description:
-      "Math के पीछे की कहानी-आधारित physics — double-slit experiment, Einstein–Bohr debate, decoherence, और बहुत कुछ — QuantumCore archive से रूपांतरित। Enrichment सामग्री: IIT Delhi syllabus का हिस्सा नहीं, लेकिन इससे बाकी सब कुछ समझ आ जाता है।",
+      "Math के पीछे की कहानी-आधारित physics — double-slit experiment, Einstein–Bohr debate, decoherence, और बहुत कुछ। Original enrichment सामग्री — वे मानवीय कहानियाँ जिनसे गणित समझ आता है।",
   },
   "module-9": {
     title: "Nobel पुरस्कार जिन्होंने Quantum बनाया",
-    tagline: "Syllabus से आगे: quantum computing के पीछे की खोजें — और खोजकर्ता।",
+    tagline: "quantum computing के पीछे की खोजें — और खोजकर्ता।",
     description:
-      "Quantum world बनाने वाले दस Nobel पुरस्कार — 1900 में Planck की desperate mathematical trick से लेकर 2022 में entanglement को real साबित करने वाले पुरस्कार तक। Enrichment सामग्री: syllabus के पीछे की मानवीय कहानी।",
+      "Quantum world बनाने वाले दस Nobel पुरस्कार — 1900 में Planck की desperate mathematical trick से लेकर 2022 में entanglement को real साबित करने वाले पुरस्कार तक। Original enrichment सामग्री: physics के पीछे की मानवीय कहानी।",
   },
 };
 

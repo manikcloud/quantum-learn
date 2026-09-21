@@ -1,6 +1,6 @@
-// Physics enrichment lessons, adapted from the QuantumCore phase-1 story-driven
-// articles. These are background stories (wave-particle duality, the great
-// debates, decoherence...) that sit alongside the syllabus lessons.
+// Physics enrichment lessons: original story-driven background articles
+// (wave-particle duality, the great debates, decoherence...) that sit
+// alongside the core lessons.
 // Shape mirrors src/data/lesson-content.js.
 
 const raw = String.raw;

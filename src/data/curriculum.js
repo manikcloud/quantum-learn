@@ -1,5 +1,6 @@
-// Curriculum structure: mirrors the IIT Delhi CEP Certification in
-// Quantum Computing and Machine Learning (Batch 08) syllabus.
+// Curriculum structure: an original 9-module learning path for quantum
+// computing and quantum machine learning — foundations first, then
+// algorithms, machine learning, and the human stories behind the physics.
 
 export const modules = [
   {
@@ -112,9 +113,9 @@ export const modules = [
     id: "module-8",
     number: 8,
     title: "Quantum Physics Stories",
-    tagline: "Beyond the syllabus: the experiments and ideas that revealed the quantum world.",
+    tagline: "The experiments and ideas that revealed the quantum world.",
     description:
-      "Story-driven physics behind the math — the double-slit experiment, the Einstein–Bohr debate, decoherence, and more — adapted from the QuantumCore archive. Enrichment material: not part of the IIT Delhi syllabus, but it makes everything else click.",
+      "Story-driven physics behind the math — the double-slit experiment, the Einstein–Bohr debate, decoherence, and more. Original enrichment material: the human stories that make the math click.",
     lessons: [
       { slug: "wave-particle-duality", title: "Wave–Particle Duality" },
       { slug: "double-slit-experiment", title: "The Double-Slit Experiment" },
@@ -133,9 +134,9 @@ export const modules = [
     id: "module-9",
     number: 9,
     title: "Nobel Prizes That Built Quantum",
-    tagline: "Beyond the syllabus: the discoveries — and discoverers — behind quantum computing.",
+    tagline: "The discoveries — and discoverers — behind quantum computing.",
     description:
-      "Ten Nobel Prizes that built the quantum world, from Planck's desperate mathematical trick in 1900 to the 2022 prize for proving entanglement real. Enrichment material: the human story behind the syllabus.",
+      "Ten Nobel Prizes that built the quantum world, from Planck's desperate mathematical trick in 1900 to the 2022 prize for proving entanglement real. Original enrichment: the human story behind the physics.",
     lessons: [
       { slug: "nobel-1900-planck", title: "1900 · Planck and the Quantum Hypothesis" },
       { slug: "nobel-1921-einstein", title: "1921 · Einstein and the Photoelectric Effect" },

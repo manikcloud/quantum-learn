@@ -1,8 +1,10 @@
 # Quantum Learning Hub
 
-A static learning companion for the **IIT Delhi CEP Certification in Quantum Computing
-and Machine Learning** — plain-language lessons that go from "explain it to a 10th-class
+Independent study notes for **quantum computing and quantum machine learning**
+— plain-language lessons that go from "explain it to a 10th-class
 student" to full mathematical rigor, with quizzes and progress tracking.
+All content is written from scratch; the site is not affiliated with,
+endorsed by, or reproducing any institution's course materials.
 
 Built with [Astro](https://astro.build). Output is 100% static HTML/CSS/JS.
 
