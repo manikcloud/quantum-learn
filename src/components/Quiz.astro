@@ -1,0 +1,22 @@
+---
+const { questions = [], id = "quiz" } = Astro.props;
+---
+{questions.length > 0 && (
+  <section class="quiz-wrap">
+    <h2>Check your understanding</h2>
+    <div class="quiz" data-quiz={id}>
+      {questions.map((q, qi) => (
+        <div class="quiz-q" data-answer={q.answer}>
+          <p class="quiz-qtext"><strong>Q{qi + 1}.</strong> {q.q}</p>
+          <div class="quiz-opts">
+            {q.options.map((opt, oi) => (
+              <button type="button" class="quiz-opt" data-oi={oi}>{opt}</button>
+            ))}
+          </div>
+          <p class="quiz-why" hidden>{q.why}</p>
+        </div>
+      ))}
+      <p class="quiz-score" hidden></p>
+    </div>
+  </section>
+)}

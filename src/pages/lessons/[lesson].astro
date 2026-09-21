@@ -1,0 +1,87 @@
+---
+import SiteLayout from "../../layouts/SiteLayout.astro";
+import Quiz from "../../components/Quiz.astro";
+import { flatLessons, neighbors, moduleOf } from "../../data/curriculum.js";
+import { lessonContent } from "../../data/lesson-content.js";
+
+export function getStaticPaths() {
+  return flatLessons.map((l) => ({ params: { lesson: l.slug }, props: { lesson: l } }));
+}
+
+const { lesson } = Astro.props;
+const mod = moduleOf(lesson);
+const { prev, next } = neighbors(lesson.slug);
+const content = lessonContent[lesson.slug];
+---
+<SiteLayout
+  title={lesson.title}
+  description={`${lesson.title} — Module ${mod.number}: ${mod.title}. Plain-language quantum computing lessons.`}
+  currentSlug={lesson.slug}
+  prevUrl={prev ? `/lessons/${prev.slug}/` : ""}
+  nextUrl={next ? `/lessons/${next.slug}/` : ""}
+>
+  <nav class="crumbs">
+    <a href="/">Home</a> / <a href={`/modules/${mod.id}/`}>Module {mod.number}</a> / {lesson.title}
+  </nav>
+  <span class="tag">Module {mod.number} · {mod.title}</span>
+  <h1>{lesson.title}</h1>
+
+  {content ? (
+    <>
+      <section class="explain-simple">
+        <div class="kicker">In simple words</div>
+        <Fragment set:html={content.simple} />
+      </section>
+
+      <details class="deeper">
+        <summary>Go deeper — the math &amp; the rigor</summary>
+        <div class="deeper-body">
+          <Fragment set:html={content.deeper} />
+        </div>
+      </details>
+
+      <section class="keypoints">
+        <h2>Key takeaways</h2>
+        <ul>
+          {content.keyPoints.map((k) => <li>{k}</li>)}
+        </ul>
+      </section>
+
+      <Quiz questions={content.quiz} id={`quiz-${lesson.slug}`} />
+    </>
+  ) : (
+    <div class="note-box">
+      <strong>Lesson notes are on the way.</strong> This page will be filled in from the course PPT —
+      simple explanation, deeper math, and a quiz, like the other lessons. The navigation around it already works.
+    </div>
+  )}
+
+  <button class="complete-btn" data-complete={lesson.slug}>Mark lesson as complete</button>
+
+  <div class="pager">
+    {prev ? (
+      <a href={`/lessons/${prev.slug}/`}>
+        <span class="dir">← Previous lesson</span>
+        <span class="lbl">{prev.title}</span>
+      </a>
+    ) : (
+      <a href="/">
+        <span class="dir">← Back</span>
+        <span class="lbl">Home</span>
+      </a>
+    )}
+    {next ? (
+      <a class="next" href={`/lessons/${next.slug}/`}>
+        <span class="dir">Next lesson →</span>
+        <span class="lbl">{next.title}</span>
+      </a>
+    ) : (
+      <a class="next" href="/">
+        <span class="dir">Done →</span>
+        <span class="lbl">Back to home</span>
+      </a>
+    )}
+  </div>
+
+  <p class="hint">Tip: press <kbd>←</kbd> / <kbd>→</kbd> to turn pages.</p>
+</SiteLayout>

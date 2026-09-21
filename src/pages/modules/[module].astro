@@ -1,0 +1,48 @@
+---
+import SiteLayout from "../../layouts/SiteLayout.astro";
+import { modules, moduleNeighbors } from "../../data/curriculum.js";
+
+export function getStaticPaths() {
+  return modules.map((m) => ({ params: { module: m.id }, props: { mod: m } }));
+}
+
+const { mod } = Astro.props;
+const { prev, next } = moduleNeighbors(mod.id);
+---
+<SiteLayout
+  title={`Module ${mod.number}: ${mod.title}`}
+  description={mod.tagline}
+  prevUrl={prev ? `/modules/${prev.id}/` : ""}
+  nextUrl={next ? `/modules/${next.id}/` : ""}
+>
+  <nav class="crumbs"><a href="/">Home</a> / Module {mod.number}</nav>
+  <span class="tag">Module {mod.number} of 7</span>
+  <h1>{mod.title}</h1>
+  <p class="lede">{mod.description}</p>
+
+  <h2>Lessons</h2>
+  <div class="lesson-list">
+    {mod.lessons.map((l, i) => (
+      <a class="lesson-row" href={`/lessons/${l.slug}/`}>
+        <span class="idx">{i + 1}</span>
+        <span class="t" data-lesson-link={l.slug}>{l.title}</span>
+        <span class="go">→</span>
+      </a>
+    ))}
+  </div>
+
+  <div class="pager">
+    {prev ? (
+      <a href={`/modules/${prev.id}/`}>
+        <span class="dir">← Previous module</span>
+        <span class="lbl">{prev.title}</span>
+      </a>
+    ) : <span />}
+    {next ? (
+      <a class="next" href={`/modules/${next.id}/`}>
+        <span class="dir">Next module →</span>
+        <span class="lbl">{next.title}</span>
+      </a>
+    ) : <span />}
+  </div>
+</SiteLayout>
