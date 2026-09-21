@@ -11,10 +11,12 @@ const raw = String.raw;
 
 import { physicsLessons } from "./lesson-extra/physics.js";
 import { nobelLessons } from "./lesson-extra/nobel.js";
+import { philosophyLessons } from "./lesson-extra/philosophy.js";
 
 export const lessonContent = {
   ...physicsLessons,
   ...nobelLessons,
+  ...philosophyLessons,
   qubits: {
     simple: raw`
       <p>Start with what you already know. A classical bit — the kind inside your laptop — is like a <strong>light switch</strong>. It is either OFF (we call that 0) or ON (we call that 1). There is no in-between.</p>

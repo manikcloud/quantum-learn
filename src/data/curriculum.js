@@ -1,4 +1,4 @@
-// Curriculum structure: an original 9-module learning path for quantum
+// Curriculum structure: an original 10-module learning path for quantum
 // computing and quantum machine learning — foundations first, then
 // algorithms, machine learning, and the human stories behind the physics.
 
@@ -148,6 +148,20 @@ export const modules = [
       { slug: "nobel-1973-tunneling", title: "1973 · Tunneling: Esaki, Giaever & Josephson" },
       { slug: "nobel-2012-haroche-wineland", title: "2012 · Haroche & Wineland: Taming Single Quanta" },
       { slug: "nobel-2022-entanglement", title: "2022 · Aspect, Clauser & Zeilinger: Entanglement Proved" },
+    ],
+  },
+  {
+    id: "module-10",
+    number: 10,
+    title: "Quantum Philosophy",
+    tagline: "The deep questions quantum computing forces us to ask.",
+    description:
+      "Why quantum computing needs philosophy: six interpretations of quantum mechanics and what each says your quantum computer is doing, the death of local realism, randomness vs determinism and free will, and Wheeler's “it from bit.” Original enrichment material — the questions physics has not settled.",
+    lessons: [
+      { slug: "phil-why-philosophy", title: "Why Philosophy Is Needed for Quantum Computing" },
+      { slug: "phil-interpretations", title: "Six Interpretations — and What Your Quantum Computer Is Doing" },
+      { slug: "phil-randomness-free-will", title: "Randomness, Determinism, and Free Will" },
+      { slug: "phil-it-from-bit", title: "“It from Bit”: Is Information the Stuff of Reality?" },
     ],
   },
 ];

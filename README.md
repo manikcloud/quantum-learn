@@ -13,14 +13,17 @@ endorsed by, or reproducing any institution's course materials.
 
 ## What's inside
 
-- **9 modules, 57 lessons** — from qubits and quantum gates, through the postulates,
+- **10 modules, 61 lessons** — from qubits and quantum gates, through the postulates,
   quantum algorithms (Deutsch–Jozsa, Shor's, Grover's), quantum machine learning,
   hybrid quantum-classical neural networks, and variational methods (VQE, QAOA) —
-  plus two enrichment tracks you won't find in a standard syllabus:
+  plus three enrichment tracks you won't find in a standard syllabus:
   - *Quantum Physics Stories* — the double-slit experiment, the Einstein–Bohr debate,
     decoherence, and the human drama behind the math.
   - *Nobel Prizes That Built Quantum* — ten prizes from Planck (1918) to the 2022
     entanglement prize, each with deep technical background and story.
+  - *Quantum Philosophy* — why quantum computing needs philosophy: six interpretations
+    of quantum mechanics, randomness vs determinism and free will, and Wheeler's
+    "it from bit," each with book references for deeper reading.
 - **Bilingual (English / Hindi)** — full UI in both languages with an EN/हिंदी
   toggle; Hindi uses Devanagari with natural English technical terms.
 - **Two-layer lessons** — `simple` (plain words) + `deeper` (the math), key
@@ -72,11 +75,12 @@ branch. Every `git push` to `main` triggers an automatic rebuild and deploy:
 ```
 src/
   data/
-    curriculum.js        # the 9 modules + lesson list (sidebar, prev/next, search index derive from this)
+    curriculum.js        # the 10 modules + lesson list (sidebar, prev/next, search index derive from this)
     lesson-content.js    # lesson bodies: { simple, deeper, keyPoints, quiz }
     lesson-extra/
       physics.js         # Module 8: quantum physics stories
       nobel.js           # Module 9: Nobel prize lessons
+      philosophy.js      # Module 10: philosophy of quantum lessons
     hi-meta.js           # Hindi module titles/taglines/descriptions + lesson title overrides
     i18n.js              # UI strings for EN/HI
   pages/
@@ -102,7 +106,7 @@ src/
 
 ## Content status
 
-- **Authored:** 22 of 57 lessons (Qubits fully bilingual, all 11 physics stories, all 10 Nobel lessons).
+- **Authored:** 26 of 61 lessons (Qubits fully bilingual, all 11 physics stories, all 10 Nobel lessons, all 4 philosophy lessons).
 - **Remaining:** 35 core syllabus lessons are placeholders awaiting authoring.
 - Math uses KaTeX delimiters `\(...\)` (inline) and `\[...\]` / `$$...$$` (display).
 

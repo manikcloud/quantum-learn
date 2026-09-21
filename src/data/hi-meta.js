@@ -57,6 +57,12 @@ export const hiModules = {
     description:
       "Quantum world बनाने वाले दस Nobel पुरस्कार — 1900 में Planck की desperate mathematical trick से लेकर 2022 में entanglement को real साबित करने वाले पुरस्कार तक। Original enrichment सामग्री: physics के पीछे की मानवीय कहानी।",
   },
+  "module-10": {
+    title: "Quantum Philosophy",
+    tagline: "वे गहरे सवाल जो quantum computing हमसे पूछने पर मजबूर करती है।",
+    description:
+      "Quantum computing को philosophy की ज़रूरत क्यों है: quantum mechanics की छह interpretations और हर एक के अनुसार आपका quantum computer क्या कर रहा है, local realism का अंत, randomness बनाम determinism और free will, और Wheeler का “it from bit”। Original enrichment सामग्री — वे सवाल जिनका physics के पास अभी जवाब नहीं।",
+  },
 };
 
 export const hiLessonTitles = {
