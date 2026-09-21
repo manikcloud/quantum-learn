@@ -141,18 +141,30 @@ const lessonCount = flatLessons.length;
             return withFilter.catch(function () { return pf.search(q); });
           }).then(function (res) {
             if (!res || input.value.trim() !== q) return;
-            var list = (res.results || []).slice(0, 8);
-            if (!list.length) {
+            var list = (res.results || []).slice(0, 20);
+            function noResults() {
               results.innerHTML = '<div class="search-none">' +
                 escHtml(input.getAttribute("data-none") || "") + "</div>";
               results.hidden = false;
-              return null;
             }
+            if (!list.length) { noResults(); return null; }
             return Promise.all(list.map(function (r) { return r.data(); })).then(function (datas) {
               if (input.value.trim() !== q) return;
-              results.innerHTML = datas.map(function (d) {
+              /* Pagefind degrades unknown words to short prefixes (even a single
+                 character), which returns junk matches. Keep only results whose
+                 title or excerpt actually contains a query word. */
+              var words = q.toLowerCase().split(/\s+/).map(function (w) {
+                return w.replace(/[^\p{L}\p{N}]/gu, "");
+              }).filter(function (w) { return w.length; });
+              var keep = datas.filter(function (d) {
+                var hay = (((d.meta && d.meta.title) || "") + " " +
+                  String(d.excerpt || "").replace(/<[^>]+>/g, " ")).toLowerCase();
+                return words.some(function (w) { return hay.indexOf(w) !== -1; });
+              }).slice(0, 8);
+              if (!keep.length) { noResults(); return; }
+              results.innerHTML = keep.map(function (d) {
                 return '<a class="search-hit" href="' + escHtml(d.url) + '">' +
-                  "<span>" + escHtml(cleanTitle(d.meta.title)) + "</span>" +
+                  "<span>" + escHtml(cleanTitle((d.meta && d.meta.title) || "")) + "</span>" +
                   "<small>" + d.excerpt + "</small></a>";
               }).join("");
               results.hidden = false;
