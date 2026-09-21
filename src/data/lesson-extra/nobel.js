@@ -8,122 +8,133 @@ const raw = String.raw;
 export const nobelLessons = {
   "nobel-1900-planck": {
     simple: raw`
-      <p>On <strong>December 14, 1900</strong>, a 42-year-old German professor named <strong>Max Planck</strong> stood up at a meeting of the Berlin Physical Society and presented a formula that fit the experimental data perfectly — and made no sense at all.</p>
-      <p>The problem was called <strong>black-body radiation</strong>: heat a lump of iron and it glows, first red, then orange, then white-hot. Physicists had measured exactly which colours come out at each temperature. But every equation of classical physics predicted the wrong answer — at high frequencies, the formulas blew up to <em>infinite</em> energy. Something was deeply broken.</p>
-      <p>Planck found a formula that matched the measurements beautifully. But to <em>derive</em> it, he had to assume something absurd: that energy is not a smooth, continuous flow, but comes in tiny indivisible <strong>packets</strong> — <em>quanta</em> — each carrying energy \(E = h\nu\), where \(h\) was a brand-new constant of nature. He called it a mathematical trick. He spent the next <strong>years trying to get rid of his own idea</strong> and derive the formula without it. He never could. The universe really is granular.</p>
-      <p>For this discovery of energy quanta, Planck received the <strong>1918 Nobel Prize in Physics</strong> (announced in 1919, delayed by the First World War) — "in recognition of the services he rendered to the advancement of Physics by his discovery of energy quanta."</p>
-      <p class="myth"><strong>Common myth:</strong> "Planck was trying to overthrow physics." Not at all — he was a conservative who wanted to <em>save</em> classical physics. The quantum revolution began as an accident, by a man who didn't want it.</p>
+      <p>When <strong>Max Planck</strong> was sixteen, he asked the Munich physics professor Philipp von Jolly whether he should devote his life to physics. Jolly's answer is famous: physics was "a highly developed, almost fully matured science" — at most, "in one or another nook there would perhaps be a dust particle or a small bubble to be examined and classified." Planck replied that he only wanted to understand the foundations. He would spend his career demolishing them.</p>
+      <p>The nook Planck chose was <strong>black-body radiation</strong>: heat a lump of iron and it glows — red, then orange, then white-hot. In 1859 <strong>Gustav Kirchhoff</strong> had proved something astonishing: the glow depends only on temperature, never on the material. A universal law of heat and light was hiding in that glow, and Planck set out to find it.</p>
+      <p>By 1900 the best formula, <strong>Wien's law</strong> (1896), worked beautifully at high frequencies — but new infrared measurements by <strong>Rubens and Kurlbaum</strong> showed it failing at long wavelengths. Then came the Sunday that changed physics. On <strong>7 October 1900</strong>, Rubens visited Planck and described the new far-infrared data that afternoon; that same evening, alone at his desk, Planck found a formula bridging Wien's law and the new measurements. He mailed it to Rubens <strong>on a postcard that night</strong>. Rubens checked it overnight and reported complete agreement the next morning.</p>
+      <p>On <strong>19 October 1900</strong> Planck presented the formula to the German Physical Society — with no theory behind it at all. Even decades later he called it "a happily chosen interpolation formula." The theory came seven weeks later. On <strong>14 December 1900</strong> he showed how to <em>derive</em> it — but only by assuming energy is not continuous: the oscillators in the cavity walls could emit and absorb energy only in whole chunks, <strong>quanta</strong>, of size \\(E = h\\nu\\). To count the possibilities he borrowed <strong>Boltzmann's</strong> formula \\(S = k \\log W\\) — the statistical method he had spent years publicly opposing. The irony was not lost on him.</p>
+      <p>Planck himself didn't believe it. In 1931 he wrote that the derivation had been <strong>"an act of desperation"</strong> — "I was ready to sacrifice every one of my previous convictions about physical laws... This was purely a formal assumption and I really did not give it much thought." He spent years trying to derive his own formula without the quanta. The data never let him.</p>
+      <p>For the discovery of energy quanta, Planck received the <strong>1918 Nobel Prize in Physics</strong> — announced 13 November 1919, presented 1 June 1920, the ceremony delayed by the First World War — "in recognition of the services he rendered to the advancement of Physics by his discovery of energy quanta." His Nobel lecture, delivered the next day, ends with a question that was still open in 1920: once a photon is emitted, does its energy spread out like a Huygens wave, or fly like a Newtonian projectile? Wave or particle — the wound was still bleeding.</p>
+      <p class="myth"><strong>Common myth:</strong> "Planck was battling the 'ultraviolet catastrophe.'" The phrase was coined by Paul Ehrenfest in <strong>1911</strong> — Planck never heard it. In 1900 there was no named crisis, only precision infrared measurements the old formulas couldn't fit. The "crisis" story was written afterwards.</p>
     `,
     deeper: raw`
-      <p>Planck's radiation law gives the energy emitted per unit frequency by a perfect absorber (a "black body") at temperature \(T\):</p>
-      <p>\[B(\nu, T) = \frac{2h\nu^3}{c^2}\,\frac{1}{e^{h\nu/kT} - 1}\]</p>
-      <p>The key move was the counting: to derive this, Planck assumed the oscillators in the cavity walls could only hold energy in whole multiples of \(h\nu\). The constant he introduced, <strong>Planck's constant</strong> \(h \approx 6.626 \times 10^{-34}\,\text{J·s}\), turned out to be one of the fundamental constants of nature — it sets the <em>scale</em> at which quantum effects appear.</p>
-      <p>Classically, energy could be divided without limit, so high-frequency modes each carried their "fair share" of thermal energy — and there are infinitely many of them, hence the infinite prediction (the so-called <strong>ultraviolet catastrophe</strong>). Quantization cuts this off: a mode of frequency \(\nu\) needs at least one whole quantum \(h\nu\) to be excited at all, so high-frequency modes simply freeze out. Infinity disappears.</p>
-      <p><strong>Why this prize matters for quantum computing:</strong> the qubit <em>is</em> a quantized energy system. Every qubit is a physical system — an atom, a superconducting circuit — whose energy comes in discrete levels, exactly as Planck discovered. When we say a qubit is \(|0\rangle\) or \(|1\rangle\), we mean it sits in one of two quantized energy states, and quantum gates drive transitions between them. Without Planck's quanta, there is no two-level system, and no qubit.</p>
+      <p>Planck's radiation law gives the energy density per unit frequency inside a cavity at temperature \\(T\\):</p>
+      <p>\\[u(\\nu, T) = \\frac{8\\pi h\\nu^3}{c^3}\\,\\frac{1}{e^{h\\nu/kT} - 1}\\]</p>
+      <p>How he got there is the real story. Kirchhoff (1859/60) had shown the spectrum is a <em>universal</em> function of \\(\\nu\\) and \\(T\\) alone. Wien's law, \\(u \\propto \\nu^3 e^{-a\\nu/T}\\), matched the short-wavelength data but failed in the infrared, where Rubens and Kurlbaum found the energy growing linearly with \\(T\\). Classical equipartition — Rayleigh's June 1900 result, corrected by Jeans in 1905 — gave \\(u \\propto \\nu^2 T\\): every mode gets \\(kT\\) of energy, and since there are infinitely many high-frequency modes, the total diverges.</p>
+      <p>Planck's 7 October interpolation worked through the entropy. For a resonator of energy \\(U\\), he considered \\(R\\), the reciprocal of the second entropy derivative \\(\\partial^2 S/\\partial U^2\\). In the Wien regime \\(R\\) was proportional to \\(U\\); in the new infrared regime it was proportional to \\(U^2\\). His move, in his Nobel lecture's words: "there was no better alternative but to make, for the general case, the quantity \\(R\\) equal to the sum of two terms." Out came the formula — fitted first, explained later.</p>
+      <p>The 14 December derivation is the birth certificate of the quantum. Planck counted the ways to distribute \\(P\\) energy elements of size \\(\\varepsilon\\) among \\(N\\) resonators:</p>
+      <p>\\[W = \\frac{(N+P-1)!}{P!\\,(N-1)!},\\qquad \\varepsilon = h\\nu,\\]</p>
+      <p>and applied Boltzmann's \\(S = k \\log W\\). Maximizing the entropy at fixed total energy yields Planck's law. Note what \\(h\\) was in 1900: a fitted constant, \\(6.55\\times 10^{-27}\\) erg·s in Planck's Nobel lecture. Today \\(h = 6.62607015\\times 10^{-34}\\) J·s <em>exactly</em> — since the 2019 redefinition of the SI, the kilogram itself is defined by fixing Planck's constant. The number he fit to a glow curve now anchors the world's unit of mass.</p>
+      <p>Two honest footnotes. First, the <strong>Boltzmann irony</strong>: Planck had spent the 1890s attacking Boltzmann's statistical reading of entropy — his student Zermelo joined in, and Boltzmann demolished Planck's alternative route. The quantum forced Planck to adopt \\(S = k\\log W\\) anyway, and he even named \\(k\\) "Boltzmann's constant," noting that "to my knowledge, Boltzmann himself never introduced it." Second, Planck quantized only the <em>material oscillators</em>; he "was adamantly opposed to the concept of light quanta" and fought Einstein's photons for years. The reluctant revolutionary drew the line at his own revolution's next step.</p>
+      <p>Independent confirmation arrived from an unexpected quarter: Rutherford and Geiger's direct counting of alpha particles gave the elementary charge as \\(4.65\\times 10^{-10}\\) esu, against \\(4.69\\times 10^{-10}\\) esu derived from Planck's radiation constants — "decisive confirmation," as his Nobel lecture calls it. And the establishment saw the arc fast: Ekstrand's 1920 presentation speech already lists specific heats, Stokes' law, the photoelectric effect, and Bohr–Sommerfeld–Epstein spectroscopy as triumphs of Planck's theory — twenty years after a postcard.</p>
+      <p><strong>Why this prize matters for quantum computing:</strong> the qubit <em>is</em> a quantized energy system. Every qubit — an atom, a superconducting circuit — has discrete energy levels, exactly as Planck discovered. When we write \\(|0\\rangle\\) or \\(|1\\rangle\\), we mean the system sits in one of two quantized energy states, and quantum gates drive transitions between them. Without Planck's quanta, there is no two-level system, and no qubit.</p>
     `,
     keyPoints: [
-      "In 1900 Planck explained black-body radiation by assuming energy comes in discrete packets, E = hν.",
-      "He introduced Planck's constant h, which sets the scale of all quantum phenomena.",
-      "He called it a mathematical trick and tried for years to remove the assumption — the data wouldn't allow it.",
-      "He received the 1918 Nobel Prize (announced 1919) for the discovery of energy quanta.",
-      "Quantized energy levels are the physical basis of the qubit: |0⟩ and |1⟩ are two discrete energy states.",
+      "On 7 October 1900 Planck interpolated between Wien's law and Rubens's infrared data in a single evening and mailed the formula on a postcard; he presented it on 19 October with no theory at all.",
+      "On 14 December 1900 he derived it by counting energy elements ε = hν with Boltzmann's S = k log W — the statistical method he had spent years opposing.",
+      "He called the quantum an act of desperation and tried for years to remove it; the data never allowed it. He received the 1918 Nobel Prize (announced 13 November 1919, presented 1 June 1920) for the discovery of energy quanta.",
+      "The phrase ultraviolet catastrophe was coined in 1911 — Planck was fitting precision measurements, not fighting a named crisis.",
+      "h is now fixed at exactly 6.62607015×10⁻³⁴ J·s and defines the kilogram (2019); quantized energy levels are the physical basis of the qubit.",
     ],
     quiz: [
       {
-        q: "What radical assumption did Planck make to derive his radiation law?",
+        q: "What did Planck do on the evening of 7 October 1900?",
         options: [
-          "That light travels faster than previously thought",
-          "That energy is emitted and absorbed only in discrete packets, E = hν",
-          "That atoms contain a nucleus",
-          "That heat and light are completely unrelated",
+          "Derived the quantum from Boltzmann's entropy formula",
+          "Interpolated a formula between Wien's law and Rubens's infrared data and mailed it on a postcard",
+          "Presented the quantum hypothesis to the German Physical Society",
+          "Measured Planck's constant in the laboratory",
         ],
         answer: 1,
-        why: "Planck's law only follows if the cavity oscillators exchange energy in whole quanta hν — continuous energy gives the wrong (infinite) answer.",
+        why: "The formula came first as a happily chosen interpolation; the theoretical derivation followed seven weeks later, on 14 December.",
       },
       {
-        q: "For which discovery did Planck receive the 1918 Nobel Prize in Physics?",
+        q: "Why did Planck call his quantum hypothesis an act of desperation?",
         options: [
-          "The photoelectric effect",
-          "The structure of the atom",
-          "The discovery of energy quanta",
-          "The uncertainty principle",
-        ],
-        answer: 2,
-        why: "The official motivation was 'in recognition of the services he rendered to the advancement of Physics by his discovery of energy quanta.'",
-      },
-      {
-        q: "Why does Planck's discovery matter for quantum computing?",
-        options: [
-          "It proved computers must use binary logic",
-          "It showed energy levels are discrete, which is what makes a two-level qubit physically possible",
-          "It invented the transistor",
-          "It showed measurement never disturbs a system",
+          "He had fabricated the experimental data",
+          "He had to adopt Boltzmann's statistical methods, which he had spent years opposing, and sacrifice his convictions about physical laws",
+          "The Nobel committee had rejected his first nomination",
+          "He believed the quantum violated the conservation of energy",
         ],
         answer: 1,
-        why: "A qubit is |0⟩ or |1⟩ precisely because real systems have quantized energy levels — no Planck, no discrete levels, no qubits.",
+        why: "His 1931 letter to R.W. Wood says he was ready to sacrifice every one of my previous convictions about physical laws — the quantum was a formal assumption he did not believe.",
+      },
+      {
+        q: "Which statement about the ultraviolet catastrophe is correct?",
+        options: [
+          "Planck coined the term in his 1900 paper",
+          "The term was coined by Ehrenfest in 1911; Planck was responding to precision infrared measurements, not a named crisis",
+          "It refers to the failure of Wien's law at low frequencies",
+          "It was the official motivation of Planck's Nobel Prize",
+        ],
+        answer: 1,
+        why: "The crisis narrative is retrospective — in 1900 blackbody theory looked like normal science with one stubborn dataset.",
       },
     ],
   },
-
   "nobel-1921-einstein": {
     simple: raw`
-      <p>In <strong>1905</strong>, a 26-year-old patent clerk in Bern, Switzerland, published four papers in a single year — his <em>annus mirabilis</em>, "miracle year." One of them would win him the Nobel Prize. It was not relativity.</p>
-      <p>The puzzle was the <strong>photoelectric effect</strong>: shine light on a metal plate and electrons pop out. Classical wave theory said a <em>brighter</em> light (bigger waves) should knock electrons out with more energy. But experiments showed something strange — brightness didn't matter at all. What mattered was the <em>colour</em>: only light above a certain frequency could eject electrons, no matter how dim or bright.</p>
-      <p><strong>Albert Einstein's</strong> proposal: light itself comes in packets — <strong>photons</strong> — each carrying energy \(E = h\nu\). One photon hits one electron and hands over its whole packet. A dim blue light still works (each photon has enough energy); a blazing red light never will (no single photon clears the bar). It was Planck's quantum idea, extended from the walls of the cavity to light itself, travelling through empty space.</p>
-      <p>Einstein received the <strong>1921 Nobel Prize in Physics</strong> (announced in 1922) "for his services to Theoretical Physics, and especially for his discovery of the law of the photoelectric effect." The Nobel committee deliberately avoided relativity — still controversial at the time — and honoured his quantum work instead.</p>
-      <p class="myth"><strong>Common myth:</strong> "Einstein won the Nobel for relativity." He didn't — not for special, not for general relativity, not for \(E = mc^2\). His Nobel was a <em>quantum</em> prize.</p>
+      <p>In May 1905, a 26-year-old patent clerk in Bern wrote to his friend Conrad Habicht promising four papers. "The first," he wrote, "deals with radiation and the energy properties of light and is <strong>very revolutionary</strong>." He did not mean relativity. He meant the paper that would win him the Nobel Prize.</p>
+      <p>The puzzle was the <strong>photoelectric effect</strong>: shine light on metal and electrons pop out. <strong>Philipp Lenard</strong> — Hertz's own student — had nailed down the strange facts by 1902 with a carbon arc and a retarding voltage. Double the light's intensity and you double the <em>number</em> of electrons — but their energy doesn't change at all. What sets the electrons' energy is the light's <em>colour</em>: above a threshold frequency they fly out fast; below it, nothing comes out, however blinding the light. Classical wave theory was helpless: bigger waves should mean more energetic electrons, and dim light should need time to "pump up" an electron before it escapes. Instead the emission was instantaneous.</p>
+      <p>Einstein's paper — "On a heuristic point of view concerning the production and transformation of light," received 18 March 1905 — appealed to no new experiments. There were none demanding it. His argument was thermodynamic: in the Wien regime, radiation's entropy changes exactly the way an ideal gas's entropy changes under compression. Radiation, he concluded, "behaves thermodynamically as if it consisted of mutually independent energy quanta" — each of energy \\(E = h\\nu\\), localized in space, moving without dividing, absorbed or emitted only as a whole. One photon strikes one electron and hands over everything. A dim blue beam works; a blazing red beam never can.</p>
+      <p>He applied the idea to three phenomena in the same paper — Stokes' rule of photoluminescence, the photoelectric effect, and the ionization of gases — and wrote down the law: \\(K_{\\max} = h\\nu - \\phi\\), where \\(\\phi\\) is the work function, the escape cost. <strong>Robert Millikan</strong> spent years trying to <em>disprove</em> it, building what he called "a machine shop in vacuo" to scrape metal surfaces atomically clean. By 1916 he had confirmed the equation exactly — measuring \\(h\\) to within half a percent of Planck's value — and still called the photon "bold, not to say reckless," flying "in the face of thoroughly established facts of interference."</p>
+      <p>Then came the politics. Einstein was nominated for the prize nearly every year from 1910 — first by Wilhelm Ostwald, the same Ostwald who had rejected his 1901 job application. But the committee's relativity referee, the ophthalmologist Allvar Gullstrand, judged relativity's effects "below the limits of experimental error," and chairman Arrhenius blocked a second quantum prize so soon after Planck's 1918 award. The <strong>1921 prize was simply not awarded</strong> — reserved under the statutes. In 1922 the deadlock broke: Planck proposed giving Einstein the overdue 1921 prize (and Bohr the 1922 one), and Uppsala's Carl Oseen supplied the compromise citation — the photoelectric law.</p>
+      <p>So Einstein received the <strong>1921 Nobel Prize in Physics</strong> — announced 9 November 1922 — "for his services to Theoretical Physics, and especially for his discovery of the law of the photoelectric effect." He wasn't there: he was en route to Japan. In Stockholm the German ambassador accepted the prize on behalf of "a German" — Einstein travelled on a Swiss passport — while the Swiss ambassador merely watched; months later the medal was formally handed to Einstein in Berlin, at his request, via the Swiss embassy. The prize money never touched his hands either: his 1919 divorce settlement had promised it all to his first wife Mileva Marič, who bought a house in Zurich with it.</p>
+      <p>Acceptance of the photon took decades more. Planck himself apologized for Einstein's light quanta when nominating him to the Prussian Academy in 1913; Bohr's own 1922 Nobel address rejected them; only Compton's 1923 X-ray scattering experiments — light bouncing off electrons like billiard balls — convinced the holdouts, with Bohr surrendering around mid-1925. The particle got its name, <strong>photon</strong>, from Gilbert Lewis in 1926. And in a final irony, Einstein's official Nobel lecture — delivered at Gothenburg on 11 July 1923 before two thousand people including the King of Sweden — was about <em>relativity</em>, the work the prize had pointedly not honoured. The Nobel Foundation's own footnote disowns the mismatch.</p>
+      <p class="myth"><strong>Common myth:</strong> "Einstein won the Nobel for relativity." He didn't — not special, not general, not \\(E = mc^2\\). The Academy "did not accept the quantization of light and would not recognize the theory of relativity" — so it honoured the one quantum paper nobody could argue with. His Nobel was a quantum prize.</p>
     `,
     deeper: raw`
-      <p>Einstein's photoelectric equation relates the maximum kinetic energy of the ejected electron to the light's frequency:</p>
-      <p>\[K_{\max} = h\nu - \phi\]</p>
-      <p>Here \(\phi\) is the <strong>work function</strong> — the energy cost of escaping the metal. Below the threshold frequency \(\nu_0 = \phi/h\), nothing comes out, however intense the light. The American experimentalist <strong>Robert Millikan</strong> spent a decade testing this equation, confirmed it with exquisite precision — and still refused to believe Einstein's photon explanation. The data won anyway.</p>
-      <p>This was the birth of <strong>wave–particle duality</strong>: light, the archetypal wave, behaves as particles. Within two decades the favour would be returned — de Broglie would argue that particles behave as waves (1929 prize).</p>
-      <p><strong>Why this prize matters for quantum computing:</strong> photons are one of the leading qubit platforms. <strong>Photonic quantum computing</strong> encodes qubits in the polarization or path of single photons, and <strong>quantum key distribution</strong> (the BB84 protocol in your syllabus) literally sends single polarized photons — Einstein's light quanta — between sender and receiver. Every single-photon source and detector in a quantum lab is applied photoelectric physics.</p>
+      <p>The 1905 paper's argument deserves a close look, because it shows Einstein's style: no new experiment, just thermodynamics pushed until it breaks. He grants the wave theory everything for <em>time-averaged</em> optical phenomena — interference, diffraction — which it describes "splendidly." But emission and transformation of light are <em>momentary</em> values, and there the wave picture is silent.</p>
+      <p>He computes how the entropy of radiation (in the Wien-law regime) changes with volume, and finds it changes exactly as the entropy of an ideal gas changes under compression. Using Boltzmann's \\(S = (R/N)\\ln W\\), he concludes that monochromatic radiation of low density "behaves thermodynamically as if it consisted of mutually independent energy quanta of magnitude \\(R\\beta\\nu/N\\)" — and \\(R\\beta/N\\) is what we now call \\(h\\). The paper's most famous passage states that light energy "consists of a finite number of energy quanta which are localized at points in space, which move without dividing, and which can only be produced and absorbed as complete units." Einstein called the viewpoint <strong>heuristic</strong> deliberately: a way of thinking justified only by where it leads.</p>
+      <p>Where it led, first, was the photoelectric law. If each quantum carries \\(h\\nu\\) and escaping the metal costs the work function \\(\\phi\\), the fastest electrons emerge with</p>
+      <p>\\[K_{\\max} = h\\nu - \\phi,\\]</p>
+      <p>so the stopping potential obeys \\(eV_{\\text{stop}} = h\\nu - \\phi\\). Three predictions no wave theory could make: a <strong>threshold frequency</strong> \\(\\nu_0 = \\phi/h\\) below which nothing is emitted at any intensity; electron energy linear in frequency; and a \\(V_{\\text{stop}}\\)-versus-\\(\\nu\\) plot that is a straight line whose slope, \\(h/e\\), is the same for every metal. Arrhenius walked the Academy through exactly this logic in the 1922 presentation speech.</p>
+      <p>Millikan's 1916 confirmation is one of the great reluctant verifications in science. His verdict, printed alongside the confirming data: the equation "appears in every case to predict exactly the observed results," yet "the semi-corpuscular theory by which Einstein arrived at his equation seems at present wholly untenable." Pais later called the equation "the second coming of Planck's constant." Millikan received the 1923 Nobel Prize partly for this work — the man who proved Einstein right while disbelieving him.</p>
+      <p>The photon's road after 1905 is a lesson in how physics actually changes its mind. Planck apologized for light quanta in his 1913 nomination of Einstein to the Prussian Academy ("he may have gone overboard in his speculations"). Bohr's 1922 Nobel address still rejected them. Compton's 1923 scattering of X-rays off electrons — light bouncing like billiard balls — finally turned the community; Bohr, who had been willing to sacrifice energy conservation (the BKS theory) rather than accept the photon, gave in around mid-1925. Gilbert Lewis named the particle the <strong>photon</strong> in 1926.</p>
+      <p><strong>Why this prize matters for quantum computing:</strong> photons are one of the leading qubit platforms. <strong>Photonic quantum computing</strong> encodes qubits in the polarization or path of single photons, and <strong>quantum key distribution</strong> (the BB84 protocol in your syllabus) literally sends single polarized photons — Einstein's light quanta — between sender and receiver. Every single-photon source and detector in a quantum lab is applied photoelectric physics: \\(K_{\\max} = h\\nu - \\phi\\) is the equation behind the hardware.</p>
     `,
     keyPoints: [
-      "Einstein's 1905 paper explained the photoelectric effect: light arrives in packets (photons) of energy E = hν.",
-      "Brightness doesn't eject electrons — only frequency above a threshold does: K_max = hν − φ.",
-      "He won the 1921 Nobel Prize (announced 1922) for the photoelectric law, not for relativity.",
-      "Millikan confirmed the equation experimentally over a decade while doubting the photon idea.",
-      "Photons are a leading qubit platform, and single photons carry quantum key distribution (BB84).",
+      "Einstein's 1905 heuristic paper argued from entropy — no new data — that light consists of localized quanta of energy hν; he himself called it very revolutionary.",
+      "The photoelectric law K_max = hν − φ predicts a threshold frequency, instantaneous emission, and a universal stopping-potential slope h/e — confirmed by Millikan (1916), who disbelieved the photon even as he verified it.",
+      "The 1921 prize was reserved, not awarded: the Academy judged relativity unconfirmed and blocked a second quantum prize so soon after Planck; Oseen's photoelectric citation broke the 1922 deadlock.",
+      "Announced 9 November 1922; Einstein was in Japan, a German ambassador accepted for a German travelling on a Swiss passport, and the entire prize money went to Mileva Marič under the 1919 divorce settlement.",
+      "Photons are a leading qubit platform: photonic quantum computing and BB84 quantum key distribution run on single photons.",
     ],
     quiz: [
       {
-        q: "In the photoelectric effect, what determines whether electrons are ejected from the metal?",
+        q: "What was genuinely new about Einstein's 1905 argument for light quanta?",
         options: [
-          "The brightness (intensity) of the light",
-          "The frequency of the light being above a threshold",
-          "The temperature of the metal",
-          "The angle of the light",
+          "It was based on new photoelectric measurements",
+          "It used no new experiments — an entropy analogy between radiation and an ideal gas showed light behaves as localized quanta",
+          "It derived the photon directly from Maxwell's equations",
+          "It was suggested to him by Planck in a letter",
         ],
         answer: 1,
-        why: "Einstein showed each photon carries hν; only photons with hν > φ (the work function) can free an electron — intensity only changes how many arrive.",
+        why: "There were no data in 1905 that required light to be particulate — the thermodynamics did the work, which is why Einstein called the paper heuristic.",
       },
       {
-        q: "For what work did Einstein receive his Nobel Prize?",
+        q: "What did Millikan conclude after his 1912–1916 experiments?",
         options: [
-          "Special relativity",
-          "General relativity",
-          "The law of the photoelectric effect",
-          "Brownian motion",
-        ],
-        answer: 2,
-        why: "The official 1921 motivation cites 'his discovery of the law of the photoelectric effect' — relativity was deliberately left out as too controversial.",
-      },
-      {
-        q: "Which quantum-computing technology most directly uses Einstein's photons?",
-        options: [
-          "Superconducting qubits",
-          "Photonic qubits and quantum key distribution (BB84)",
-          "Trapped-ion qubits",
-          "Classical error correction",
+          "Einstein's equation was wrong",
+          "The equation predicted the results exactly, though he still called the photon hypothesis wholly untenable",
+          "The work function does not exist",
+          "Light has no particle properties at all",
         ],
         answer: 1,
-        why: "Photonic quantum computing encodes qubits in single photons, and BB84 transmits cryptographic keys as polarized single photons.",
+        why: "Millikan confirmed K_max = hν − φ and measured h to within 0.5% — while calling the light quantum bold, not to say reckless. He won the 1923 Nobel partly for this work.",
+      },
+      {
+        q: "Why was the 1921 Nobel Prize reserved rather than awarded on time?",
+        options: [
+          "No physicists were nominated that year",
+          "The committee deadlocked: relativity was judged unconfirmed and a second quantum prize so soon after Planck's was blocked",
+          "Einstein declined the prize",
+          "The prize money had run out during the war",
+        ],
+        answer: 1,
+        why: "Gullstrand's report called relativity's effects unmeasurable and Arrhenius blocked the quantum route; Oseen's 1922 photoelectric nomination broke the deadlock.",
       },
     ],
   },
-
   "nobel-1922-bohr": {
     simple: raw`
       <p>In 1911, a 26-year-old Dane named <strong>Niels Bohr</strong> arrived in Manchester to work with <strong>Ernest Rutherford</strong>, who had just discovered the atomic nucleus: a tiny, dense, positive core with electrons around it. There was one problem — according to classical physics, this atom could not exist. An orbiting electron should radiate energy, spiral inward, and crash into the nucleus in a fraction of a second. Yet atoms are stable. Matter exists.</p>
