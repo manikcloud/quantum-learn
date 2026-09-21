@@ -15,6 +15,10 @@ export const strings = {
     simpleKicker: "In simple words",
     deeperSummary: "Go deeper — the math & the rigor",
     keyTakeaways: "Key takeaways",
+    references: "References",
+    referencesIntro:
+      "The books, papers, and articles this lesson drew on — with a note on what each one was used for.",
+    referencesUsedFor: "Used for:",
     checkUnderstanding: "Check your understanding",
     markComplete: "Mark lesson as complete",
     markedComplete: "✓ Completed — click to undo",
@@ -49,6 +53,10 @@ export const strings = {
     simpleKicker: "सरल शब्दों में",
     deeperSummary: "गहरे उतरें — गणित और सटीकता",
     keyTakeaways: "मुख्य बातें",
+    references: "संदर्भ (References)",
+    referencesIntro:
+      "इस पाठ के दावे जिन किताबों, papers और articles से लिए गए हैं — हर एक के नीचे लिखा है कि उसका इस्तेमाल किस बात के लिए हुआ।",
+    referencesUsedFor: "किस लिए इस्तेमाल हुआ:",
     checkUnderstanding: "अपनी समझ परखें",
     markComplete: "पाठ पूर्ण चिह्नित करें",
     markedComplete: "✓ पूर्ण — वापस लेने के लिए क्लिक करें",
