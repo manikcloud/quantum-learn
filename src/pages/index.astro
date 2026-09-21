@@ -4,7 +4,7 @@ import { modules, flatLessons } from "../data/curriculum.js";
 
 const totalLessons = flatLessons.length;
 ---
-<SiteLayout title="Home" description="Learn quantum computing and quantum machine learning in plain language, following the IIT Delhi certification syllabus.">
+<SiteLayout title="Home" description="Learn quantum computing and quantum machine learning in plain language, following the IIT Delhi certification syllabus." altUrl="/hi/">
   <div class="hero">
     <h1>Quantum computing, <span class="grad">explained for everyone.</span></h1>
     <p>
@@ -37,7 +37,7 @@ const totalLessons = flatLessons.length;
     </div>
   </div>
 
-  <h2 id="modules">The 7 modules</h2>
+  <h2 id="modules">The {modules.length} modules</h2>
   <p class="lede">Follow the course in order, or jump to whatever you need. Use ← → arrow keys to turn pages.</p>
 
   <div class="module-grid">

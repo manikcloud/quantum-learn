@@ -108,6 +108,47 @@ export const modules = [
       { slug: "quantum-finance", title: "Quantum Algorithms for Finance" },
     ],
   },
+  {
+    id: "module-8",
+    number: 8,
+    title: "Quantum Physics Stories",
+    tagline: "Beyond the syllabus: the experiments and ideas that revealed the quantum world.",
+    description:
+      "Story-driven physics behind the math — the double-slit experiment, the Einstein–Bohr debate, decoherence, and more — adapted from the QuantumCore archive. Enrichment material: not part of the IIT Delhi syllabus, but it makes everything else click.",
+    lessons: [
+      { slug: "wave-particle-duality", title: "Wave–Particle Duality" },
+      { slug: "double-slit-experiment", title: "The Double-Slit Experiment" },
+      { slug: "does-moon-exist", title: "Does the Moon Exist When Nobody Looks?" },
+      { slug: "schrodinger-equation", title: "The Schrödinger Equation" },
+      { slug: "heisenberg-uncertainty", title: "Heisenberg's Uncertainty Principle" },
+      { slug: "quantum-spin", title: "Quantum Spin" },
+      { slug: "decoherence", title: "Decoherence" },
+      { slug: "einstein-bohr-debate", title: "The Einstein–Bohr Debate" },
+      { slug: "epr-paradox", title: "The EPR Paradox & “Spooky Action”" },
+      { slug: "copenhagen-interpretation", title: "The Copenhagen Interpretation" },
+      { slug: "quantum-history", title: "Quantum History: Newton to 1933" },
+    ],
+  },
+  {
+    id: "module-9",
+    number: 9,
+    title: "Nobel Prizes That Built Quantum",
+    tagline: "Beyond the syllabus: the discoveries — and discoverers — behind quantum computing.",
+    description:
+      "Ten Nobel Prizes that built the quantum world, from Planck's desperate mathematical trick in 1900 to the 2022 prize for proving entanglement real. Enrichment material: the human story behind the syllabus.",
+    lessons: [
+      { slug: "nobel-1900-planck", title: "1900 · Planck and the Quantum Hypothesis" },
+      { slug: "nobel-1921-einstein", title: "1921 · Einstein and the Photoelectric Effect" },
+      { slug: "nobel-1922-bohr", title: "1922 · Bohr and the Quantum Atom" },
+      { slug: "nobel-1929-debroglie", title: "1929 · de Broglie and Matter Waves" },
+      { slug: "nobel-1932-heisenberg", title: "1932 · Heisenberg and Quantum Mechanics" },
+      { slug: "nobel-1933-schrodinger-dirac", title: "1933 · Schrödinger & Dirac" },
+      { slug: "nobel-1965-qed", title: "1965 · Feynman, Schwinger & Tomonaga" },
+      { slug: "nobel-1973-tunneling", title: "1973 · Tunneling: Esaki, Giaever & Josephson" },
+      { slug: "nobel-2012-haroche-wineland", title: "2012 · Haroche & Wineland: Taming Single Quanta" },
+      { slug: "nobel-2022-entanglement", title: "2022 · Aspect, Clauser & Zeilinger: Entanglement Proved" },
+    ],
+  },
 ];
 
 export const flatLessons = modules.flatMap((m) =>

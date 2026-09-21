@@ -1,9 +1,9 @@
 ---
-const { questions = [], id = "quiz" } = Astro.props;
+const { questions = [], id = "quiz", lang = "en" } = Astro.props;
 ---
 {questions.length > 0 && (
   <section class="quiz-wrap">
-    <h2>Check your understanding</h2>
+    <h2>{lang === "hi" ? "अपनी समझ परखें" : "Check your understanding"}</h2>
     <div class="quiz" data-quiz={id}>
       {questions.map((q, qi) => (
         <div class="quiz-q" data-answer={q.answer}>

@@ -1,6 +1,8 @@
 ---
 import "../styles/global.css";
-import { modules, flatLessons } from "../data/curriculum.js";
+import { modules, flatLessons, moduleOf } from "../data/curriculum.js";
+import { t } from "../data/i18n.js";
+import { hiModuleTitle, hiLessonTitle, lessonIndex } from "../data/hi-meta.js";
 
 const {
   title = "Quantum Learning Hub",
@@ -8,15 +10,21 @@ const {
   currentSlug = "",
   prevUrl = "",
   nextUrl = "",
+  lang = "en",
+  altUrl = "",
 } = Astro.props;
+
+const isHi = lang === "hi";
+const base = isHi ? "/hi" : "";
+const searchData = lessonIndex(lang, base, flatLessons, moduleOf);
 ---
 <!doctype html>
-<html lang="en" data-theme="dark">
+<html lang={lang} data-theme="dark">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
-    <title>{title} · Quantum Learning Hub</title>
+    <title>{title} · {isHi ? "क्वांटम लर्निंग हब" : "Quantum Learning Hub"}</title>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" />
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
@@ -25,41 +33,46 @@ const {
   <body data-prev={prevUrl || undefined} data-next={nextUrl || undefined}>
     <header class="topbar">
       <button class="icon-btn" id="menu-toggle" aria-label="Open navigation">☰</button>
-      <a class="brand" href="/">
+      <a class="brand" href={isHi ? "/hi/" : "/"}>
         <span class="brand-mark">Q</span>
         <span>
-          <span class="brand-name">Quantum Learning Hub</span><br />
-          <span class="brand-sub">IIT Delhi · QCML companion</span>
+          <span class="brand-name">{isHi ? "क्वांटम लर्निंग हब" : "Quantum Learning Hub"}</span><br />
+          <span class="brand-sub">{t(lang, "brandSub")}</span>
         </span>
       </a>
       <span class="topbar-spacer"></span>
       <div class="search-wrap">
         <span class="search-icon">⌕</span>
-        <input id="site-search" type="search" placeholder="Search lessons…" autocomplete="off" />
+        <input id="site-search" type="search" placeholder={t(lang, "searchPh")} autocomplete="off" />
         <div id="search-results" hidden></div>
       </div>
+      {altUrl && (
+        <a class="lang-btn" href={altUrl} aria-label={isHi ? "Switch to English" : "हिंदी में पढ़ें"}>
+          {isHi ? "EN" : "हिंदी"}
+        </a>
+      )}
       <button class="icon-btn" id="theme-toggle" aria-label="Toggle light/dark mode">◐</button>
     </header>
 
-    <script type="application/json" id="qlh-index">{JSON.stringify(flatLessons)}</script>
+    <script type="application/json" id="qlh-index">{JSON.stringify(searchData)}</script>
 
     <div class="shell">
       <aside class="sidebar" id="sidebar">
-        <h3>Course modules</h3>
+        <h3>{t(lang, "sidebarTitle")}</h3>
         {
           modules.map((m) => (
             <div class="mod-group">
-              <a class="mod-head" href={`/modules/${m.id}/`}>
-                <span class="n">{m.number}</span>{m.title}
+              <a class="mod-head" href={`${base}/modules/${m.id}/`}>
+                <span class="n">{m.number}</span>{isHi ? hiModuleTitle(m) : m.title}
               </a>
               <ul class="lesson-links">
                 {m.lessons.map((l) => (
                   <li>
                     <a
-                      href={`/lessons/${l.slug}/`}
+                      href={`${base}/lessons/${l.slug}/`}
                       data-lesson-link={l.slug}
                       class={currentSlug === l.slug ? "active" : ""}
-                    >{l.title}</a>
+                    >{isHi ? hiLessonTitle(l) : l.title}</a>
                   </li>
                 ))}
               </ul>
@@ -72,8 +85,7 @@ const {
         <div class="prose">
           <slot />
           <footer class="site-foot">
-            Companion notes for the IIT Delhi CEP Certification in Quantum Computing and Machine Learning.
-            Explanations are written for every level — from curious beginners to researchers.
+            {t(lang, "footerText")}
           </footer>
         </div>
       </main>
@@ -82,6 +94,7 @@ const {
     <script>
       (function () {
         var root = document.documentElement;
+        var isHi = root.lang === "hi";
 
         /* theme */
         try {
@@ -116,9 +129,9 @@ const {
           }).slice(0, 8);
           if (!hits.length) { results.hidden = true; return; }
           results.innerHTML = hits.map(function (h) {
-            return '<a class="search-hit" href="/lessons/' + h.slug + '/">' +
+            return '<a class="search-hit" href="' + h.url + '">' +
               "<span>" + h.title + "</span>" +
-              "<small>Module " + h.moduleNumber + " · " + h.moduleTitle + "</small></a>";
+              "<small>" + (isHi ? "मॉड्यूल " : "Module ") + h.moduleNumber + " · " + h.moduleTitle + "</small></a>";
           }).join("");
           results.hidden = false;
         }
@@ -141,7 +154,9 @@ const {
           var pct = total ? Math.round((done.length / total) * 100) : 0;
           document.querySelectorAll("[data-progress-bar]").forEach(function (bar) { bar.style.width = pct + "%"; });
           document.querySelectorAll("[data-progress-text]").forEach(function (el) {
-            el.textContent = done.length + " of " + total + " lessons complete";
+            el.textContent = isHi
+              ? (total + " में से " + done.length + " पाठ पूर्ण")
+              : (done.length + " of " + total + " lessons complete");
           });
           document.querySelectorAll("[data-lesson-link]").forEach(function (a) {
             if (done.indexOf(a.getAttribute("data-lesson-link")) !== -1) a.classList.add("done");
@@ -156,7 +171,9 @@ const {
           if (!completeBtn) return;
           var slug = completeBtn.getAttribute("data-complete");
           var done = doneList().indexOf(slug) !== -1;
-          completeBtn.textContent = done ? "✓ Completed — click to undo" : "Mark lesson as complete";
+          completeBtn.textContent = done
+            ? (isHi ? "✓ पूर्ण — वापस लेने के लिए क्लिक करें" : "✓ Completed — click to undo")
+            : (isHi ? "पाठ पूर्ण चिह्नित करें" : "Mark lesson as complete");
           completeBtn.classList.toggle("is-done", done);
         }
         if (completeBtn) completeBtn.addEventListener("click", function () {
@@ -192,8 +209,11 @@ const {
                 if (answered === qs.length) {
                   var score = quiz.querySelector(".quiz-score");
                   score.hidden = false;
-                  score.textContent = "You got " + correct + " out of " + qs.length + " right." +
-                    (correct === qs.length ? " Perfect — on to the next lesson." : " Skim the lesson once more, then move on.");
+                  score.textContent = isHi
+                    ? ("आपने " + qs.length + " में से " + correct + " सही किए।" +
+                      (correct === qs.length ? " बिल्कुल सही — अब अगले पाठ पर चलें।" : " पाठ को एक बार और देख लें, फिर आगे बढ़ें।"))
+                    : ("You got " + correct + " out of " + qs.length + " right." +
+                      (correct === qs.length ? " Perfect — on to the next lesson." : " Skim the lesson once more, then move on."));
                 }
               });
             });

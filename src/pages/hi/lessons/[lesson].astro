@@ -1,0 +1,101 @@
+---
+import SiteLayout from "../../../layouts/SiteLayout.astro";
+import Quiz from "../../../components/Quiz.astro";
+import { flatLessons, neighbors, moduleOf } from "../../../data/curriculum.js";
+import { lessonContent } from "../../../data/lesson-content.js";
+import { lessonContentHi } from "../../../data/lesson-content-hi.js";
+import { hiLessonTitle, hiModuleTitle } from "../../../data/hi-meta.js";
+import { t } from "../../../data/i18n.js";
+
+export function getStaticPaths() {
+  return flatLessons.map((l) => ({ params: { lesson: l.slug }, props: { lesson: l } }));
+}
+
+const { lesson } = Astro.props;
+const mod = moduleOf(lesson);
+const { prev, next } = neighbors(lesson.slug);
+const hi = lessonContentHi[lesson.slug];
+const en = lessonContent[lesson.slug];
+const content = hi || en;
+const isTranslated = !!hi;
+const title = hiLessonTitle(lesson);
+const modTitle = hiModuleTitle(mod);
+---
+<SiteLayout
+  title={title}
+  description={`${title} — ${t("hi", "moduleWord")} ${mod.number}: ${modTitle}। सरल हिंदी में quantum computing।`}
+  currentSlug={lesson.slug}
+  prevUrl={prev ? `/hi/lessons/${prev.slug}/` : ""}
+  nextUrl={next ? `/hi/lessons/${next.slug}/` : ""}
+  lang="hi"
+  altUrl={`/lessons/${lesson.slug}/`}
+>
+  <nav class="crumbs">
+    <a href="/hi/">{t("hi", "home")}</a> / <a href={`/hi/modules/${mod.id}/`}>{t("hi", "moduleWord")} {mod.number}</a> / {title}
+  </nav>
+  <span class="tag">{t("hi", "moduleWord")} {mod.number} · {modTitle}</span>
+  <h1>{title}</h1>
+
+  {content ? (
+    <>
+      {!isTranslated && (
+        <div class="note-box">
+          <strong>हिंदी अनुवाद जल्द आ रहा है।</strong> इस पाठ का हिंदी संस्करण अभी तैयार हो रहा है — नीचे अंग्रेज़ी संस्करण दिया गया है। Technical terms वैसे भी अंग्रेज़ी में ही रहेंगे।
+        </div>
+      )}
+      <section class="explain-simple">
+        <div class="kicker">{t("hi", "simpleKicker")}</div>
+        <Fragment set:html={content.simple} />
+      </section>
+
+      <details class="deeper">
+        <summary>{t("hi", "deeperSummary")}</summary>
+        <div class="deeper-body">
+          <Fragment set:html={content.deeper} />
+        </div>
+      </details>
+
+      <section class="keypoints">
+        <h2>{t("hi", "keyTakeaways")}</h2>
+        <ul>
+          {content.keyPoints.map((k) => <li>{k}</li>)}
+        </ul>
+      </section>
+
+      <Quiz questions={content.quiz} id={`quiz-hi-${lesson.slug}`} lang="hi" />
+    </>
+  ) : (
+    <div class="note-box">
+      <strong>{t("hi", "notesTitle")}</strong> {t("hi", "notesBody")}
+    </div>
+  )}
+
+  <button class="complete-btn" data-complete={lesson.slug}>{t("hi", "markComplete")}</button>
+
+  <div class="pager">
+    {prev ? (
+      <a href={`/hi/lessons/${prev.slug}/`}>
+        <span class="dir">{t("hi", "prevLesson")}</span>
+        <span class="lbl">{hiLessonTitle(prev)}</span>
+      </a>
+    ) : (
+      <a href="/hi/">
+        <span class="dir">{t("hi", "back")}</span>
+        <span class="lbl">{t("hi", "home")}</span>
+      </a>
+    )}
+    {next ? (
+      <a class="next" href={`/hi/lessons/${next.slug}/`}>
+        <span class="dir">{t("hi", "nextLesson")}</span>
+        <span class="lbl">{hiLessonTitle(next)}</span>
+      </a>
+    ) : (
+      <a class="next" href="/hi/">
+        <span class="dir">{t("hi", "doneNext")}</span>
+        <span class="lbl">{t("hi", "backHome")}</span>
+      </a>
+    )}
+  </div>
+
+  <p class="hint">{t("hi", "tipHint")}</p>
+</SiteLayout>

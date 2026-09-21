@@ -1,0 +1,53 @@
+---
+import SiteLayout from "../../../layouts/SiteLayout.astro";
+import { modules, moduleNeighbors } from "../../../data/curriculum.js";
+import { hiModuleTitle, hiModuleTagline, hiModuleDescription, hiLessonTitle } from "../../../data/hi-meta.js";
+import { t } from "../../../data/i18n.js";
+
+export function getStaticPaths() {
+  return modules.map((m) => ({ params: { module: m.id }, props: { mod: m } }));
+}
+
+const { mod } = Astro.props;
+const { prev, next } = moduleNeighbors(mod.id);
+const total = modules.length;
+---
+<SiteLayout
+  title={`${t("hi", "moduleWord")} ${mod.number}: ${hiModuleTitle(mod)}`}
+  description={hiModuleTagline(mod)}
+  prevUrl={prev ? `/hi/modules/${prev.id}/` : ""}
+  nextUrl={next ? `/hi/modules/${next.id}/` : ""}
+  lang="hi"
+  altUrl={`/modules/${mod.id}/`}
+>
+  <nav class="crumbs"><a href="/hi/">{t("hi", "home")}</a> / {t("hi", "moduleWord")} {mod.number}</nav>
+  <span class="tag">{t("hi", "moduleWord")} {mod.number} / {total}</span>
+  <h1>{hiModuleTitle(mod)}</h1>
+  <p class="lede">{hiModuleDescription(mod)}</p>
+
+  <h2>{t("hi", "lessonsWord")}</h2>
+  <div class="lesson-list">
+    {mod.lessons.map((l, i) => (
+      <a class="lesson-row" href={`/hi/lessons/${l.slug}/`}>
+        <span class="idx">{i + 1}</span>
+        <span class="t" data-lesson-link={l.slug}>{hiLessonTitle(l)}</span>
+        <span class="go">→</span>
+      </a>
+    ))}
+  </div>
+
+  <div class="pager">
+    {prev ? (
+      <a href={`/hi/modules/${prev.id}/`}>
+        <span class="dir">{t("hi", "prevModule")}</span>
+        <span class="lbl">{hiModuleTitle(prev)}</span>
+      </a>
+    ) : <span />}
+    {next ? (
+      <a class="next" href={`/hi/modules/${next.id}/`}>
+        <span class="dir">{t("hi", "nextModule")}</span>
+        <span class="lbl">{hiModuleTitle(next)}</span>
+      </a>
+    ) : <span />}
+  </div>
+</SiteLayout>

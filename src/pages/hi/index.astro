@@ -1,0 +1,62 @@
+---
+import SiteLayout from "../../layouts/SiteLayout.astro";
+import { modules, flatLessons } from "../../data/curriculum.js";
+import { hiModuleTitle, hiModuleTagline } from "../../data/hi-meta.js";
+import { t } from "../../data/i18n.js";
+
+const totalLessons = flatLessons.length;
+---
+<SiteLayout
+  title="मुख्य पृष्ठ"
+  description="IIT Delhi certification syllabus के अनुसार सरल हिंदी में quantum computing और quantum machine learning सीखें।"
+  lang="hi"
+  altUrl="/"
+>
+  <div class="hero">
+    <h1>Quantum computing, <span class="grad">अब सबके लिए सरल।</span></h1>
+    <p>
+      IIT Delhi Certification in Quantum Computing and Machine Learning का साथी।
+      हर पाठ सरल शब्दों से शुरू होता है जिन्हें कोई भी समझ सके — फिर आप जितना गहरा चाहें, असली गणित तक।
+    </p>
+    <div class="btn-row">
+      <a class="btn btn-primary" href="/hi/lessons/qubits/">मॉड्यूल 1 शुरू करें →</a>
+      <a class="btn btn-ghost" href="#modules">सभी मॉड्यूल देखें</a>
+    </div>
+  </div>
+
+  <div class="card progress-card">
+    <div class="progress-label" data-progress-text>{t("hi", "progressText")(0, totalLessons)}</div>
+    <div class="progress-track"><div data-progress-bar></div></div>
+  </div>
+
+  <div class="steps">
+    <div class="step">
+      <div class="snum">चरण 1</div>
+      <p><strong>सरल संस्करण पढ़ें।</strong> हर पाठ बिना-jargon व्याख्या से खुलता है — घूमते सिक्के, light switches, असली intuition।</p>
+    </div>
+    <div class="step">
+      <div class="snum">चरण 2</div>
+      <p><strong>तैयार हों तो गहरे उतरें।</strong> Dirac notation, derivations और पूरी mathematical picture के लिए rigorous section खोलें।</p>
+    </div>
+    <div class="step">
+      <div class="snum">चरण 3</div>
+      <p><strong>खुद को परखें।</strong> Instant feedback वाले quick quizzes, फिर पाठ पूर्ण चिह्नित करें और अपनी streak बनाए रखें।</p>
+    </div>
+  </div>
+
+  <h2 id="modules">{t("hi", "modulesHeading")(modules.length)}</h2>
+  <p class="lede">Course को क्रम से follow करें, या जो चाहिए वहीं jump करें। पेज बदलने के लिए ← → arrow keys इस्तेमाल करें।</p>
+
+  <div class="module-grid">
+    {modules.map((m) => (
+      <a class="module-card" href={`/hi/modules/${m.id}/`}>
+        <span class="num">{t("hi", "moduleWord")} {m.number}</span>
+        <h3>{hiModuleTitle(m)}</h3>
+        <p>{hiModuleTagline(m)}</p>
+        <span class="count">{t("hi", "lessonsCount")(m.lessons.length)}</span>
+      </a>
+    ))}
+  </div>
+
+  <p class="hint">{t("hi", "tipHint")}</p>
+</SiteLayout>

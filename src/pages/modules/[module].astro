@@ -14,9 +14,10 @@ const { prev, next } = moduleNeighbors(mod.id);
   description={mod.tagline}
   prevUrl={prev ? `/modules/${prev.id}/` : ""}
   nextUrl={next ? `/modules/${next.id}/` : ""}
+  altUrl={`/hi/modules/${mod.id}/`}
 >
   <nav class="crumbs"><a href="/">Home</a> / Module {mod.number}</nav>
-  <span class="tag">Module {mod.number} of 7</span>
+  <span class="tag">Module {mod.number} of {modules.length}</span>
   <h1>{mod.title}</h1>
   <p class="lede">{mod.description}</p>
 

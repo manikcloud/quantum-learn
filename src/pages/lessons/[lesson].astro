@@ -19,6 +19,7 @@ const content = lessonContent[lesson.slug];
   currentSlug={lesson.slug}
   prevUrl={prev ? `/lessons/${prev.slug}/` : ""}
   nextUrl={next ? `/lessons/${next.slug}/` : ""}
+  altUrl={`/hi/lessons/${lesson.slug}/`}
 >
   <nav class="crumbs">
     <a href="/">Home</a> / <a href={`/modules/${mod.id}/`}>Module {mod.number}</a> / {lesson.title}

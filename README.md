@@ -20,9 +20,15 @@ npm run build     # compiles to dist/
 npm run preview   # serves dist/ locally
 ```
 
-## Deploy to Cloudflare Pages
+## Deploy to Cloudflare Pages (live pipeline)
 
-1. Push this folder to a GitHub repo.
+- **Repo:** https://github.com/manikcloud/quantum-learn (`main` branch)
+- **Live site:** https://quantum-learn.pages.dev
+- **Cloudflare project:** `quantum-learn` (Pages, connected to Git)
+
+Every `git push` to `main` triggers an automatic rebuild and deploy:
+
+1. Push this folder to the GitHub repo above.
 2. Cloudflare dashboard → **Workers & Pages** → **Create** → **Pages** → **Connect to Git**.
 3. Build settings:
    - **Framework preset:** Astro
