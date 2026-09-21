@@ -67,6 +67,10 @@ export const hiModules = {
 
 export const hiLessonTitles = {
   qubits: "क्वांटम बिट (Qubits)",
+  "phil-why-philosophy": "Quantum Computing को Philosophy की ज़रूरत क्यों है",
+  "phil-interpretations": "छह Interpretations — और आपका Quantum Computer क्या कर रहा है",
+  "phil-randomness-free-will": "Randomness, Determinism और Free Will",
+  "phil-it-from-bit": "“It from Bit”: क्या Information ही Reality है?",
 };
 
 export function hiModuleTitle(mod) {
