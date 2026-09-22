@@ -19,12 +19,17 @@ const { auth } = await import("/auth/index.js");
 | `configured` | boolean | false when the provider has no usable settings yet — the site stays public |
 | `ready` | Promise | resolves when the provider SDK is loaded and initialized; rejects otherwise |
 | `currentUser()` | `user \| null` | sync getter; null until signed in |
-| `onAuthChange(cb)` | Promise<unsubscribe> | `cb(user, info)` on every auth change. `user` is null when signed out; `info = { denied: true }` when the account fails the `allowedEmails` policy |
+| `onAuthChange(cb)` | Promise<unsubscribe> | `cb(user, info)` on every auth change. `user` is null when signed out; `info = { denied: true }` when the account fails the `allowedEmails` policy; `info = { unverified: true }` when an email/password account has not verified its email yet |
 | `signIn()` | Promise | starts the provider's sign-in flow (Google, redirect-based) |
+| `signUpWithEmail(email, password)` | Promise<user> | creates an email/password account and sends the verification link |
+| `signInWithEmail(email, password)` | Promise<user> | signs in with email/password; unverified accounts surface via `onAuthChange` info |
+| `sendVerification()` | Promise | re-sends the verification email to the signed-in user |
+| `resetPassword(email)` | Promise | sends a password-reset email |
+| `reloadUser()` | Promise<user \| null> | re-fetches the signed-in user (e.g. after they clicked the verification link elsewhere) |
 | `signOut()` | Promise | signs out |
 | `handleRedirect()` | Promise<{user} \| {error}> | surfaces errors from a redirect-based sign-in |
 
-`user` shape: `{ email, displayName, photoURL, raw }` — `raw` is the
+`user` shape: `{ email, displayName, photoURL, emailVerified, provider, raw }` — `raw` is the
 provider's native user object for escape hatches.
 
 ## Rules

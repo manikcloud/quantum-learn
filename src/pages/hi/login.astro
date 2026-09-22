@@ -4,7 +4,7 @@ import { t } from "../../data/i18n.js";
 ---
 <SiteLayout
   title={t("hi", "loginTitle")}
-  description="Quantum Learning Hub में जाने के लिए Google से साइन इन करें।"
+  description="Quantum Learning Hub में जाने के लिए Google या ईमेल से साइन इन करें।"
   lang="hi"
   noGate={true}
   altUrl="/login/"
@@ -15,6 +15,7 @@ import { t } from "../../data/i18n.js";
       <h1>{t("hi", "loginTitle")}</h1>
       <p class="login-sub">{t("hi", "loginSub")}</p>
       <div id="login-err" class="login-err" hidden></div>
+      <div id="login-ok" class="login-ok" hidden></div>
       <button id="google-btn" class="google-btn">
         <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
           <path fill="#4285F4" d="M23.5 12.3c0-.9-.1-1.5-.3-2.3H12v4.5h6.5c-.1 1.1-.8 2.7-2.4 3.8l3.6 2.8c2.2-2 3.8-5 3.8-8.8z"/>
@@ -24,6 +25,31 @@ import { t } from "../../data/i18n.js";
         </svg>
         <span>{t("hi", "continueWithGoogle")}</span>
       </button>
+      <div id="email-box">
+        <div class="login-divider"><span>{t("hi", "orDivider")}</span></div>
+        <label class="login-field">
+          <span>{t("hi", "emailAddress")}</span>
+          <input id="email-input" type="email" autocomplete="email" placeholder="you@example.com" />
+        </label>
+        <label class="login-field">
+          <span>{t("hi", "password")}</span>
+          <input id="password-input" type="password" autocomplete="current-password" placeholder="••••••••" />
+        </label>
+        <div class="login-row">
+          <button id="email-signin" class="email-btn">{t("hi", "emailSignIn")}</button>
+          <button id="email-signup" class="email-btn secondary">{t("hi", "createAccount")}</button>
+        </div>
+        <p class="login-note"><a href="#" id="forgot-link">{t("hi", "forgotPassword")}</a></p>
+      </div>
+      <div id="verify-box" hidden>
+        <p><strong>{t("hi", "verifyTitle")}</strong></p>
+        <p>हमने <strong id="verify-email"></strong> पर एक सत्यापन लिंक भेजा है। inbox में लिंक पर क्लिक करें, फिर नीचे आगे बढ़ें।</p>
+        <div class="login-row">
+          <button id="ive-verified" class="email-btn">{t("hi", "iveVerified")}</button>
+          <button id="resend-link" class="email-btn secondary">{t("hi", "resendVerification")}</button>
+        </div>
+        <p class="login-note"><a href="#" id="verify-signout">{t("hi", "signOut")}</a></p>
+      </div>
       <p class="login-note">{t("hi", "loginNote")}</p>
       <div id="login-authed" hidden>
         <p>{t("hi", "signedInAs")} <strong id="login-email"></strong></p>
@@ -42,46 +68,150 @@ import { t } from "../../data/i18n.js";
     (function () {
       var AUTH_BASE = "/auth/";
       var errBox = document.getElementById("login-err");
-      var btn = document.getElementById("google-btn");
+      var okBox = document.getElementById("login-ok");
+      var gbtn = document.getElementById("google-btn");
       var authedBox = document.getElementById("login-authed");
-      function showErr(msg) { errBox.hidden = false; errBox.textContent = msg; }
+      var emailBox = document.getElementById("email-box");
+      var verifyBox = document.getElementById("verify-box");
+      var emailInput = document.getElementById("email-input");
+      var passInput = document.getElementById("password-input");
+
+      function showErr(msg) { errBox.hidden = false; errBox.textContent = msg; okBox.hidden = true; }
+      function showOk(msg) { okBox.hidden = false; okBox.textContent = msg; errBox.hidden = true; }
+      function clearMsg() { errBox.hidden = true; okBox.hidden = true; }
+
+      /* Provider error codes -> plain-language messages. No SDK names leak. */
+      function friendly(err) {
+        var code = (err && err.code) || "";
+        switch (code) {
+          case "auth/invalid-email": return "यह ईमेल पता सही नहीं लग रहा — जाँचें और फिर कोशिश करें।";
+          case "auth/user-not-found":
+          case "auth/wrong-password":
+          case "auth/invalid-credential": return "गलत ईमेल या पासवर्ड। नए हैं? \u2018नया खाता बनाएँ\u2019 दबाएँ — और inbox में सत्यापन लिंक देखें।";
+          case "auth/email-already-in-use": return "इस ईमेल से खाता पहले से बना है — साइन इन करके देखें।";
+          case "auth/weak-password": return "पासवर्ड कम से कम 6 अक्षरों का होना चाहिए।";
+          case "auth/too-many-requests": return "बहुत ज़्यादा कोशिशें — थोड़ी देर रुककर फिर कोशिश करें।";
+          case "auth/network-request-failed": return "नेटवर्क समस्या — कनेक्शन जाँचें और फिर कोशिश करें।";
+          case "auth/operation-not-allowed": return "ईमेल साइन-इन अभी चालू नहीं है — साइट owner को sign-in settings में इसे चालू करना होगा।";
+          case "auth/unauthorized-domain": return "इस साइट का domain साइन-इन के लिए अधिकृत नहीं है। साइट owner को Authentication \u2192 Settings \u2192 Authorized domains में यह domain जोड़ना होगा।";
+          default: return (err && err.message) || "साइन-इन असफल रहा। कृपया फिर कोशिश करें।";
+        }
+      }
+
       var params = new URLSearchParams(window.location.search);
       var next = params.get("next") || "/hi/";
       if (next.charAt(0) !== "/") next = "/hi/";
-      if (params.get("denied") === "1") showErr("\u092f\u0939 Google account access list \u092e\u0947\u0902 \u0928\u0939\u0940\u0902 \u0939\u0948\u0964");
+      if (params.get("denied") === "1") showErr("यह account access list में नहीं है।");
+      if (params.get("unverified") === "1") showOk("कृपया अपना ईमेल सत्यापित करें, फिर आगे बढ़ें।");
+
+      function authedUI(user) {
+        authedBox.hidden = false;
+        verifyBox.hidden = true;
+        emailBox.style.display = "none";
+        gbtn.style.display = "none";
+        document.getElementById("login-email").textContent = user.email || user.displayName || "";
+        document.getElementById("login-continue").setAttribute("href", next);
+        setTimeout(function () { window.location.replace(next); }, 1200);
+      }
+      function verifyUI(user) {
+        verifyBox.hidden = false;
+        authedBox.hidden = true;
+        emailBox.style.display = "none";
+        gbtn.style.display = "none";
+        document.getElementById("verify-email").textContent = user.email || "";
+      }
+      function signedOutUI() {
+        authedBox.hidden = true;
+        verifyBox.hidden = true;
+        emailBox.style.display = "";
+        gbtn.style.display = "";
+      }
+      function busy(b) {
+        gbtn.disabled = b;
+        document.getElementById("email-signin").disabled = b;
+        document.getElementById("email-signup").disabled = b;
+      }
+
       import(/* @vite-ignore */ AUTH_BASE + "config.js").then(function () {
         return import(/* @vite-ignore */ AUTH_BASE + "index.js");
       }).then(function (mod) {
         var auth = mod.auth;
         if (!auth.configured) {
-          btn.disabled = true;
-          showErr("\u0938\u093e\u0907\u0928-\u0907\u0928 \u0905\u092d\u0940 \u091c\u0941\u0921\u093e \u0928\u0939\u0940\u0902 \u0939\u0948 \u2014 setup \u091a\u0932 \u0930\u0939\u093e \u0939\u0948\u0964 \u0915\u0943\u092a\u092f\u093e \u092c\u093e\u0926 \u092e\u0947\u0902 \u092b\u093f\u0930 \u0915\u094b\u0936\u093f\u0936 \u0915\u0930\u0947\u0902\u0964");
+          busy(true);
+          showErr("साइन-इन अभी जुड़ा नहीं है — setup चल रहा है। कृपया बाद में फिर कोशिश करें।");
           return;
         }
+        /* Surface errors from a Google redirect that already happened. */
         auth.handleRedirect().then(function (res) {
-          if (res.error) showErr(res.error.message || "\u0938\u093e\u0907\u0928-\u0907\u0928 \u0905\u0938\u092b\u0932 \u0930\u0939\u093e\u0964 \u0915\u0943\u092a\u092f\u093e \u092b\u093f\u0930 \u0915\u094b\u0936\u093f\u0936 \u0915\u0930\u0947\u0902\u0964");
+          if (res.error) showErr(friendly(res.error));
         });
+        auth.ready.catch(function (e) { showErr(friendly(e)); });
         auth.onAuthChange(function (user, info) {
           if (info && info.denied) {
-            auth.signOut().then(function () { showErr("\u092f\u0939 Google account access list \u092e\u0947\u0902 \u0928\u0939\u0940\u0902 \u0939\u0948\u0964"); });
+            auth.signOut().then(function () { signedOutUI(); showErr("यह account access list में नहीं है।"); });
             return;
           }
-          if (!user) return;
-          authedBox.hidden = false;
-          document.getElementById("login-email").textContent = user.email || user.displayName || "";
-          document.getElementById("login-continue").setAttribute("href", next);
-          btn.style.display = "none";
-          setTimeout(function () { window.location.replace(next); }, 1200);
-        }).catch(function () {
-          showErr("\u0938\u093e\u0907\u0928-\u0907\u0928 \u0938\u0947\u0935\u093e \u0928\u0939\u0940\u0902 \u092e\u093f\u0932 \u0930\u0939\u0940 \u2014 \u0915\u0928\u0947\u0915\u094d\u0936\u0928 \u091c\u093e\u0901\u091a\u0947\u0902 \u0914\u0930 reload \u0915\u0930\u0947\u0902\u0964");
+          if (info && info.unverified) { verifyUI(user); return; }
+          if (!user) { signedOutUI(); return; }
+          authedUI(user);
+        }).catch(function (e) {
+          showErr(friendly(e));
         });
-        btn.addEventListener("click", function () { auth.signIn(); });
-        document.getElementById("login-switch").addEventListener("click", function (e) {
-          e.preventDefault();
-          auth.signOut().then(function () { window.location.reload(); });
+
+        /* Google — every failure is now shown instead of dying silently. */
+        gbtn.addEventListener("click", function () {
+          clearMsg(); busy(true);
+          auth.signIn().catch(function (e) { busy(false); showErr(friendly(e)); });
         });
+
+        document.getElementById("email-signin").addEventListener("click", function () {
+          clearMsg(); busy(true);
+          auth.signInWithEmail(emailInput.value.trim(), passInput.value).then(function () {
+            busy(false); passInput.value = "";
+          }).catch(function (e) { busy(false); showErr(friendly(e)); });
+        });
+
+        document.getElementById("email-signup").addEventListener("click", function () {
+          clearMsg(); busy(true);
+          auth.signUpWithEmail(emailInput.value.trim(), passInput.value).then(function () {
+            busy(false); passInput.value = "";
+          }).catch(function (e) { busy(false); showErr(friendly(e)); });
+        });
+
+        document.getElementById("forgot-link").addEventListener("click", function (e) {
+          e.preventDefault(); clearMsg();
+          var email = emailInput.value.trim();
+          if (!email) { showErr("पहले ऊपर अपना ईमेल पता लिखें, फिर \u2018पासवर्ड भूल गए?\u2019 दबाएँ।"); return; }
+          busy(true);
+          auth.resetPassword(email).then(function () {
+            busy(false); showOk("पासवर्ड रीसेट ईमेल भेज दिया गया — अपना inbox देखें।");
+          }).catch(function (e) { busy(false); showErr(friendly(e)); });
+        });
+
+        document.getElementById("resend-link").addEventListener("click", function () {
+          clearMsg(); busy(true);
+          auth.sendVerification().then(function () {
+            busy(false); showOk("सत्यापन ईमेल भेज दिया गया — inbox (और spam folder) देखें।");
+          }).catch(function (e) { busy(false); showErr(friendly(e)); });
+        });
+
+        document.getElementById("ive-verified").addEventListener("click", function () {
+          clearMsg(); busy(true);
+          auth.reloadUser().then(function (u) {
+            busy(false);
+            if (u && u.emailVerified) authedUI(u);
+            else showErr("अभी सत्यापित नहीं हुआ — ईमेल में लिंक पर क्लिक करें, फिर कोशिश करें।");
+          }).catch(function (e) { busy(false); showErr(friendly(e)); });
+        });
+
+        function signOutNow(e) {
+          e.preventDefault(); clearMsg(); busy(true);
+          auth.signOut().then(function () { busy(false); signedOutUI(); });
+        }
+        document.getElementById("verify-signout").addEventListener("click", signOutNow);
+        document.getElementById("login-switch").addEventListener("click", signOutNow);
       }).catch(function () {
-        showErr("\u0938\u093e\u0907\u0928-\u0907\u0928 \u0938\u0947\u0935\u093e \u0928\u0939\u0940\u0902 \u092e\u093f\u0932 \u0930\u0939\u0940 \u2014 \u0915\u0928\u0947\u0915\u094d\u0936\u0928 \u091c\u093e\u0901\u091a\u0947\u0902 \u0914\u0930 reload \u0915\u0930\u0947\u0902\u0964");
+        showErr("साइन-इन सेवा नहीं मिल रही — कनेक्शन जाँचें और reload करें।");
       });
     })();
   </script>

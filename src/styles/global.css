@@ -331,7 +331,21 @@ details.deeper .deeper-body { padding: 4px 26px 26px; border-top: 1px solid var(
 .google-btn:disabled { opacity: 0.6; cursor: not-allowed; }
 .login-err { background: rgba(122, 46, 46, 0.25); border: 1px solid #7a2e2e; color: #e89a9a; border-radius: 8px; padding: 10px 14px; margin-bottom: 16px; font-size: 14px; }
 .login-note { color: var(--muted); font-size: 13px; margin: 18px 0 0; }
+.login-note a { color: var(--accent2); }
 #login-authed p { margin: 10px 0; }
+.login-ok { background: rgba(46, 122, 62, 0.22); border: 1px solid #2e7a3e; color: #9ae0a8; border-radius: 8px; padding: 10px 14px; margin-bottom: 16px; font-size: 14px; }
+.login-divider { display: flex; align-items: center; gap: 12px; color: var(--muted); font-size: 13px; margin: 22px 0 18px; }
+.login-divider::before, .login-divider::after { content: ""; flex: 1; border-top: 1px solid var(--border); }
+.login-field { display: block; text-align: left; margin: 0 0 12px; }
+.login-field span { display: block; font-size: 13px; color: var(--muted); margin-bottom: 6px; }
+.login-field input { width: 100%; box-sizing: border-box; background: var(--bg-soft); border: 1px solid var(--border); border-radius: 8px; padding: 11px 14px; font-size: 15px; color: inherit; font-family: inherit; }
+.login-field input:focus { outline: none; border-color: var(--accent2); }
+.login-row { display: flex; gap: 10px; justify-content: center; margin-top: 6px; flex-wrap: wrap; }
+.email-btn { background: var(--accent2); color: #fff; border: none; border-radius: 8px; padding: 11px 20px; font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit; }
+.email-btn:hover:not(:disabled) { filter: brightness(1.12); }
+.email-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+.email-btn.secondary { background: transparent; border: 1px solid var(--border); color: inherit; }
+#verify-box p { margin: 10px 0; }
 .user-chip { max-width: 170px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 13px; color: var(--muted); }
 
 code { font-family: var(--mono); font-size: 0.88em; background: var(--bg-soft); border: 1px solid var(--border); border-radius: 6px; padding: 1px 7px; }

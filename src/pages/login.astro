@@ -4,7 +4,7 @@ import { t } from "../data/i18n.js";
 ---
 <SiteLayout
   title={t("en", "loginTitle")}
-  description="Sign in with Google to access the Quantum Learning Hub."
+  description="Sign in with Google or email to access the Quantum Learning Hub."
   lang="en"
   noGate={true}
   altUrl="/hi/login/"
@@ -15,6 +15,7 @@ import { t } from "../data/i18n.js";
       <h1>{t("en", "loginTitle")}</h1>
       <p class="login-sub">{t("en", "loginSub")}</p>
       <div id="login-err" class="login-err" hidden></div>
+      <div id="login-ok" class="login-ok" hidden></div>
       <button id="google-btn" class="google-btn">
         <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
           <path fill="#4285F4" d="M23.5 12.3c0-.9-.1-1.5-.3-2.3H12v4.5h6.5c-.1 1.1-.8 2.7-2.4 3.8l3.6 2.8c2.2-2 3.8-5 3.8-8.8z"/>
@@ -24,6 +25,31 @@ import { t } from "../data/i18n.js";
         </svg>
         <span>{t("en", "continueWithGoogle")}</span>
       </button>
+      <div id="email-box">
+        <div class="login-divider"><span>{t("en", "orDivider")}</span></div>
+        <label class="login-field">
+          <span>{t("en", "emailAddress")}</span>
+          <input id="email-input" type="email" autocomplete="email" placeholder="you@example.com" />
+        </label>
+        <label class="login-field">
+          <span>{t("en", "password")}</span>
+          <input id="password-input" type="password" autocomplete="current-password" placeholder="••••••••" />
+        </label>
+        <div class="login-row">
+          <button id="email-signin" class="email-btn">{t("en", "emailSignIn")}</button>
+          <button id="email-signup" class="email-btn secondary">{t("en", "createAccount")}</button>
+        </div>
+        <p class="login-note"><a href="#" id="forgot-link">{t("en", "forgotPassword")}</a></p>
+      </div>
+      <div id="verify-box" hidden>
+        <p><strong>{t("en", "verifyTitle")}</strong></p>
+        <p>We sent a verification link to <strong id="verify-email"></strong>. Click the link in your inbox, then continue below.</p>
+        <div class="login-row">
+          <button id="ive-verified" class="email-btn">{t("en", "iveVerified")}</button>
+          <button id="resend-link" class="email-btn secondary">{t("en", "resendVerification")}</button>
+        </div>
+        <p class="login-note"><a href="#" id="verify-signout">{t("en", "signOut")}</a></p>
+      </div>
       <p class="login-note">{t("en", "loginNote")}</p>
       <div id="login-authed" hidden>
         <p>{t("en", "signedInAs")} <strong id="login-email"></strong></p>
@@ -42,44 +68,148 @@ import { t } from "../data/i18n.js";
     (function () {
       var AUTH_BASE = "/auth/";
       var errBox = document.getElementById("login-err");
-      var btn = document.getElementById("google-btn");
+      var okBox = document.getElementById("login-ok");
+      var gbtn = document.getElementById("google-btn");
       var authedBox = document.getElementById("login-authed");
-      function showErr(msg) { errBox.hidden = false; errBox.textContent = msg; }
+      var emailBox = document.getElementById("email-box");
+      var verifyBox = document.getElementById("verify-box");
+      var emailInput = document.getElementById("email-input");
+      var passInput = document.getElementById("password-input");
+
+      function showErr(msg) { errBox.hidden = false; errBox.textContent = msg; okBox.hidden = true; }
+      function showOk(msg) { okBox.hidden = false; okBox.textContent = msg; errBox.hidden = true; }
+      function clearMsg() { errBox.hidden = true; okBox.hidden = true; }
+
+      /* Provider error codes -> plain-language messages. No SDK names leak. */
+      function friendly(err) {
+        var code = (err && err.code) || "";
+        switch (code) {
+          case "auth/invalid-email": return "That email address doesn't look right — check it and try again.";
+          case "auth/user-not-found":
+          case "auth/wrong-password":
+          case "auth/invalid-credential": return "Wrong email or password. New here? Use Create account — and check your inbox for the verification link.";
+          case "auth/email-already-in-use": return "An account with this email already exists — try signing in instead.";
+          case "auth/weak-password": return "Password must be at least 6 characters.";
+          case "auth/too-many-requests": return "Too many attempts — wait a little and try again.";
+          case "auth/network-request-failed": return "Network problem — check your connection and try again.";
+          case "auth/operation-not-allowed": return "Email sign-in isn't switched on yet — the site owner needs to enable it in the sign-in settings.";
+          case "auth/unauthorized-domain": return "This site's domain isn't authorized for sign-in. The site owner must add this domain under Authentication \u2192 Settings \u2192 Authorized domains.";
+          default: return (err && err.message) || "Sign-in failed. Please try again.";
+        }
+      }
+
       var params = new URLSearchParams(window.location.search);
       var next = params.get("next") || "/";
       if (next.charAt(0) !== "/") next = "/";
-      if (params.get("denied") === "1") showErr("This Google account is not on the access list.");
+      if (params.get("denied") === "1") showErr("This account is not on the access list.");
+      if (params.get("unverified") === "1") showOk("Please verify your email address, then continue.");
+
+      function authedUI(user) {
+        authedBox.hidden = false;
+        verifyBox.hidden = true;
+        emailBox.style.display = "none";
+        gbtn.style.display = "none";
+        document.getElementById("login-email").textContent = user.email || user.displayName || "";
+        document.getElementById("login-continue").setAttribute("href", next);
+        setTimeout(function () { window.location.replace(next); }, 1200);
+      }
+      function verifyUI(user) {
+        verifyBox.hidden = false;
+        authedBox.hidden = true;
+        emailBox.style.display = "none";
+        gbtn.style.display = "none";
+        document.getElementById("verify-email").textContent = user.email || "";
+      }
+      function signedOutUI() {
+        authedBox.hidden = true;
+        verifyBox.hidden = true;
+        emailBox.style.display = "";
+        gbtn.style.display = "";
+      }
+      function busy(b) {
+        gbtn.disabled = b;
+        document.getElementById("email-signin").disabled = b;
+        document.getElementById("email-signup").disabled = b;
+      }
+
       import(/* @vite-ignore */ AUTH_BASE + "config.js").then(function () {
         return import(/* @vite-ignore */ AUTH_BASE + "index.js");
       }).then(function (mod) {
         var auth = mod.auth;
         if (!auth.configured) {
-          btn.disabled = true;
+          busy(true);
           showErr("Sign-in is not connected yet — setup is still in progress. Please check back soon.");
           return;
         }
+        /* Surface errors from a Google redirect that already happened. */
         auth.handleRedirect().then(function (res) {
-          if (res.error) showErr(res.error.message || "Sign-in failed. Please try again.");
+          if (res.error) showErr(friendly(res.error));
         });
+        auth.ready.catch(function (e) { showErr(friendly(e)); });
         auth.onAuthChange(function (user, info) {
           if (info && info.denied) {
-            auth.signOut().then(function () { showErr("This Google account is not on the access list."); });
+            auth.signOut().then(function () { signedOutUI(); showErr("This account is not on the access list."); });
             return;
           }
-          if (!user) return;
-          authedBox.hidden = false;
-          document.getElementById("login-email").textContent = user.email || user.displayName || "";
-          document.getElementById("login-continue").setAttribute("href", next);
-          btn.style.display = "none";
-          setTimeout(function () { window.location.replace(next); }, 1200);
-        }).catch(function () {
-          showErr("Sign-in service unreachable — check your connection and reload.");
+          if (info && info.unverified) { verifyUI(user); return; }
+          if (!user) { signedOutUI(); return; }
+          authedUI(user);
+        }).catch(function (e) {
+          showErr(friendly(e));
         });
-        btn.addEventListener("click", function () { auth.signIn(); });
-        document.getElementById("login-switch").addEventListener("click", function (e) {
-          e.preventDefault();
-          auth.signOut().then(function () { window.location.reload(); });
+
+        /* Google — every failure is now shown instead of dying silently. */
+        gbtn.addEventListener("click", function () {
+          clearMsg(); busy(true);
+          auth.signIn().catch(function (e) { busy(false); showErr(friendly(e)); });
         });
+
+        document.getElementById("email-signin").addEventListener("click", function () {
+          clearMsg(); busy(true);
+          auth.signInWithEmail(emailInput.value.trim(), passInput.value).then(function () {
+            busy(false); passInput.value = "";
+          }).catch(function (e) { busy(false); showErr(friendly(e)); });
+        });
+
+        document.getElementById("email-signup").addEventListener("click", function () {
+          clearMsg(); busy(true);
+          auth.signUpWithEmail(emailInput.value.trim(), passInput.value).then(function () {
+            busy(false); passInput.value = "";
+          }).catch(function (e) { busy(false); showErr(friendly(e)); });
+        });
+
+        document.getElementById("forgot-link").addEventListener("click", function (e) {
+          e.preventDefault(); clearMsg();
+          var email = emailInput.value.trim();
+          if (!email) { showErr("Enter your email address above first, then click Forgot password."); return; }
+          busy(true);
+          auth.resetPassword(email).then(function () {
+            busy(false); showOk("Password reset email sent — check your inbox.");
+          }).catch(function (e) { busy(false); showErr(friendly(e)); });
+        });
+
+        document.getElementById("resend-link").addEventListener("click", function () {
+          clearMsg(); busy(true);
+          auth.sendVerification().then(function () {
+            busy(false); showOk("Verification email sent — check your inbox (and spam folder).");
+          }).catch(function (e) { busy(false); showErr(friendly(e)); });
+        });
+
+        document.getElementById("ive-verified").addEventListener("click", function () {
+          clearMsg(); busy(true);
+          auth.reloadUser().then(function (u) {
+            busy(false);
+            if (u && u.emailVerified) authedUI(u);
+            else showErr("Not verified yet — click the link in your email, then try again.");
+          }).catch(function (e) { busy(false); showErr(friendly(e)); });
+        });
+
+        function signOutNow(e) {
+          e.preventDefault(); clearMsg(); busy(true);
+          auth.signOut().then(function () { busy(false); signedOutUI(); });
+        }
+        document.getElementById("verify-signout").addEventListener("click", signOutNow);
+        document.getElementById("login-switch").addEventListener("click", signOutNow);
       }).catch(function () {
         showErr("Sign-in service unreachable — check your connection and reload.");
       });
