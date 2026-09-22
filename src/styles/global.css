@@ -434,3 +434,46 @@ footer.site-foot { max-width: 820px; margin: 70px auto 0; padding-top: 24px; bor
   .pager .next { text-align: left; }
   main { padding: 28px 18px 70px; }
 }
+
+/* Featured banner (homepage link to the quantum-year special page) */
+.feature-banner {
+  display: block;
+  margin: 22px 0;
+  padding: 18px 22px;
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--accent);
+  border-radius: 14px;
+  background: linear-gradient(120deg, var(--accent-soft), transparent 70%);
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.feature-banner:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.18); }
+.feature-banner .kicker {
+  display: block;
+  font-size: 12.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+.feature-banner strong { display: block; font-size: 19px; margin-bottom: 4px; }
+.feature-banner .sub { color: var(--muted); font-size: 15px; }
+
+/* Facts & figures definition list */
+.facts { margin: 34px 0; }
+.facts h2 { margin-bottom: 6px; }
+.facts dl { margin: 0; }
+.facts dl > div {
+  display: grid;
+  grid-template-columns: 210px 1fr;
+  gap: 14px;
+  padding: 11px 0;
+  border-bottom: 1px solid var(--border);
+}
+.facts dt { font-weight: 600; color: var(--muted); font-size: 14px; }
+.facts dd { margin: 0; }
+@media (max-width: 640px) {
+  .facts dl > div { grid-template-columns: 1fr; gap: 2px; }
+}
