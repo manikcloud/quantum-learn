@@ -122,6 +122,7 @@ a:hover { text-decoration: underline; }
   display: grid; place-items: center;
 }
 .icon-btn:hover { border-color: var(--accent); }
+[hidden] { display: none !important; }
 #menu-toggle { display: none; }
 
 .lang-btn {
