@@ -1,6 +1,5 @@
 ---
 import SiteLayout from "../layouts/SiteLayout.astro";
-import { firebaseConfig, ALLOWED_EMAILS, authConfigured } from "../data/auth-config.js";
 import { t } from "../data/i18n.js";
 ---
 <SiteLayout
@@ -37,8 +36,11 @@ import { t } from "../data/i18n.js";
     </div>
   </div>
 
-  <script define:vars={{ fbConfig: firebaseConfig, allowed: ALLOWED_EMAILS, configured: authConfigured }}>
+  {/* Login logic talks ONLY to the auth interface in /auth/
+      (see public/auth/README.md) — zero provider-specific code here. */
+  <script>
     (function () {
+      var AUTH_BASE = "/auth/";
       var errBox = document.getElementById("login-err");
       var btn = document.getElementById("google-btn");
       var authedBox = document.getElementById("login-authed");
@@ -47,40 +49,40 @@ import { t } from "../data/i18n.js";
       var next = params.get("next") || "/";
       if (next.charAt(0) !== "/") next = "/";
       if (params.get("denied") === "1") showErr("This Google account is not on the access list.");
-      if (!configured) {
-        btn.disabled = true;
-        showErr("Sign-in is not connected yet — setup is still in progress. Please check back soon.");
-        return;
-      }
-      function boot() {
-        if (!window.firebase) { showErr("Sign-in service unreachable — check your connection and reload."); return; }
-        try { firebase.initializeApp(fbConfig); } catch (e) { /* already initialized */ }
-        var auth = firebase.auth();
-        auth.getRedirectResult().catch(function (e) {
-          showErr((e && e.message) || "Sign-in failed. Please try again.");
+      import(/* @vite-ignore */ AUTH_BASE + "config.js").then(function () {
+        return import(/* @vite-ignore */ AUTH_BASE + "index.js");
+      }).then(function (mod) {
+        var auth = mod.auth;
+        if (!auth.configured) {
+          btn.disabled = true;
+          showErr("Sign-in is not connected yet — setup is still in progress. Please check back soon.");
+          return;
+        }
+        auth.handleRedirect().then(function (res) {
+          if (res.error) showErr(res.error.message || "Sign-in failed. Please try again.");
         });
-        auth.onAuthStateChanged(function (user) {
-          if (!user) return;
-          if (allowed && allowed.length && allowed.indexOf(user.email) === -1) {
+        auth.onAuthChange(function (user, info) {
+          if (info && info.denied) {
             auth.signOut().then(function () { showErr("This Google account is not on the access list."); });
             return;
           }
+          if (!user) return;
           authedBox.hidden = false;
           document.getElementById("login-email").textContent = user.email || user.displayName || "";
           document.getElementById("login-continue").setAttribute("href", next);
           btn.style.display = "none";
           setTimeout(function () { window.location.replace(next); }, 1200);
+        }).catch(function () {
+          showErr("Sign-in service unreachable — check your connection and reload.");
         });
-        btn.addEventListener("click", function () {
-          auth.signInWithRedirect(new firebase.auth.GoogleAuthProvider());
-        });
+        btn.addEventListener("click", function () { auth.signIn(); });
         document.getElementById("login-switch").addEventListener("click", function (e) {
           e.preventDefault();
           auth.signOut().then(function () { window.location.reload(); });
         });
-      }
-      if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot);
-      else boot();
+      }).catch(function () {
+        showErr("Sign-in service unreachable — check your connection and reload.");
+      });
     })();
   </script>
 </SiteLayout>
