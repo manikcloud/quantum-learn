@@ -71,6 +71,7 @@ export const hiLessonTitles = {
   "phil-interpretations": "छह Interpretations — और आपका Quantum Computer क्या कर रहा है",
   "phil-randomness-free-will": "Randomness, Determinism और Free Will",
   "phil-it-from-bit": "“It from Bit”: क्या Information ही Reality है?",
+  "nobel-2025-clarke-devoret-martinis": "2025 · क्लार्क, डेवोरे और मार्टिनिस: क्वांटम कंप्यूटिंग नोबेल",
 };
 
 export function hiModuleTitle(mod) {
