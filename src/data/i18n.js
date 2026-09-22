@@ -9,7 +9,7 @@ export const strings = {
     searchNone: "No lessons found — try another word.",
     sidebarTitle: "Course modules",
     footerText:
-      "Zero to quantum — one qubit at a time. Built by hand, in plain language.",
+      "Zero to quantum — one qubit at a time.",
     home: "Home",
     moduleWord: "Module",
     simpleKicker: "In simple words",
@@ -64,7 +64,7 @@ export const strings = {
     searchNone: "कोई पाठ नहीं मिला — कोई और शब्द आज़माएँ।",
     sidebarTitle: "पाठ्यक्रम मॉड्यूल",
     footerText:
-      "Zero से quantum तक — एक qubit, एक कदम। आसान भाषा में, अपने हाथ से बनाया गया।",
+      "Zero से quantum तक — एक qubit, एक कदम।",
     home: "मुख्य पृष्ठ",
     moduleWord: "मॉड्यूल",
     simpleKicker: "आसान शब्दों में",
