@@ -13,6 +13,7 @@ const {
   lang = "en",
   altUrl = "",
   noGate = false,
+  noFooter = false,
 } = Astro.props;
 
 const isHi = lang === "hi";
@@ -95,9 +96,11 @@ const lessonCount = flatLessons.length;
         <span data-pagefind-filter="lang" hidden>{lang}</span>
         <div class="prose">
           <slot />
+          {!noFooter && (
           <footer class="site-foot" data-pagefind-ignore>
             {t(lang, "footerText")}
           </footer>
+          )}
         </div>
       </main>
     </div>
