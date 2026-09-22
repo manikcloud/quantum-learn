@@ -32,7 +32,7 @@ const lessonCount = flatLessons.length;
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
   </head>
-  <body data-prev={prevUrl || undefined} data-next={nextUrl || undefined} data-lesson-count={lessonCount}>
+  <body data-prev={prevUrl || undefined} data-next={nextUrl || undefined} data-lesson-count={lessonCount} data-nogate={noGate ? "1" : undefined}>
     {!noGate && (
       <div id="auth-gate" aria-hidden="true">
         <div class="gate-card">
@@ -300,12 +300,17 @@ const lessonCount = flatLessons.length;
         else window.addEventListener("load", renderMath);
       })();
     </script>
-    {!noGate && (
-      /* Site-wide login wall. Talks ONLY to the auth interface in /auth/
-         (see public/auth/README.md) — zero provider-specific code here.
-         Swap providers by adding an adapter + one word in /auth/config.js. */
+    {/* Site-wide login wall. Talks ONLY to the auth interface in /auth/
+        (see public/auth/README.md) — zero provider-specific code here.
+        Swap providers by adding an adapter + one word in /auth/config.js.
+        NOTE: this script is intentionally NOT wrapped in a JSX conditional.
+        Astro renders conditional <script> tags unconditionally, which caused
+        an infinite /login/ -> /login/?next=... redirect loop. Instead the
+        script exempts itself at runtime via body[data-nogate="1"], which the
+        login pages set through the layout's noGate prop. */}
       <script>
         (function () {
+          if (document.body && document.body.dataset.nogate === "1") return;
           var AUTH_BASE = "/auth/";
           var gate = document.getElementById("auth-gate");
           var HI = document.documentElement.lang === "hi";
@@ -359,6 +364,5 @@ const lessonCount = flatLessons.length;
           }).catch(unreachable);
         })();
       </script>
-    )}
   </body>
 </html>
