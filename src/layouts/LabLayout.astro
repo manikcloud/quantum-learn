@@ -45,19 +45,19 @@ const footerText = isHi
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
     <style>
       .lab-root {
-        --lbg: #05070c;
-        --lbg2: #0b1220;
-        --lcard: #0e1624;
-        --lborder: #22314a;
-        --ltext: #e8eef6;
-        --lmuted: #9aa7bc;
-        --lfaint: #5d6b80;
+        --lbg: #172c50;
+        --lbg2: #101f3a;
+        --lcard: #1a3055;
+        --lborder: #2f4c78;
+        --ltext: #eaf1fb;
+        --lmuted: #a9bcd6;
+        --lfaint: #7e93b5;
         --laccent: #3fb950;
         --laccent-hi: #7ee787;
         --laccent-dim: #1a3a24;
         --lamber: #d29922;
         --lpurple: #a371f7;
-        --lcode: #05080e;
+        --lcode: #0f1e39;
         --lradius: 14px;
         margin: 0;
         background: var(--lbg);
@@ -72,8 +72,8 @@ const footerText = isHi
       .lab-root::before {
         content: ""; position: fixed; inset: 0; z-index: 0; pointer-events: none;
         background:
-          radial-gradient(640px 420px at 12% -4%, rgba(63,185,80,.14), transparent 62%),
-          radial-gradient(720px 520px at 94% 108%, rgba(88,166,255,.12), transparent 60%),
+          radial-gradient(640px 420px at 12% -4%, rgba(63,185,80,.10), transparent 62%),
+          radial-gradient(720px 520px at 94% 108%, rgba(88,166,255,.18), transparent 60%),
           radial-gradient(520px 420px at 84% 6%, rgba(163,113,247,.10), transparent 60%);
       }
       .lab-root::after {
@@ -91,7 +91,7 @@ const footerText = isHi
         position: sticky; top: 0; z-index: 50;
         display: flex; align-items: center; gap: 12px;
         padding: 12px 20px;
-        background: rgba(5, 7, 12, 0.88);
+        background: rgba(18, 32, 60, 0.88);
         border-bottom: 1px solid var(--lborder);
         box-shadow: 0 6px 28px rgba(0,0,0,.55);
         backdrop-filter: blur(10px);
@@ -112,7 +112,7 @@ const footerText = isHi
       .lab-lang, .lab-home {
         font-size: 13.5px; font-weight: 700; text-decoration: none;
         border: 1px solid var(--lborder); border-radius: 10px;
-        padding: 8px 14px; color: var(--ltext); background: rgba(14,22,36,.8);
+        padding: 8px 14px; color: var(--ltext); background: rgba(22,40,72,.8);
         transition: border-color .15s ease, box-shadow .15s ease;
       }
       .lab-lang:hover, .lab-home:hover { border-color: var(--laccent); box-shadow: 0 0 14px rgba(63,185,80,.25); text-decoration: none; color: var(--ltext); }
@@ -149,7 +149,7 @@ const footerText = isHi
       /* how-it-works cards */
       .how-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px; margin-top: 20px; }
       .how-card {
-        background: linear-gradient(180deg, rgba(22,30,46,.92), rgba(12,18,30,.92));
+        background: linear-gradient(180deg, rgba(30,54,92,.92), rgba(17,32,60,.92));
         border: 1px solid var(--lborder); border-radius: var(--lradius); padding: 18px;
         transition: transform .16s ease, border-color .16s ease, box-shadow .16s ease;
       }
@@ -161,7 +161,7 @@ const footerText = isHi
       .lab-list { display: grid; gap: 16px; margin-top: 20px; }
       a.lab-card {
         display: block; color: var(--ltext); text-decoration: none;
-        background: linear-gradient(180deg, rgba(24,32,50,.95), rgba(12,18,30,.95));
+        background: linear-gradient(180deg, rgba(30,54,92,.95), rgba(17,32,60,.95));
         border: 1px solid var(--lborder);
         border-radius: var(--lradius); padding: 22px 24px;
         transition: transform .16s ease, border-color .16s ease, box-shadow .16s ease;
@@ -190,7 +190,7 @@ const footerText = isHi
       }
       .step {
         position: relative;
-        background: linear-gradient(180deg, rgba(22,30,46,.94), rgba(11,17,28,.94));
+        background: linear-gradient(180deg, rgba(30,54,92,.94), rgba(17,32,60,.94));
         border: 1px solid var(--lborder);
         border-radius: var(--lradius); padding: 20px 22px 20px 70px;
         box-shadow: 0 10px 34px rgba(0,0,0,.5);
@@ -203,12 +203,12 @@ const footerText = isHi
       .lab-steps .step:nth-child(5) { animation-delay: .2s; }
       .lab-steps .step:nth-child(6) { animation-delay: .25s; }
       @keyframes labrise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
-      .step:hover { border-color: #31465f; }
+      .step:hover { border-color: #3a5a8c; }
       .step::before {
         counter-increment: step; content: counter(step);
         position: absolute; left: 19px; top: 20px; z-index: 1;
         width: 34px; height: 34px; border-radius: 50%;
-        background: #0b1220; border: 1px solid #2c3d58;
+        background: #101f3a; border: 1px solid #3a5a8c;
         display: flex; align-items: center; justify-content: center;
         font-weight: 800; font-size: 14px; color: var(--lmuted);
         box-shadow: 0 0 0 5px var(--lbg), 0 0 18px rgba(63,185,80,.28);
@@ -218,7 +218,7 @@ const footerText = isHi
       .step.done::before { background: var(--laccent-dim); border-color: var(--laccent); color: var(--laccent-hi); box-shadow: 0 0 0 5px var(--lbg), 0 0 20px rgba(63,185,80,.6); }
       .step.done .step-title { color: var(--lmuted); }
       /* challenge steps — "your turn" */
-      .step.challenge { border-color: rgba(163,113,247,.5); background: linear-gradient(180deg, rgba(34,24,54,.94), rgba(11,17,28,.94)); }
+      .step.challenge { border-color: rgba(163,113,247,.5); background: linear-gradient(180deg, rgba(40,32,72,.94), rgba(17,32,60,.94)); }
       .step.challenge::before { border-color: var(--lpurple); color: #c9a6ff; box-shadow: 0 0 0 5px var(--lbg), 0 0 20px rgba(163,113,247,.55); }
       .step.challenge .step-title::before { content: "⚡ "; }
       .step-check {
@@ -228,7 +228,7 @@ const footerText = isHi
       .step-check input { display: none; }
       .step-check span {
         display: inline-block; color: var(--lfaint);
-        border: 1px solid #2c3d58; background: rgba(5,7,12,.9);
+        border: 1px solid #3a5a8c; background: rgba(18,32,60,.92);
         padding: 5px 13px; border-radius: 999px;
         transition: all .18s ease; white-space: nowrap;
       }
@@ -242,15 +242,15 @@ const footerText = isHi
       /* code windows */
       .lab-code {
         position: relative;
-        background: var(--lcode); border: 1px solid #26344d; border-radius: 10px;
+        background: var(--lcode); border: 1px solid #33507f; border-radius: 10px;
         padding: 44px 16px 14px; margin: 12px 0; overflow-x: auto;
         font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-        font-size: 13.5px; line-height: 1.65; color: #c9d4e3;
+        font-size: 13.5px; line-height: 1.65; color: #cfdaec;
         box-shadow: 0 8px 28px rgba(0,0,0,.55), inset 0 0 40px rgba(88,166,255,.03);
       }
       .lab-code::before {
         content: ""; position: absolute; top: 0; left: 0; right: 0; height: 30px;
-        background: #0b111c; border-bottom: 1px solid #1c2a40; border-radius: 10px 10px 0 0;
+        background: #0d1b33; border-bottom: 1px solid #2a4570; border-radius: 10px 10px 0 0;
       }
       .lab-code::after {
         content: "●●●"; position: absolute; top: 9px; left: 14px; z-index: 1;
@@ -265,7 +265,7 @@ const footerText = isHi
       .copy-btn {
         position: absolute; top: 4px; right: 10px; z-index: 2;
         display: inline-flex; align-items: center; gap: 6px;
-        background: rgba(88,166,255,.07); border: 1px solid #2c3d58; color: #9aa7bc;
+        background: rgba(88,166,255,.07); border: 1px solid #3a5a8c; color: #a9bcd6;
         font-size: 12px; font-weight: 700; padding: 3px 11px; border-radius: 7px; cursor: pointer;
         transition: all .15s ease; font-family: inherit;
       }
@@ -273,7 +273,7 @@ const footerText = isHi
       .copy-btn.ok { border-color: var(--laccent); color: var(--laccent-hi); }
       .copy-btn svg { width: 13px; height: 13px; }
       /* syntax highlighting (GitHub-dark flavored) */
-      .lab-code { border: 1px solid #31465f; }
+      .lab-code { border: 1px solid #3a5a8c; }
       .tok-k { color: #ff7b72; }
       .tok-s { color: #a5d6ff; }
       .tok-c { color: #8b949e; font-style: italic; }
@@ -297,7 +297,7 @@ const footerText = isHi
       }
       .stuck strong { color: var(--lamber); }
       /* progress */
-      .lab-progress { height: 10px; background: #0b1220; border: 1px solid var(--lborder); border-radius: 999px; overflow: hidden; margin: 28px 0 8px; box-shadow: inset 0 2px 6px rgba(0,0,0,.6); }
+      .lab-progress { height: 10px; background: #101f3a; border: 1px solid var(--lborder); border-radius: 999px; overflow: hidden; margin: 28px 0 8px; box-shadow: inset 0 2px 6px rgba(0,0,0,.6); }
       .lab-progress > div { height: 100%; width: 0; background: linear-gradient(90deg, #2ea043, var(--laccent-hi)); box-shadow: 0 0 14px rgba(63,185,80,.8); transition: width 0.35s ease; border-radius: 999px; }
       .lab-progress-label { font-size: 13px; color: var(--lfaint); font-weight: 600; }
       .lab-complete {
