@@ -95,6 +95,8 @@ import { t } from "../data/i18n.js";
           case "auth/operation-not-allowed": return "Email sign-in isn't switched on yet — the site owner needs to enable it in the sign-in settings.";
           case "auth/configuration-not-found": return "Sign-in isn't set up on the server yet — the site owner needs to open Authentication in the project console, click Get started, and switch on Google and Email/Password sign-in.";
           case "auth/unauthorized-domain": return "This site's domain isn't authorized for sign-in. The site owner must add this domain under Authentication \u2192 Settings \u2192 Authorized domains.";
+          case "auth/popup-blocked": return "Your browser blocked the Google sign-in window — allow popups for this site and try again.";
+          case "auth/popup-closed-by-user": return "The Google sign-in window was closed before finishing — tap Continue with Google to try again.";
           default: return (err && err.message) || "Sign-in failed. Please try again.";
         }
       }

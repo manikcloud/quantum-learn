@@ -107,11 +107,21 @@ export function createAuth(cfg) {
       });
     },
 
-    // Google sign-in (redirect flow). Rejects visibly on misconfiguration
-    // (e.g. unauthorized domain) so the login page can show the real error.
+    // Google sign-in. Prefers a popup: the login page stays alive behind it,
+    // so the auth result can't get lost on the return hop the way it can
+    // with a full-page redirect on mobile browsers. Falls back to the
+    // redirect flow only when the browser blocks the popup outright.
+    // Rejects visibly on misconfiguration (e.g. unauthorized domain) so the
+    // login page can show the real error.
     signIn: function () {
       return ready.then(function () {
-        return auth.signInWithRedirect(new window.firebase.auth.GoogleAuthProvider());
+        var provider = new window.firebase.auth.GoogleAuthProvider();
+        return auth.signInWithPopup(provider).catch(function (err) {
+          if (err && err.code === "auth/popup-blocked") {
+            return auth.signInWithRedirect(provider);
+          }
+          throw err;
+        });
       });
     },
 

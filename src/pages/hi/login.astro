@@ -95,6 +95,8 @@ import { t } from "../../data/i18n.js";
           case "auth/operation-not-allowed": return "ईमेल साइन-इन अभी चालू नहीं है — साइट owner को sign-in settings में इसे चालू करना होगा।";
           case "auth/configuration-not-found": return "साइन-इन सर्वर पर अभी setup नहीं है — साइट owner को project console में Authentication खोलकर Get started दबाना होगा, फिर Google और Email/Password साइन-इन चालू करना होगा।";
           case "auth/unauthorized-domain": return "इस साइट का domain साइन-इन के लिए अधिकृत नहीं है। साइट owner को Authentication \u2192 Settings \u2192 Authorized domains में यह domain जोड़ना होगा।";
+          case "auth/popup-blocked": return "आपके browser ने Google साइन-इन विंडो block कर दी — इस साइट के लिए popups की अनुमति दें और फिर कोशिश करें।";
+          case "auth/popup-closed-by-user": return "Google साइन-इन विंडो पूरी होने से पहले बंद हो गई — फिर कोशिश करने के लिए \u2018Google से जारी रखें\u2019 दबाएँ।";
           default: return (err && err.message) || "साइन-इन असफल रहा। कृपया फिर कोशिश करें।";
         }
       }
