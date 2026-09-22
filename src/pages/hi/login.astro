@@ -93,6 +93,7 @@ import { t } from "../../data/i18n.js";
           case "auth/too-many-requests": return "बहुत ज़्यादा कोशिशें — थोड़ी देर रुककर फिर कोशिश करें।";
           case "auth/network-request-failed": return "नेटवर्क समस्या — कनेक्शन जाँचें और फिर कोशिश करें।";
           case "auth/operation-not-allowed": return "ईमेल साइन-इन अभी चालू नहीं है — साइट owner को sign-in settings में इसे चालू करना होगा।";
+          case "auth/configuration-not-found": return "साइन-इन सर्वर पर अभी setup नहीं है — साइट owner को project console में Authentication खोलकर Get started दबाना होगा, फिर Google और Email/Password साइन-इन चालू करना होगा।";
           case "auth/unauthorized-domain": return "इस साइट का domain साइन-इन के लिए अधिकृत नहीं है। साइट owner को Authentication \u2192 Settings \u2192 Authorized domains में यह domain जोड़ना होगा।";
           default: return (err && err.message) || "साइन-इन असफल रहा। कृपया फिर कोशिश करें।";
         }
