@@ -55,7 +55,7 @@ export const hiModules = {
     title: "Nobel पुरस्कार जिन्होंने Quantum बनाया",
     tagline: "quantum computing के पीछे की खोजें — और खोजकर्ता।",
     description:
-      "Quantum world बनाने वाले दस Nobel पुरस्कार — 1900 में Planck की desperate mathematical trick से लेकर 2022 में entanglement को real साबित करने वाले पुरस्कार तक। Original enrichment सामग्री: physics के पीछे की मानवीय कहानी।",
+      "Quantum world बनाने वाले 10 Nobel पुरस्कार — 1900 में Planck की desperate mathematical trick से लेकर 2022 में entanglement को real साबित करने वाले पुरस्कार तक। Original enrichment सामग्री: physics के पीछे की मानवीय कहानी।",
   },
   "module-10": {
     title: "Quantum Philosophy",
