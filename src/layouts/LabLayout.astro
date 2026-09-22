@@ -134,6 +134,28 @@ const lessonCount = flatLessons.length;
       .copy-btn.ok { border-color: #4ade80; color: #4ade80; opacity: 1; }
       .copy-btn svg { width: 13px; height: 13px; }
 
+      /* notebook cell: code + its output rendered as one VS Code-style cell */
+      .prose .nb-cell { margin: 16px 0; }
+      .prose .nb-cell pre.lab-code { margin: 0; border-radius: 10px 10px 0 0; border-bottom: none; }
+      .prose .nb-output {
+        margin: 0; padding: 10px 16px 12px;
+        background: #0c1526;
+        border: 1px solid rgba(255, 255, 255, 0.14); border-top: 1px dashed rgba(255, 255, 255, 0.16);
+        border-radius: 0 0 10px 10px;
+        font-family: var(--mono); font-size: 12.5px; line-height: 1.65;
+        color: #a9b8d6; white-space: pre-wrap; overflow-x: auto;
+      }
+      .prose .nb-output .out-prompt { color: #4ade80; font-weight: 700; user-select: none; }
+      /* download-notebook button */
+      .nb-dl {
+        display: inline-flex; align-items: center; gap: 8px;
+        margin-top: 14px; padding: 9px 16px; border-radius: 8px;
+        background: var(--accent2-soft); border: 1px solid var(--accent2);
+        color: var(--text); font-size: 14px; font-weight: 600; text-decoration: none;
+      }
+      .nb-dl:hover { background: var(--accent2); color: #fff; }
+      .nb-dl svg { width: 15px; height: 15px; }
+
       /* python syntax colors on the dark code surface */
       .tok-k { color: #f78c6c; }
       .tok-s { color: #c3e88d; }

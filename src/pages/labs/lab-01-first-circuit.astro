@@ -22,6 +22,11 @@ import LabLayout from "../../layouts/LabLayout.astro";
       <span class="lab-chip">beginner</span>
       <span class="lab-chip">no account needed</span>
     </div>
+    <a class="nb-dl" href="/downloads/lab-01-first-circuit.en.ipynb" download>
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M8 2v8m0 0L5 7m3 3l3-3M3 13h10"/></svg>
+      Download notebook (.ipynb)
+    </a>
+    <p style="font-size:13px;color:var(--muted);margin:8px 0 0">Open it in VS Code or Jupyter — every code cell below runs as-is.</p>
     <div class="lab-progress"><div data-lab-progress></div></div>
     <div class="lab-progress-label" data-lab-progress-label></div>
   </section>
@@ -35,8 +40,11 @@ import LabLayout from "../../layouts/LabLayout.astro";
         <strong>Anaconda distribution</strong> (it bundles Python plus the scientific tools), or grab Python
         directly from python.org — version 3.10 or newer.
       </p>
-      <pre class="lab-code">python --version
+      <div class="nb-cell">
+        <pre class="lab-code">python --version
 # you want to see: Python 3.10 (or newer)</pre>
+        <div class="nb-output"><span class="out-prompt">Out[]:</span> Python 3.11.9</div>
+      </div>
       <div class="checkpoint"><strong>✓ Checkpoint:</strong> the command prints a Python version, 3.10+.</div>
       <div class="stuck"><strong>Stuck?</strong> "command not found" usually means the terminal was opened before the install finished — close it and open a fresh one.</div>
     </div>
@@ -74,8 +82,11 @@ jupyter --version</pre>
       <p>In a notebook cell (or the terminal), install Qiskit and its simulator:</p>
       <pre class="lab-code">pip install qiskit qiskit-aer</pre>
       <p>Verify it took:</p>
-      <pre class="lab-code">import qiskit
+      <div class="nb-cell">
+        <pre class="lab-code">import qiskit
 print(qiskit.__version__)</pre>
+        <div class="nb-output"><span class="out-prompt">Out[]:</span> 2.5.2</div>
+      </div>
       <div class="checkpoint"><strong>✓ Checkpoint:</strong> a version like <code>2.x</code> prints with no errors.</div>
       <div class="stuck"><strong>Stuck?</strong> The install downloads a few hundred MB — a slow bar is normal, not frozen. If it fails on an old machine, add <code>--prefer-binary</code> to the pip command and retry.</div>
     </div>
@@ -84,7 +95,8 @@ print(qiskit.__version__)</pre>
       <label class="step-check"><input type="checkbox" /><span>done</span></label>
       <h3 class="step-title">Python warm-up (3 minutes)</h3>
       <p>Qiskit is a Python library, so let's wake up the three constructs you'll use constantly:</p>
-      <pre class="lab-code"># variables + f-strings
+      <div class="nb-cell">
+        <pre class="lab-code"># variables + f-strings
 shots = 1000
 print(f"Running &#123;shots&#125; shots")
 
@@ -98,6 +110,10 @@ print(total)   # 45
 def greet(name):
     return f"Hello, &#123;name&#125;!"
 print(greet("qubit"))</pre>
+        <div class="nb-output"><span class="out-prompt">Out[]:</span> Running 1000 shots
+45
+Hello, qubit!</div>
+      </div>
       <div class="checkpoint"><strong>✓ Checkpoint:</strong> three lines print: <code>Running 1000 shots</code>, <code>45</code>, <code>Hello, qubit!</code>.</div>
     </div>
 
@@ -108,17 +124,19 @@ print(greet("qubit"))</pre>
         A quantum circuit has <strong>qubits</strong> (the quantum registers) and <strong>classical bits</strong>
         (where measurement results land). One qubit, one classical bit, one measurement:
       </p>
-      <pre class="lab-code">from qiskit import QuantumCircuit
+      <div class="nb-cell">
+        <pre class="lab-code">from qiskit import QuantumCircuit
 
 qc = QuantumCircuit(1, 1)  # 1 qubit, 1 classical bit
 qc.measure(0, 0)           # measure qubit 0 -> bit 0
 print(qc.draw())</pre>
-      <p>You should see the circuit diagram:</p>
-      <pre class="lab-code">     ┌─┐
+        <div class="nb-output"><span class="out-prompt">Out[]:</span>
+     ┌─┐
   q: ┤M├
      └╥┘
 c: 1/═╩═
-      0</pre>
+      0</div>
+      </div>
       <div class="checkpoint"><strong>✓ Checkpoint:</strong> the diagram shows a measurement gate (<code>M</code>) connecting the qubit line to the classical line.</div>
     </div>
 
@@ -129,12 +147,15 @@ c: 1/═╩═
         No quantum hardware needed — <code>AerSimulator</code> mimics an ideal quantum computer on your laptop.
         Run the circuit 1,000 times and count the outcomes:
       </p>
-      <pre class="lab-code">from qiskit_aer import AerSimulator
+      <div class="nb-cell">
+        <pre class="lab-code">from qiskit_aer import AerSimulator
 
 sim = AerSimulator()
 job = sim.run(qc, shots=1000)
 counts = job.result().get_counts()
 print(counts)</pre>
+        <div class="nb-output"><span class="out-prompt">Out[]:</span> &#123;'0': 1000&#125;</div>
+      </div>
       <div class="checkpoint"><strong>✓ Checkpoint:</strong> <code>&#123;'0': 1000&#125;</code> — a qubit in state |0⟩ measures 0 every single time. So far, boringly classical. That changes now.</div>
     </div>
 
@@ -145,12 +166,15 @@ print(counts)</pre>
         The <strong>X gate</strong> is the quantum NOT — it flips |0⟩ to |1⟩. Add it <em>before</em> the
         measurement. Before running: <strong>predict</strong> the counts out loud.
       </p>
-      <pre class="lab-code">qc2 = QuantumCircuit(1, 1)
+      <div class="nb-cell">
+        <pre class="lab-code">qc2 = QuantumCircuit(1, 1)
 qc2.x(0)          # flip |0> -> |1>
 qc2.measure(0, 0)
 
 counts2 = sim.run(qc2, shots=1000).result().get_counts()
 print(counts2)</pre>
+        <div class="nb-output"><span class="out-prompt">Out[]:</span> &#123;'1': 1000&#125;</div>
+      </div>
       <div class="checkpoint"><strong>✓ Checkpoint:</strong> <code>&#123;'1': 1000&#125;</code> — every shot is 1, exactly as you predicted. Prediction matched? You're thinking like a quantum programmer.</div>
     </div>
 
@@ -161,12 +185,15 @@ print(counts2)</pre>
         The <strong>H (Hadamard) gate</strong> puts |0⟩ into a superposition — neither 0 nor 1 until measured.
         Predict first, then run:
       </p>
-      <pre class="lab-code">qc3 = QuantumCircuit(1, 1)
+      <div class="nb-cell">
+        <pre class="lab-code">qc3 = QuantumCircuit(1, 1)
 qc3.h(0)          # |0> -> superposition
 qc3.measure(0, 0)
 
 counts3 = sim.run(qc3, shots=1000).result().get_counts()
 print(counts3)</pre>
+        <div class="nb-output"><span class="out-prompt">Out[]:</span> &#123;'0': 498, '1': 502&#125;</div>
+      </div>
       <div class="checkpoint"><strong>✓ Checkpoint:</strong> something like <code>&#123;'0': 498, '1': 502&#125;</code> — roughly half and half. It will <em>never</em> be exactly 500/500, and it will differ every run. That randomness is not a bug: it is quantum mechanics, observed.</div>
       <div class="stuck"><strong>Stuck?</strong> If you see <code>&#123;'0': 1000&#125;</code>, the H gate went <em>after</em> the measurement — order matters. Gates apply top to bottom.</div>
     </div>
