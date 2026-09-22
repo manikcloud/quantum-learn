@@ -9,7 +9,7 @@ export const strings = {
     searchNone: "No lessons found — try another word.",
     sidebarTitle: "Course modules",
     footerText:
-      "Independent study notes on quantum computing and quantum machine learning — written from scratch, in plain language. Not affiliated with, endorsed by, or reproducing any institution's course materials.",
+      "Zero to quantum — one qubit at a time. Built by hand, in plain language.",
     home: "Home",
     moduleWord: "Module",
     simpleKicker: "In simple words",
@@ -64,7 +64,7 @@ export const strings = {
     searchNone: "कोई पाठ नहीं मिला — कोई और शब्द आज़माएँ।",
     sidebarTitle: "पाठ्यक्रम मॉड्यूल",
     footerText:
-      "Quantum computing और quantum machine learning पर स्वतंत्र study notes — सरल भाषा में नए सिरे से लिखे गए। किसी संस्थान के course से संबद्ध, अनुमोदित, या उसकी सामग्री का पुनरुत्पादन नहीं।",
+      "Zero से quantum तक — एक-एक qubit करके। सरल भाषा में, अपने हाथ से बनाया गया।",
     home: "मुख्य पृष्ठ",
     moduleWord: "मॉड्यूल",
     simpleKicker: "सरल शब्दों में",
