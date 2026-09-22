@@ -1,0 +1,194 @@
+---
+import SiteLayout from "../../layouts/SiteLayout.astro";
+---
+<SiteLayout
+  title="10 सवालों में quantum computing"
+  description="quantum computing के सबसे अहम 10 सवाल — qubit असल में क्या है, superposition से क्या मिलता है, measurement bottleneck क्यों है, आज का hardware क्या कर सकता है, और quantum machine learning कहाँ fit होता है।"
+  altUrl="/quantum-computing-10-questions/"
+  currentSlug="quantum-computing-10-questions"
+>
+  <nav class="crumbs" data-pagefind-ignore>
+    <a href="/hi/">होम</a> / 10 सवालों में quantum computing
+  </nav>
+  <span class="tag">विशेष फ़ीचर</span>
+  <h1>10 सवालों में quantum computing</h1>
+
+  <section class="explain-simple">
+    <div class="kicker">आसान शब्दों में</div>
+    <p>
+      quantum computing कुछ गिने-चुने ideas पर टिकी है — अजीब ज़रूर हैं, लेकिन सीखे जा सकते हैं। इस page
+      पर वे 10 सवाल हैं जो सबसे ज़्यादा मायने रखते हैं — वही सवाल जिनके इर्द-गिर्द इस विषय का कोई भी
+      असली course बार-बार घूमता है — और हर एक का सीधा जवाब। अगर आपने <a href="/hi/lessons/qubits/">qubits
+      वाला lesson</a> पढ़ लिया है, तो यह उस सफ़र का नक्शा है — वे ideas आगे कहाँ जाते हैं।
+    </p>
+  </section>
+
+  <section class="questions">
+    <h2>1. qubit, bit से अलग कैसे है?</h2>
+    <p>
+      classical bit हमेशा 0 या 1 होता है — एक light switch। qubit एक <strong>two-level quantum
+      system</strong> है: इसे |0⟩ और |1⟩ states में तैयार किया जा सकता है, लेकिन इन दोनों के किसी भी
+      <strong>मिश्रण (blend)</strong> में भी — |ψ⟩ = α|0⟩ + β|1⟩। इस मिश्रण को <strong>superposition</strong>
+      कहते हैं, और यह सिर्फ "हमें पता नहीं कौन-सा है" वाली बात नहीं है — दोनों हिस्से waves की तरह
+      interfere कर सकते हैं, एक-दूसरे को काट या बढ़ा सकते हैं। कोई classical probability distribution इस
+      interference को दोहरा नहीं सकती। जब आप qubit को measure करते हैं, तो मिश्रण collapse हो जाता है:
+      आपको ठीक एक classical जवाब मिलता है — 0 probability |α|² के साथ, 1 probability |β|² के साथ। यही
+      Born rule है।
+    </p>
+
+    <h2>2. qubit बन किस चीज़ से सकता है?</h2>
+    <p>
+      कोई भी चीज़ जो एक controllable two-level quantum system हो। असल में इसका मतलब कई competing
+      technologies हैं: <strong>superconducting circuits</strong> (बिना resistance वाले तार के छोटे loops,
+      absolute zero के पास चलाए जाते हैं — IBM और Google की machines का तरीका), <strong>trapped
+      ions</strong> (electromagnetic पिंजरों में पकड़े गए अलग-अलग atoms — IonQ का तरीका),
+      <strong>neutral atoms</strong> (optical tweezers में पकड़े गए), <strong>photon की
+      polarization</strong>, और silicon में <strong>electron का spin</strong>। अभी कोई विजेता नहीं है:
+      superconducting qubits तेज़ हैं लेकिन नाज़ुक, और उन्हें भारी cooling चाहिए; ions धीमे हैं लेकिन
+      high-quality; photons environment से लगभग interact ही नहीं करते, लेकिन उन्हें पकड़ना मुश्किल है। हर
+      platform quality, speed और scale के बीच एक अलग समझौता है।
+    </p>
+
+    <h2>3. superposition से असल में क्या मिलता है?</h2>
+    <p>
+      मशहूर नारा — "qubit एक साथ सब कुछ try करता है" — गुमराह करता है, क्योंकि <em>आपको</em> पढ़ने को
+      हमेशा सिर्फ एक जवाब मिलता है। superposition से असल में मिलता है <strong>amplitudes</strong> से compute
+      करने का एक नया तरीका: n qubits 2ⁿ complex numbers रखते हैं, और एक quantum circuit एक ही बार में
+      सबको transform कर देता है। फिर <strong>interference</strong> steering करती है — computation को ऐसे
+      arrange किया जाता है कि ग़लत जवाबों की amplitudes कट जाएँ और सही जवाब की amplitude बढ़ जाए।
+      superposition कच्चा माल देता है; interference काम करती है।
+    </p>
+
+    <h2>4. state space 2ⁿ की रफ़्तार से क्यों बढ़ती है?</h2>
+    <p>
+      क्योंकि quantum systems को जोड़ने पर उनकी संभावनाएँ गुणा हो जाती हैं। 1 qubit को describe करने के
+      लिए 2 numbers (α, β) चाहिए; 2 qubits के लिए 4; 3 के लिए 8। गणित में इसे <strong>tensor
+      product</strong> कहते हैं। यह बढ़त बेरहम है: 50 qubits की state लिखने के लिए इतने numbers चाहिए
+      जितने कोई classical supercomputer store नहीं कर सकता। यही exponential दीवार quantum computing का
+      <em>वादा</em> भी है (compute करने के लिए ज़बरदस्त जगह) और classically quantum systems को simulate
+      करने की <em>मुश्किल</em> भी। यही वजह है कि quantum computer के काम को verify करना भी कठिन होता है —
+      आप पूरी state में झाँक नहीं सकते।
+    </p>
+
+    <h2>5. measurement हर amplitude क्यों नहीं बता सकता?</h2>
+    <p>
+      यही qubit का "शाप" वाला पहलू है। 2ⁿ amplitudes असली होती हैं — वे interference चलाती हैं और outcomes
+      तय करती हैं — लेकिन n qubits का measurement सिर्फ <strong>n classical bits</strong> देता है, हर
+      qubit से एक outcome, और इस process में superposition नष्ट हो जाता है। यह qubits की privacy में
+      दख़ल जैसा है: देखना ही disturb करना है। इसलिए quantum algorithm सारे जवाब compute करके print नहीं
+      कर सकता; उसे इस बारे में चालाक होना पड़ता है कि <em>वह कौन-सा सवाल पूछे</em> — interference को ऐसे
+      arrange करना पड़ता है कि आखिरी measurement से कुछ काम की चीज़ निकले — एक period, एक marked item, एक
+      energy — न कि random noise।
+    </p>
+
+    <h2>6. quantum speedup आ कहाँ से सकता है?</h2>
+    <p>
+      speedup उन problems से आता है जिनकी structure interference को वह करने देती है जो classical brute
+      force नहीं कर सकता। मशहूर examples: <strong>Shor's algorithm</strong> (1994) बड़ी संख्याओं के factors
+      best known classical तरीकों से exponentially तेज़ निकालता है — वही नतीजा जो आज की encryption को
+      खतरे में डालता है; <strong>Grover's algorithm</strong> (1996) बिना structure वाली list में
+      quadratically तेज़ search करता है; और <strong>quantum simulation</strong> — Feynman का 1982 का
+      original proposal — quantum systems को सीधे model करता है, exponential दीवार से लड़ने के बजाय।
+      ईमानदार fine print: speedup <em>problem-specific</em> है, universal नहीं। रोज़मर्रा के ज़्यादातर
+      computing tasks को quantum computer से कुछ नहीं मिलता, और "तेज़" का मतलब हमेशा "कुछ खास structured
+      problems के लिए कम fundamental steps" होता है, तेज़ clock नहीं।
+    </p>
+
+    <h2>7. quantum algorithms के बड़े families कौन-से हैं?</h2>
+    <p>
+      मोटे तौर पर 4। <strong>Algebraic / number-theoretic</strong> algorithms (Shor's factoring और discrete
+      logarithms, quantum Fourier transform पर बने) dramatic exponential speedups देते हैं।
+      <strong>Search और amplitude amplification</strong> (Grover's और उसके generalizations) बिना structure
+      वाले problems में quadratic speedups देते हैं। <strong>Quantum simulation</strong> algorithms
+      molecules और materials को model करते हैं — सबसे संभावित पहला practical win, क्योंकि nature अंदर तक
+      quantum है। और <strong>variational / hybrid algorithms</strong> (VQE, QAOA) काम को बाँट देते हैं —
+      एक shallow quantum circuit और एक classical optimizer के बीच — आज के imperfect hardware के लिए
+      designed। landmark demonstrations — paper पर Shor's algorithm, Google का 2019 का "quantum supremacy"
+      experiment जिसमें एक sampling task चलाया गया जो reasonable time में कोई supercomputer नहीं कर सकता
+      था — हर एक इन्हीं families में से किसी एक का है।
+    </p>
+
+    <h2>8. काम के qubits बनाना इतना मुश्किल क्यों है?</h2>
+    <p>
+      qubit तभी quantum रहता है जब वह अलग-थलग हो; कोई भी disturbance — गर्मी, कंपन, stray fields —
+      जानकारी बाहर leak कर देती है। इस leakage को <strong>decoherence</strong> कहते हैं, और यही central
+      दुश्मन है। scale करने का मतलब है: सैकड़ों qubits को ठंडा, wired और एक-दूसरे से isolated रखना; gate
+      error rates को नीचे धकेलना; और आखिरकार <strong>quantum error correction</strong> — जो कई physical
+      qubits से एक भरोसेमंद "logical" qubit बचाता है — हर logical qubit पर सैकड़ों या हज़ारों physical
+      qubits का overhead। इसीलिए field <strong>NISQ era</strong> की बात करती है (noisy intermediate-scale
+      quantum — 2018 में John Preskill का दिया शब्द): दसियों से सैकड़ों qubits वाली machines, अभी error
+      correction नहीं, ऐसे circuits चलाती हैं जो noise जीतने से पहले खत्म हो जाएँ।
+    </p>
+
+    <h2>9. quantum computers की तुलना कैसे करनी चाहिए?</h2>
+    <p>
+      सिर्फ qubit count लगभग बेमानी है — 100 खराब qubits, 10 अच्छे qubits से हार जाते हैं। मायने रखता है
+      <strong>quality + scale</strong>: gate fidelity (operations कितनी बार सही होते हैं), coherence time
+      (superpositions कितनी देर टिकते हैं), connectivity (कौन-से qubits सीधे interact कर सकते हैं), और इन
+      सबका combination। industry ने इसीलिए composite metrics बनाए: <strong>quantum volume</strong> (IBM का
+      single number जो qubit count और error rates को एक साथ जोड़ता है) और <strong>CLOPS</strong> — circuit
+      layer operations per second — जो मापता है कि machine असल में कितनी तेज़ circuits चला सकती है। सही
+      सवाल कभी "कितने qubits हैं?" नहीं होता, बल्कि "noise हावी होने से पहले यह कौन-सा काम का circuit
+      चला सकती है?" होता है।
+    </p>
+
+    <h2>10. quantum machine learning कहाँ fit होता है?</h2>
+    <p>
+      यह 3 अलग तरीकों से fit होता है, और इन्हें अलग रखना बहुत confusion बचाता है। <strong>पहला, quantum
+      systems के लिए classical ML</strong> — qubits को calibrate करने, errors कम करने और बेहतर control
+      pulses खोजने के लिए machine learning। यह आज काम करता है। <strong>दूसरा,
+      quantum-inspired/dequantized algorithms</strong> — cautionary tale: 2016 में Kerenidis और Prakash ने
+      exponential speedup वाला quantum recommendation algorithm propose किया था, और 2018 में undergraduate
+      Ewin Tang ने similar assumptions के तहत लगभग उतना ही तेज़ classical algorithm खोज निकाला — उसे
+      "dequantize" कर दिया। हर quantum speedup किसी चालाक classical idea के सामने टिक नहीं पाता।
+      <strong>तीसरा, fully quantum ML</strong> — quantum data पर learning models के रूप में quantum
+      circuits। यह frontier है: theory में promising, असली रुकावटों के साथ (data loading bottlenecks,
+      barren plateaus नाम के flat training landscapes), और अभी तक कोई proven practical advantage नहीं।
+      field का arc ही course का arc है: पहले quantum computing, फिर machine learning, फिर दोनों का
+      intersection।
+    </p>
+  </section>
+
+  <section class="keypoints">
+    <h2>मुख्य बातें</h2>
+    <ul>
+      <li>qubit एक two-level quantum system है; superposition + interference ही उसे bit से ज़्यादा बनाते हैं।</li>
+      <li>कई physical systems qubit बन सकते हैं — superconducting circuits, trapped ions, neutral atoms, photons, electron spins — और कोई साफ़ विजेता नहीं है।</li>
+      <li>n qubits 2ⁿ amplitudes रखते हैं, लेकिन measurement सिर्फ n bits देता है और superposition नष्ट कर देता है — algorithms को चालाक सवाल पूछने पड़ते हैं।</li>
+      <li>quantum speedup problem-specific है: Shor's (exponential), Grover's (quadratic) और quantum simulation landmark families हैं।</li>
+      <li>decoherence central दुश्मन है; error correction में हर logical qubit पर सैकड़ों-हज़ारों physical qubits लगते हैं — इसीलिए NISQ era है।</li>
+      <li>machines की तुलना quality + scale से करें (fidelity, coherence, quantum volume, CLOPS) — कभी सिर्फ qubit count से नहीं।</li>
+      <li>quantum machine learning 3 तरह का है: ML-for-quantum (आज काम करता है), dequantized algorithms (cautionary tale), और fully quantum models (frontier, unproven)।</li>
+    </ul>
+  </section>
+
+  <section class="references">
+    <h2>References</h2>
+    <p class="ref-lead">इन जवाबों के पीछे standard sources — textbooks और landmark papers, ताकि आप खुद check कर सकें। यहाँ कोई slide material reproduce नहीं किया गया है; ऊपर का हर sentence original rewrite है।</p>
+    <ol>
+      <li>
+        <span>Nielsen &amp; Chuang, <em>Quantum Computation and Quantum Information</em> (Cambridge)।</span>
+        <br /><span class="ref-use">इस्तेमाल: qubit formalism, Born rule, 2ⁿ state space, Shor's और Grover's algorithms, error correction overhead।</span>
+      </li>
+      <li>
+        <span>Preskill, "Quantum computing in the NISQ era and beyond" (Quantum 2, 79, 2018)।</span>
+        <br /><span class="ref-use">इस्तेमाल: NISQ concept और उसकी framing।</span>
+      </li>
+      <li>
+        <span>Tang, "A quantum-inspired classical algorithm for recommendation systems" (STOC 2019; arXiv:1807.04271)।</span>
+        <br /><span class="ref-use">इस्तेमाल: सवाल 10 में dequantization की कहानी।</span>
+      </li>
+      <li>
+        <span>IBM Quantum — quantum volume और CLOPS definitions (public documentation)।</span>
+        <br /><span class="ref-use">इस्तेमाल: सवाल 9 में comparison metrics।</span>
+      </li>
+    </ol>
+  </section>
+
+  <div class="pager" data-pagefind-ignore>
+    <a href="/hi/">
+      <span class="dir">← वापस</span>
+      <span class="lbl">होम</span>
+    </a>
+  </div>
+</SiteLayout>

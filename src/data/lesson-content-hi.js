@@ -28,6 +28,15 @@ export const lessonContentHi = {
       </div>
       <p><strong>आपको इसकी परवाह क्यों करनी चाहिए?</strong> क्योंकि यह मिश्रण बहुत तेज़ी से बढ़ता है। एक qubit 2 संभावनाओं को मिलाता है। 2 qubits 4 को। 3 8 को। <strong>10 qubits एक ही समय में 1,024 संभावनाओं को मिलाते हैं</strong> — जबकि 10 classical bits एक बार में सिर्फ एक 10-bit number ही रख सकते हैं। यही exponential जगह वह कच्चा माल है जिसका इस्तेमाल इस course का हर quantum algorithm करता है।</p>
       <p class="myth"><strong>आम ग़लतफ़हमी:</strong> “qubit बस एक ऐसा bit है जो एक साथ 0 और 1 दोनों होता है।” करीब-करीब — लेकिन इस मिश्रण में <em>संरचना (structure)</em> होती है। दोनों संभावनाएँ waves की तरह व्यवहार करती हैं: वे <strong>interfere</strong> कर सकती हैं, एक-दूसरे को काट सकती हैं या बढ़ा सकती हैं। वही interference (lesson 6 में आगे) असली जादू है।</p>
+      <div class="note-box">
+        <p><strong>qubit असल में बनता किस चीज़ से है?</strong> कोई भी ऐसी चीज़ जो एक controllable <em>two-level quantum system</em> हो: superconducting circuit के 2 energy levels, electron का spin, photon की polarization, trapped ion के electronic states। अभी कोई एक technology जीत नहीं पाई है — labs superconducting loops, trapped ions, neutral atoms, photons और silicon spins से qubits बनाती हैं, हर एक की अपनी ताक़त और अपनी परेशानियों के साथ।</p>
+      </div>
+      <div class="note-box">
+        <p><strong>काम के qubits बनाना इतना मुश्किल क्यों है?</strong> qubit तभी qubit रहता है जब वह दुनिया से अलग-थलग हो। कोई भी disturbance — गर्मी, कंपन, stray electromagnetic fields — जानकारी बाहर leak कर देती है और superposition नष्ट कर देती है। physicists इसे <strong>decoherence</strong> कहते हैं। सैकड़ों qubits को control करने का मतलब है हर एक की wiring, कुछ designs को absolute zero के पास ठंडा करना, और हर नए qubit के साथ कई गुना बढ़ते errors से लड़ना। इसीलिए आज की machines "noisy intermediate-scale" devices हैं — दसियों से सैकड़ों imperfect qubits, लाखों नहीं।</p>
+      </div>
+      <div class="note-box">
+        <p><strong>quantum advantage असल में आता कहाँ से है?</strong> 10 सवाल, सीधे जवाब — superposition, 2ⁿ state space, measurement bottleneck क्यों है, आज का hardware असल में क्या कर सकता है, और quantum machine learning कहाँ fit होता है। → <a href="/hi/quantum-computing-10-questions/">10 सवालों में quantum computing</a></p>
+      </div>
     `,
     deeper: raw`
       <p>गणितीय रूप से, qubit एक two-dimensional complex Hilbert space में एक unit vector होता है। हम इसकी state को <strong>Dirac notation</strong> में इस तरह लिखते हैं</p>

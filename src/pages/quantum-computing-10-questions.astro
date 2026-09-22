@@ -1,0 +1,192 @@
+---
+import SiteLayout from "../layouts/SiteLayout.astro";
+---
+<SiteLayout
+  title="Quantum computing in 10 questions"
+  description="Ten questions that capture the big ideas of quantum computing — what a qubit really is, what superposition buys you, why measurement is a bottleneck, what today's hardware can do, and where quantum machine learning fits."
+  altUrl="/hi/quantum-computing-10-questions/"
+  currentSlug="quantum-computing-10-questions"
+>
+  <nav class="crumbs" data-pagefind-ignore>
+    <a href="/">Home</a> / Quantum computing in 10 questions
+  </nav>
+  <span class="tag">Special feature</span>
+  <h1>Quantum computing in 10 questions</h1>
+
+  <section class="explain-simple">
+    <div class="kicker">In simple words</div>
+    <p>
+      Quantum computing rests on a handful of ideas that are strange but learnable. This page asks the ten
+      questions that matter most — the same questions a real course on the subject keeps circling back to —
+      and answers each one plainly. If you already read the <a href="/lessons/qubits/">qubits lesson</a>, this
+      is the map of where those ideas go next.
+    </p>
+  </section>
+
+  <section class="questions">
+    <h2>1. What makes a qubit different from a bit?</h2>
+    <p>
+      A classical bit is always 0 or 1 — a light switch. A qubit is a <strong>two-level quantum
+      system</strong>: it can be prepared in the states |0⟩ and |1⟩, but also in any <strong>blend</strong>
+      of the two, written |ψ⟩ = α|0⟩ + β|1⟩. That blend is called <strong>superposition</strong>, and it is
+      not just "we don't know which" — the two parts can interfere like waves, cancelling or reinforcing
+      each other. No classical probability distribution can reproduce that interference. When you measure
+      the qubit, the blend collapses: you get exactly one classical answer, 0 with probability |α|² and 1
+      with probability |β|². That is the Born rule.
+    </p>
+
+    <h2>2. What physical objects can become qubits?</h2>
+    <p>
+      Anything that is a controllable two-level quantum system. In practice that means several competing
+      technologies: <strong>superconducting circuits</strong> (tiny loops of wire that conduct without
+      resistance, run near absolute zero — the approach behind IBM and Google's machines),
+      <strong>trapped ions</strong> (individual atoms held in electromagnetic cages — IonQ's approach),
+      <strong>neutral atoms</strong> held in optical tweezers, the <strong>polarization of a
+      photon</strong>, and the <strong>spin of an electron</strong> or nucleus in silicon. There is no
+      winner yet: superconducting qubits are fast but fragile and need heavy cooling; ions are slow but
+      high-quality; photons barely interact with the environment at all but are hard to pin down. Every
+      platform is a different tradeoff between quality, speed, and scale.
+    </p>
+
+    <h2>3. What does superposition actually give us?</h2>
+    <p>
+      The popular slogan — "a qubit tries everything at once" — is misleading, because <em>you</em> only
+      ever get to read out one answer. What superposition really gives is a new way of computing with
+      <strong>amplitudes</strong>: n qubits hold 2ⁿ complex numbers, and a quantum circuit transforms all
+      of them together in one go. Then <strong>interference</strong> does the steering — arranging the
+      computation so the amplitudes of wrong answers cancel out and the amplitude of the right answer
+      piles up. Superposition supplies the raw material; interference does the work.
+    </p>
+
+    <h2>4. Why does the state space grow as 2ⁿ?</h2>
+    <p>
+      Because combining quantum systems multiplies their possibilities. One qubit needs 2 numbers (α, β)
+      to describe; two qubits need 4; three need 8. Mathematically this is the <strong>tensor
+      product</strong> of the individual spaces. The growth is relentless: describing 50 qubits takes more
+      numbers than any classical supercomputer can store. That exponential wall is both the <em>promise</em>
+      of quantum computing (enormous room to compute in) and the <em>problem</em> of simulating quantum
+      systems classically. It is also why verifying a quantum computer's work gets hard — you cannot
+      simply peek at the full state.
+    </p>
+
+    <h2>5. Why can't measurement reveal every amplitude?</h2>
+    <p>
+      This is the "curse" side of the qubit. The 2ⁿ amplitudes are real — they steer interference and
+      determine outcomes — but a measurement of n qubits returns only <strong>n classical bits</strong>,
+      one outcome per qubit, and destroys the superposition in the process. It is like an intrusion into
+      the privacy of the qubits: to look is to disturb. So a quantum algorithm cannot just compute all
+      answers and print them; it must be clever about <em>which question it asks</em>, arranging
+      interference so that the one measurement at the end reveals something useful — a period, a marked
+      item, an energy — rather than random noise.
+    </p>
+
+    <h2>6. Where can quantum speedup come from?</h2>
+    <p>
+      Speedup comes from problems whose structure lets interference do something classical brute force
+      cannot. The famous examples: <strong>Shor's algorithm</strong> (1994) factors large numbers
+      exponentially faster than the best known classical methods — the result that threatens today's
+      encryption; <strong>Grover's algorithm</strong> (1996) searches an unstructured list quadratically
+      faster; and <strong>quantum simulation</strong> — Feynman's original 1982 proposal — models quantum
+      systems directly instead of fighting the exponential wall. Honest fine print: speedup is
+      <em>problem-specific</em>, not universal. Most everyday computing tasks get nothing from a quantum
+      computer, and "faster" always means "fewer fundamental steps for specific structured problems", not
+      a faster clock.
+    </p>
+
+    <h2>7. What broad families of quantum algorithms exist?</h2>
+    <p>
+      Roughly four. <strong>Algebraic / number-theoretic</strong> algorithms (Shor's factoring and discrete
+      logarithms, built on the quantum Fourier transform) give the dramatic exponential speedups.
+      <strong>Search and amplitude amplification</strong> (Grover's and its generalizations) give
+      quadratic speedups for unstructured problems. <strong>Quantum simulation</strong> algorithms model
+      molecules and materials — the most likely first practical win, since nature is quantum all the way
+      down. And <strong>variational / hybrid algorithms</strong> (VQE, QAOA) split the work between a
+      shallow quantum circuit and a classical optimizer, designed for today's imperfect hardware. The
+      landmark demonstrations — Shor's algorithm on paper, Google's 2019 "quantum supremacy" experiment
+      running a sampling task no supercomputer could match in reasonable time — each belong to one of
+      these families.
+    </p>
+
+    <h2>8. Why are useful qubits so difficult to scale?</h2>
+    <p>
+      A qubit stays quantum only while it is isolated; any disturbance — heat, vibration, stray fields —
+      leaks information out. That leakage is <strong>decoherence</strong>, and it is the central enemy.
+      Scaling means: keeping hundreds of qubits cold, wired, and mutually isolated; pushing gate error
+      rates down; and eventually <strong>quantum error correction</strong>, which protects one reliable
+      "logical" qubit using many physical ones — an overhead of hundreds or thousands to one. This is why
+      the field talks about the <strong>NISQ era</strong> (noisy intermediate-scale quantum, a term coined
+      by John Preskill in 2018): machines with tens to hundreds of qubits, no error correction yet,
+      running circuits shallow enough to finish before the noise wins.
+    </p>
+
+    <h2>9. How should quantum computers be compared?</h2>
+    <p>
+      Qubit count alone is nearly meaningless — a hundred bad qubits lose to ten good ones. What matters
+      is <strong>quality plus scale</strong>: gate fidelity (how often operations are correct), coherence
+      time (how long superpositions survive), connectivity (which qubits can directly interact), and how
+      these combine. The industry invented composite metrics for exactly this: <strong>quantum
+      volume</strong> (IBM's single number folding qubit count and error rates together) and
+      <strong>CLOPS</strong> — circuit layer operations per second — measuring how fast a machine can
+      actually run circuits. The right question is never "how many qubits?" but "what useful circuit can
+      it run before the noise takes over?"
+    </p>
+
+    <h2>10. Where does quantum machine learning fit?</h2>
+    <p>
+      It fits in three different ways, and keeping them apart saves a lot of confusion. <strong>First,
+      classical ML for quantum systems</strong> — using machine learning to calibrate qubits, mitigate
+      errors, and discover better control pulses. This works today. <strong>Second,
+      quantum-inspired/dequantized algorithms</strong> — the cautionary tale: in 2016 Kerenidis and
+      Prakash proposed a quantum recommendation algorithm with an exponential speedup, and in 2018
+      undergraduate Ewin Tang found a classical algorithm nearly as fast under similar assumptions,
+      "dequantizing" it. Not every quantum speedup survives contact with a clever classical idea.
+      <strong>Third, fully quantum ML</strong> — quantum circuits as learning models on quantum data. This
+      is the frontier: promising in theory, with real obstacles (data loading bottlenecks, flat training
+      landscapes called barren plateaus), and no proven practical advantage yet. The field's arc is the
+      course's arc: quantum computing, then machine learning, then their intersection.
+    </p>
+  </section>
+
+  <section class="keypoints">
+    <h2>Key takeaways</h2>
+    <ul>
+      <li>A qubit is a two-level quantum system; superposition plus interference is what makes it more than a bit.</li>
+      <li>Many physical systems can be qubits — superconducting circuits, trapped ions, neutral atoms, photons, electron spins — and none has clearly won.</li>
+      <li>n qubits hold 2ⁿ amplitudes, but measurement returns only n bits and destroys the superposition — algorithms must ask clever questions.</li>
+      <li>Quantum speedup is problem-specific: Shor's (exponential), Grover's (quadratic), and quantum simulation are the landmark families.</li>
+      <li>Decoherence is the central enemy; error correction costs hundreds-to-thousands of physical qubits per logical one — hence the NISQ era.</li>
+      <li>Compare machines by quality + scale (fidelity, coherence, quantum volume, CLOPS), never by qubit count alone.</li>
+      <li>Quantum machine learning spans ML-for-quantum (works now), dequantized algorithms (a cautionary tale), and fully quantum models (frontier, unproven).</li>
+    </ul>
+  </section>
+
+  <section class="references">
+    <h2>References</h2>
+    <p class="ref-lead">Standard sources behind these answers — textbooks and landmark papers, named so you can check them. No slide material is reproduced here; every sentence above is an original rewrite.</p>
+    <ol>
+      <li>
+        <span>Nielsen &amp; Chuang, <em>Quantum Computation and Quantum Information</em> (Cambridge).</span>
+        <br /><span class="ref-use">Used for: qubit formalism, Born rule, 2ⁿ state space, Shor's and Grover's algorithms, error correction overhead.</span>
+      </li>
+      <li>
+        <span>Preskill, "Quantum computing in the NISQ era and beyond" (Quantum 2, 79, 2018).</span>
+        <br /><span class="ref-use">Used for: the NISQ concept and its framing.</span>
+      </li>
+      <li>
+        <span>Tang, "A quantum-inspired classical algorithm for recommendation systems" (STOC 2019; arXiv:1807.04271).</span>
+        <br /><span class="ref-use">Used for: the dequantization story in question 10.</span>
+      </li>
+      <li>
+        <span>IBM Quantum — quantum volume and CLOPS definitions (public documentation).</span>
+        <br /><span class="ref-use">Used for: comparison metrics in question 9.</span>
+      </li>
+    </ol>
+  </section>
+
+  <div class="pager" data-pagefind-ignore>
+    <a href="/">
+      <span class="dir">← Back</span>
+      <span class="lbl">Home</span>
+    </a>
+  </div>
+</SiteLayout>

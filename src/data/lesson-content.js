@@ -40,6 +40,15 @@ export const lessonContent = {
       </div>
       <p><strong>Why should you care?</strong> Because the blend grows insanely fast. One qubit blends 2 possibilities. Two qubits blend 4. Three blend 8. <strong>Ten qubits blend 1,024 possibilities — all at the same time</strong> — while 10 classical bits can only ever hold a single 10-bit number at once. That exponential room is the raw material every quantum algorithm in this course exploits.</p>
       <p class="myth"><strong>Common myth:</strong> “A qubit is just a bit that is 0 and 1 at the same time.” Close — but the blend has <em>structure</em>. The two possibilities behave like waves: they can <strong>interfere</strong>, cancelling or reinforcing each other. That interference (coming up in lesson 6) is where the real magic lives.</p>
+      <div class="note-box">
+        <p><strong>What can physically form a qubit?</strong> Anything that is a controllable <em>two-level quantum system</em>: the two energy levels of a superconducting circuit, the spin of an electron, the polarization of a photon, the electronic states of a trapped ion. No single technology has won yet — labs build qubits from superconducting loops, trapped ions, neutral atoms, photons, and silicon spins, each with different strengths and headaches.</p>
+      </div>
+      <div class="note-box">
+        <p><strong>Why are useful qubits hard to scale?</strong> A qubit stays a qubit only while it is isolated from the world. Any disturbance — heat, vibration, stray electromagnetic fields — leaks information out and destroys the superposition. Physicists call this <strong>decoherence</strong>. Controlling hundreds of qubits means wiring every one of them, cooling some designs to near absolute zero, and fighting errors that multiply with every qubit you add. That is why today's machines are “noisy intermediate-scale” devices — tens to hundreds of imperfect qubits, not millions.</p>
+      </div>
+      <div class="note-box">
+        <p><strong>Where does quantum advantage actually come from?</strong> Ten questions, straight answers — superposition, the 2ⁿ state space, why measurement is the bottleneck, what today's hardware can really do, and where quantum machine learning fits. → <a href="/quantum-computing-10-questions/">Quantum computing in 10 questions</a></p>
+      </div>
     `,
     deeper: raw`
       <p>Mathematically, a qubit is a unit vector in a two-dimensional complex Hilbert space. We write its state in <strong>Dirac notation</strong> as</p>
