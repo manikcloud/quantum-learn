@@ -257,6 +257,28 @@ const footerText = isHi
         color: #ff5f57; font-size: 10px; letter-spacing: 2px;
         text-shadow: 15px 0 #febc2e, 30px 0 #28c840;
       }
+      .lab-code .code-lang {
+        position: absolute; top: 8px; left: 66px; z-index: 1;
+        font-size: 10.5px; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase;
+        color: var(--lfaint);
+      }
+      .copy-btn {
+        position: absolute; top: 4px; right: 10px; z-index: 2;
+        display: inline-flex; align-items: center; gap: 6px;
+        background: rgba(88,166,255,.07); border: 1px solid #2c3d58; color: #9aa7bc;
+        font-size: 12px; font-weight: 700; padding: 3px 11px; border-radius: 7px; cursor: pointer;
+        transition: all .15s ease; font-family: inherit;
+      }
+      .copy-btn:hover { border-color: #58a6ff; color: #fff; background: rgba(88,166,255,.16); }
+      .copy-btn.ok { border-color: var(--laccent); color: var(--laccent-hi); }
+      .copy-btn svg { width: 13px; height: 13px; }
+      /* syntax highlighting (GitHub-dark flavored) */
+      .lab-code { border: 1px solid #31465f; }
+      .tok-k { color: #ff7b72; }
+      .tok-s { color: #a5d6ff; }
+      .tok-c { color: #8b949e; font-style: italic; }
+      .tok-n { color: #79c0ff; }
+      .tok-f { color: #d2a8ff; }
       /* checkpoint + stuck callouts */
       .checkpoint {
         border: 1px solid rgba(63,185,80,.45); background: rgba(63,185,80,.07);
@@ -384,6 +406,56 @@ const footerText = isHi
           });
         });
         paintSteps();
+
+        /* code blocks: python highlighting + copy button, GitHub-readme style */
+        function highlightPython(code) {
+          var esc = code.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+          var re = /(#[^\n]*)|("""[\s\S]*?"""|'''[\s\S]*?'''|f"(?:\\.|[^"\\])*"|f'(?:\\.|[^'\\])*'|"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*')|\b(import|from|as|def|return|for|in|if|else|elif|while|with|print|True|False|None|and|or|not|class|try|except|lambda|pass|break|continue|raise|assert|yield)\b|(\b\d[\d._]*(?:[eE][+-]?\d+)?j?\b)|([A-Za-z_]\w*)(?=\s*\()/g;
+          return esc.replace(re, function (m, com, str, kw, num, fn) {
+            if (com) return '<span class="tok-c">' + com + "</span>";
+            if (str) return '<span class="tok-s">' + str + "</span>";
+            if (kw) return '<span class="tok-k">' + kw + "</span>";
+            if (num) return '<span class="tok-n">' + num + "</span>";
+            if (fn) return '<span class="tok-f">' + fn + "</span>";
+            return m;
+          });
+        }
+        function enhanceLabCode() {
+          Array.prototype.forEach.call(document.querySelectorAll(".lab-code"), function (pre) {
+            if (!pre.dataset.hl) {
+              pre.innerHTML = highlightPython(pre.textContent);
+              pre.dataset.hl = "1";
+            }
+            var lang = document.createElement("span");
+            lang.className = "code-lang";
+            lang.textContent = pre.dataset.lang || "python";
+            pre.appendChild(lang);
+            var btn = document.createElement("button");
+            btn.className = "copy-btn";
+            btn.type = "button";
+            btn.setAttribute("aria-label", HI ? "कोड कॉपी करें" : "Copy code");
+            btn.innerHTML = '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="5" y="4" width="9" height="10" rx="2"/><path d="M11 4V3a1 1 0 0 0-1-1H6a1 1 0 0 0-1 1v1"/></svg><span>copy</span>';
+            btn.addEventListener("click", function () {
+              var label = btn.querySelector("span");
+              function done(ok) {
+                btn.classList.toggle("ok", ok);
+                label.textContent = ok ? (HI ? "कॉपी हो गया" : "copied") : "failed";
+                setTimeout(function () { btn.classList.remove("ok"); label.textContent = "copy"; }, 1600);
+              }
+              var text = pre.innerText;
+              if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text).then(function () { done(true); }, function () { done(false); });
+              } else {
+                var ta = document.createElement("textarea");
+                ta.value = text; document.body.appendChild(ta); ta.select();
+                try { done(document.execCommand("copy")); } catch (e) { done(false); }
+                ta.remove();
+              }
+            });
+            pre.appendChild(btn);
+          });
+        }
+        enhanceLabCode();
 
         /* mark lab complete */
         function labsDone() {
