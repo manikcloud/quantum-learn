@@ -1,0 +1,368 @@
+---
+import SiteLayout from "../../../layouts/SiteLayout.astro";
+---
+<SiteLayout
+  title="क्वांटम भारत: लैब से युद्धक्षेत्र तक — भारत के क्वांटम प्रयोग"
+  description="2020 से 2026 तक भारत के क्वांटम प्रयोग: DRDO–IIT दिल्ली के quantum key distribution रिकॉर्ड, 6-qubit processor, free-space और satellite quantum links, diamond quantum sensors — और हर प्रयोग किस असली समस्या को सुलझाता है।"
+  altUrl="/quantum-bharat/experiments/"
+  currentSlug="quantum-bharat-experiments"
+>
+  <style>
+    .exp {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.15rem 1.35rem;
+      margin: 0 0 1rem;
+    }
+    .exp .when {
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+    .exp h3 {
+      margin: 0.3rem 0 0.55rem;
+    }
+    .exp .lab {
+      color: var(--accent);
+      font-weight: 700;
+      font-size: 0.82rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+    .exp .figs {
+      color: var(--muted);
+      font-size: 0.92rem;
+      border-top: 1px solid var(--border);
+      padding-top: 0.6rem;
+      margin-top: 0.8rem;
+    }
+  </style>
+
+  <nav class="crumbs" data-pagefind-ignore>
+    <a href="/hi/">मुख्य पृष्ठ</a> / क्वांटम भारत / लैब से युद्धक्षेत्र तक
+  </nav>
+  <span class="tag">विशेष फ़ीचर · क्वांटम भारत</span>
+  <h1>क्वांटम भारत: लैब से युद्धक्षेत्र तक — भारत के क्वांटम प्रयोग</h1>
+
+  <section class="explain-simple">
+    <div class="kicker">आसान शब्दों में</div>
+    <p>
+      भारत की क्वांटम कहानी सिर्फ़ policy documents और funding announcements नहीं है। 2020 से भारतीय
+      labs ने <strong>सचमुच काम करता हुआ quantum hardware बनाया और test किया है</strong>: सौओं
+      किलोमीटर लंबे आम optical fiber पर भेजी गई encryption keys, इमारतों के बीच खुली हवा में beamed
+      keys, घर का बना 6-qubit quantum processor, और ऐसे diamond sensors जो पृथ्वी के magnetic field
+      से अरबों गुना कमज़ोर field पढ़ सकते हैं।
+    </p>
+    <p>
+      इस page पर दस सबसे अहम प्रयोग हैं — हर एक तीन हिस्सों में: <strong>क्या हुआ</strong>,
+      <strong>कैसे काम करता है</strong> (physics, आसान भाषा में), और <strong>किस असली समस्या को
+      सुलझाता है</strong>। एक ईमानदार बात: IIT BHU में quantum teleportation प्रयोग की खबरें आपने पढ़ी
+      होंगी — हमें ऐसा कोई verified demonstration नहीं मिला, इसलिए वह यहाँ <strong>नहीं</strong> है।
+      Announced results और verified details को अलग-अलग रखा गया है, और हर दावे के साथ उसका source
+      दिया गया है।
+    </p>
+  </section>
+
+  <details class="deeper">
+    <summary>और गहराई में — पूरी timeline और evidence का तरीका</summary>
+    <div class="deeper-body">
+      <h3>Timeline, 2020 → 2026</h3>
+      <ul>
+        <li><strong>दिसंबर 2020</strong> — DRDO ने हैदराबाद की दो labs के बीच 12 km fiber पर QKD दिखाया; DYSL-QT ने ~150 kbps का स्वदेशी QRNG announce किया।</li>
+        <li><strong>फ़रवरी 2021</strong> — RRI–ISRO का QuEST project: भारत का पहला free-space entanglement-based QKD, रात में दो इमारतों के बीच 50 m beamed।</li>
+        <li><strong>मार्च 2021</strong> — ISRO ने 300 m पर free-space quantum communication दिखाया, जिसमें live quantum-secured video call भी शामिल थी।</li>
+        <li><strong>फ़रवरी 2022</strong> — DRDO–IIT दिल्ली: भारत का पहला intercity QKD link, प्रयागराज–विंध्याचल, 100 km से ज़्यादा commercial fiber पर।</li>
+        <li><strong>अक्टूबर 2023</strong> — IIT दिल्ली: standard telecom fiber पर 380 km तक trusted-node-free QKD (DPS protocol में claimed world first)।</li>
+        <li><strong>अगस्त 2024</strong> — DYSL-QT, TIFR और TCS ने स्वदेशी 6-qubit superconducting processor की end-to-end testing पूरी की।</li>
+        <li><strong>मई 2025</strong> — IIT मद्रास में STL + C-DOT ने 100 km multi-core fiber पर QKD दिखाया; DRDO ने दिल्ली में Quantum Technology Research Centre खोला।</li>
+        <li><strong>जून 2025</strong> — DRDO–IIT दिल्ली: IIT दिल्ली campus में 1 km पर entanglement-based free-space quantum communication।</li>
+        <li><strong>नवंबर 2025</strong> — IIT बॉम्बे ने स्वदेशी quantum sensing platforms पेश किए: portable diamond magnetometer, quantum diamond microscope, और cancer-sensing system।</li>
+        <li><strong>अप्रैल 2026</strong> — National Quantum Mission ने QNu Labs की स्वदेशी technology से 1,000 km quantum communication network दिखाया।</li>
+        <li><strong>जुलाई 2026</strong> — DRDO और Taqbit Labs ने productised fibre-based QKD system के military field trials पूरे किए।</li>
+        <li><strong>अगस्त 2026</strong> — C-DOT ने 14 स्वदेशी quantum products पेश किए — QKD systems से लेकर quantum-safe encryptors तक।</li>
+      </ul>
+      <h3>Announced बनाम demonstrated</h3>
+      <p>
+        Government press release, peer-reviewed paper और field trial — तीनों अलग तरह के evidence हैं।
+        यह page उन्हें label करता है: <strong>announced results</strong> (official releases),
+        <strong>demonstrated results</strong> (peer-reviewed या publicly witnessed), और जहाँ exact
+        dates या parameters प्रकाशित नहीं हुए, वहाँ gap भरने के बजाय साफ़ कह दिया गया है।
+      </p>
+    </div>
+  </details>
+
+  <section>
+    <h2>दस प्रयोग</h2>
+
+    <article class="exp">
+      <div class="when">23 फ़रवरी 2022 को announced · DRDO × IIT दिल्ली</div>
+      <h3>पहला intercity quantum link</h3>
+      <p><span class="lab">कैसे काम करता है</span><br />
+        Quantum key distribution में encryption keys single photons में encode की जाती हैं — कोई छेड़छाड़
+        करे तो photons disturb हो जाते हैं और पकड़ में आ जाता है। DRDO–IIT दिल्ली की team ने
+        प्रयागराज और विंध्याचल के बीच <strong>100 km से ज़्यादा commercial-grade optical
+        fiber</strong> पर — जो पहले से ज़मीन में बिछा था — QKD चलाया, और 10 kHz तक की sifted key rate
+        पाई, जो international standards के दायरे में है।</p>
+      <p><span class="lab">क्यों ज़रूरी है</span><br />
+        पहला सबूत कि military-grade quantum keys आम fiber पर शहर से शहर जा सकती हैं। Official
+        announcement में मकसद कहा गया था "bootstrapping military grade communication security key
+        hierarchy" — वह key-management backbone जिस पर भारतीय defence networks चलेंगे।</p>
+      <div class="figs">दूरी: &gt;100 km · Sifted key rate: 10 kHz तक · Fiber: commercial-grade, field में बिछा हुआ</div>
+    </article>
+
+    <article class="exp">
+      <div class="when">6 अक्टूबर 2023 को announced · IIT दिल्ली (Kanseri group)</div>
+      <h3>बिना trusted nodes के 380 km</h3>
+      <p><span class="lab">कैसे काम करता है</span><br />
+        Differential-phase-shift QKD में हर key bit single photon में नहीं, बल्कि लगातार laser pulses
+        के बीच के <em>phase difference</em> में encode होता है; receiver हर pulse को उसके पड़ोसी से
+        interfere कराता है, और interference की brightness से bit पता चलता है। Laser की steadiness,
+        detector noise और fiber dispersion को optimize करके Prof. Bhaskar Kanseri की team ने
+        <strong>380 km standard telecom fiber</strong> के बाद भी errors 2.5% से नीचे रखे — <em>Nature
+        Scientific Reports</em> में प्रकाशित, और इस protocol में इस दूरी पर claimed world first।</p>
+      <p><span class="lab">क्यों ज़रूरी है</span><br />
+        बीच के "trusted nodes" हट जाते हैं — वे relay points जिन पर key leak न करने का भरोसा करना
+        पड़ता है, और जो security के कमज़ोर कड़ी होते हैं। Trusted-node-free link ही वह चीज़ है जो
+        quantum-safe banking और राज्यों के बीच strategic communication को सच में चाहिए।</p>
+      <div class="figs">दूरी: 380 km · QBER: &lt;2.5% · कोई trusted node नहीं · Team: Kanseri, Pathak, Chaudhary, Sangeeta</div>
+    </article>
+
+    <article class="exp">
+      <div class="when">16 जून 2025 · DRDO × IIT दिल्ली (DIA-CoE)</div>
+      <h3>खुली हवा में quantum keys</h3>
+      <p><span class="lab">कैसे काम करता है</span><br />
+        एक source ऐसे photon pairs बनाता है जिनकी polarisations <em>entangled</em> होती हैं — एक को
+        measure करते ही दूसरे की state fix हो जाती है। हर pair का एक photon खुली हवा में उड़कर एक
+        party तक, दूसरा दूसरी party तक पहुँचता है; दोनों अपने photons measure करते हैं, और matching
+        measurements secret key bits बन जाते हैं। IIT दिल्ली campus के link ने एक किलोमीटर से ज़्यादा
+        free space पर <strong>~240 secure bits per second, 7% से कम errors</strong> के साथ हासिल किए।
+        कोई छेड़छाड़ करे तो entanglement टूटता है और errors में दिख जाता है — interception को सिर्फ़
+        रोका नहीं, <em>detect</em> किया जाता है।</p>
+      <p><span class="lab">क्यों ज़रूरी है</span><br />
+        युद्धक्षेत्र, दूर-दराज़ के इलाक़ों और उन शहरों के लिए cable-free military links जहाँ fiber
+        बिछाना मुमकिन नहीं — और ground-to-satellite quantum links की तरफ़ एक क़दम। रक्षा मंत्री
+        राजनाथ सिंह ने इसे "future warfare में game changer" कहा।</p>
+      <div class="figs">दूरी: &gt;1 km free space · Key rate: ~240 bps · QBER: &lt;7% · Project: DRDO Directorate of Futuristic Technology Management</div>
+    </article>
+
+    <article class="exp">
+      <div class="when">29 दिसंबर 2020 को announced · DRDO DYSL-QT</div>
+      <h3>भरोसेमंद randomness</h3>
+      <p><span class="lab">कैसे काम करता है</span><br />
+        एक single photon 50/50 beam splitter से टकराता है — quantum physics कहती है वह left जाएगा या
+        right, इसमें <em>कोई pattern नहीं होता</em>; computer के "pseudo-random" numbers के उलट, जो
+        अंदर से predictable होते हैं। हर choice एक 0 या 1 बनती है — <strong>प्रति सेकंड ~150,000
+        सचमुच unpredictable bits</strong>। Device ने global NIST और Die-harder randomness test
+        suites पास किए, और DRDO के अपने स्वदेशी test suite से independently verify हुआ।</p>
+      <p><span class="lab">क्यों ज़रूरी है</span><br />
+        भरोसेमंद randomness military cryptography में key generation, key wrapping और authentication
+        को चलाती है। Predictable randomness दुश्मन के हाथ में घातक ख़ामी होती — यह उसे स्वदेशी
+        hardware से बंद करता है।</p>
+      <div class="figs">Speed: ~150 kbps (post-processing के बाद) · Certified: NIST + Die-harder + DRDO SAG suite</div>
+    </article>
+
+    <article class="exp">
+      <div class="when">अगस्त 2024 में announced · DYSL-QT × TIFR × TCS</div>
+      <h3>भारत का 6-qubit processor</h3>
+      <p><span class="lab">कैसे काम करता है</span><br />
+        Absolute zero के पास ठंडे किए गए छोटे superconducting circuits qubits की तरह behave करते हैं —
+        वे 0, 1, या दोनों एक साथ हो सकते हैं। TIFR ने इन्हें जोड़ने के लिए <strong>नया ring-resonator
+        architecture</strong> design और fabricate किया; DYSL-QT scientists ने control और measurement
+        electronics assemble किए; TCS ने cloud interface बनाया। पूरा loop test हुआ: cloud पर circuit
+        submit करो, hardware पर चलाओ, results वापस पाओ — DYSL-QT apex committee के सामने
+        demonstrate हुआ। (Reports में exact announcement day confirm नहीं हुआ।)</p>
+      <p><span class="lab">क्यों ज़रूरी है</span><br />
+        विदेशी machines पर निर्भरता के बजाय Indian-designed hardware पर चलने वाले भारत के अपने
+        quantum computers की तरफ़ पहला क़दम — defence-grade optimisation और research के लिए।</p>
+      <div class="figs">Qubits: 6, superconducting · Architecture: in-house ring-resonator (TIFR Colaba) · Interface: TCS cloud</div>
+    </article>
+
+    <article class="exp">
+      <div class="when">जुलाई 2026 में announced · DRDO × Taqbit Labs (बेंगलुरु)</div>
+      <h3>Quantum keys, अब field में</h3>
+      <p><span class="lab">कैसे काम करता है</span><br />
+        DRDO ने official channels से announce किया कि industry partner Taqbit Labs के साथ उसने
+        <strong>scalable, productised fibre-based QKD system</strong> के military field trials पूरे
+        किए — multi-hop architecture वाला, lab proof-of-concept से आगे बढ़कर engineered, deployable
+        equipment। Exact dates और technical parameters प्रकाशित नहीं हुए।</p>
+      <p><span class="lab">क्यों ज़रूरी है</span><br />
+        यह "lab में काम करता है" से "सैनिक इस्तेमाल कर सकते हैं" की तरफ़ transition है — घोषित मकसद
+        है भारत के strategic communication networks को quantum computers के ख़िलाफ़ future-proof
+        करना। Taqbit ने अलग से फ़रवरी 2026 में quantum-safe satellite communications का agreement
+        किया।</p>
+      <div class="figs">System: fibre-based QKD, multi-hop · Status: field trials पूरे (announced) · Parameters: प्रकाशित नहीं</div>
+    </article>
+
+    <article class="exp">
+      <div class="when">7 मई 2025 · STL × C-DOT, IIT मद्रास में</div>
+      <h3>आम telecom cable पर quantum security</h3>
+      <p><span class="lab">कैसे काम करता है</span><br />
+        एक glass fiber में <strong>चार cores</strong> हो सकते हैं — अलग-अलग light-carrying channels।
+        Quantum key pulses एक core में जाती हैं जबकि आम internet data बाकी तीन में दौड़ता है; physical
+        separation तेज़ classical signals को नाज़ुक quantum signals को blind करने से रोकती है। DoT के
+        Advanced Optical Communications Test Bed, IIT मद्रास में 100 km पर demonstrate हुआ।</p>
+      <p><span class="lab">क्यों ज़रूरी है</span><br />
+        महंगी dedicated "dark fiber" की ज़रूरत नहीं — quantum security उन्हीं cables के अंदर चल सकती
+        है जो telecom companies पहले से बिछाती हैं। इससे 5G/6G India के लिए quantum-safe networks
+        आर्थिक रूप से realistic बनते हैं।</p>
+      <div class="figs">दूरी: 100 km · Fiber: 4-core multi-core · एक ही cable पर quantum + classical data</div>
+    </article>
+
+    <article class="exp">
+      <div class="when">फ़रवरी–मार्च 2021 · RRI × ISRO (QuEST)</div>
+      <h3>इमारतों के बीच beamed keys</h3>
+      <p><span class="lab">कैसे काम करता है</span><br />
+        फ़रवरी 2021 में RRI की Prof. Urbasi Sinha की QuIC lab ने <strong>रात में दो इमारतों के बीच 50
+        m</strong> entangled photons beamed किए — अंधेरा इसलिए कि सूरज की रोशनी नाज़ुक photon signal
+        को डुबो न दे — भारत का पहला free-space entanglement-based QKD। मार्च 2021 में ISRO के Space
+        Applications Centre ने आगे बढ़कर <strong>300 m की open-air quantum communication</strong>
+        दिखाई: transmitter और receiver की clocks को nanosecond precision पर sync करने के लिए स्वदेशी
+        NAVIC satellite receiver, beam steer करने के लिए compact gimbal — और उन्होंने
+        <strong>quantum keys से secured live video call</strong> भी चलाई।</p>
+      <p><span class="lab">क्यों ज़रूरी है</span><br />
+        सबूत कि quantum keys atmosphere की यात्रा survive कर सकती हैं — satellites के भारतीय ground
+        stations तक keys beam करने से पहले का ज़रूरी physics test।</p>
+      <div class="figs">QuEST: 50 m, रात में, entanglement-based · ISRO SAC: 300 m, NAVIC time sync, live secured video call</div>
+    </article>
+
+    <article class="exp">
+      <div class="when">25 नवंबर 2025 · IIT बॉम्बे</div>
+      <h3>Diamond compasses</h3>
+      <p><span class="lab">कैसे काम करता है</span><br />
+        Atomic "nitrogen-vacancy" defects वाला diamond एक <strong>atomic compass</strong> की तरह काम
+        करता है: green light में उसके electrons लाल चमकते हैं, और magnetic fields के साथ चमक बदलती है —
+        पृथ्वी के field से अरबों गुना कमज़ोर fields पढ़ लेती है। तीन स्वदेशी platforms demonstrate हुए:
+        <strong>QMagPI</strong>, भारत का पहला portable quantum magnetometer; <strong>Quantum Diamond
+        Microscope</strong>, nanoscale 3D magnetic imaging के लिए wide-field imager; और
+        <strong>Q-Confocal</strong>, जो living cells के अंदर reactive-oxygen-species chemistry पढ़ता
+        है — बीमारी का fingerprint, glioblastoma cells पर demonstrate हुआ।</p>
+      <p><span class="lab">क्यों ज़रूरी है</span><br />
+        दबी हुई structures और mineral deposits खोजना, submarines या छिपी चीज़ें detect करना, neuron
+        activity map करना, label-free early cancer diagnostics, और semiconductor chips में defects
+        ढूंढना। उसी visit में IIT बॉम्बे का Liquid Helium Facility भी खुला — 95% से ज़्यादा gas
+        recovery — जो cryogenic quantum experiments को possible बनाता है।</p>
+      <div class="figs">Sensitivity: nanotesla range · Platforms: QMagPI, Quantum Diamond Microscope (PQuest Group), Q-Confocal</div>
+    </article>
+
+    <article class="exp">
+      <div class="when">8 अप्रैल 2026 को announced · National Quantum Mission × QNu Labs</div>
+      <h3>1,000 km का quantum backbone</h3>
+      <p><span class="lab">कैसे काम करता है</span><br />
+        ख़ास "decoy-state differential phase shift" pulses बिना amplification के <strong>प्रति hop
+        ~200 km आम telecom fiber</strong> survive करती हैं; ऐसे पाँच links को end to end जोड़ने से
+        secure key distribution <strong>1,000 km</strong> तक पहुँचती है। Quantum keys और 10 Gbps
+        classical traffic एक ही fiber share करते हैं। इसे दुनिया के सबसे लंबे QKD deployments में से
+        एक बताया गया — underwater और underground networks समेत challenging terrain में काम करने के
+        लिए designed।</p>
+      <p><span class="lab">क्यों ज़रूरी है</span><br />
+        Defence communications, banking networks और critical infrastructure के लिए national
+        quantum-secure backbone — वह scale जहाँ quantum security demo नहीं, national infrastructure
+        बन जाती है।</p>
+      <div class="figs">पहुँच: 1,000 km · प्रति hop: आम fiber पर ~200 km · एक cable पर quantum + 10 Gbps classical</div>
+    </article>
+  </section>
+
+  <section class="keypoints">
+    <h2>बेंच पर और भी</h2>
+    <ul>
+      <li><strong>C-DOT के 14 quantum products</strong> (अगस्त 2026) — स्वदेशी QKD systems (Q-AKSHAY CD fibre QKD, Q-AKSHAY MD measurement-device-independent QKD), quantum-safe encryptors (Q-SETU 80 Mbps, Q-MAHASETU 40 Gbps, defence के लिए Q-VIKRAM 1 Gbps, Q-AMOGH 200 Gbps), single-photon detector, और post-quantum cryptography products।</li>
+      <li><strong>IISc का room-temperature entangled state</strong> (2025) — आम beam splitters और waveplates से photonic quantum walk पर universal quantum gates और six-qubit entangled state, <em>Physical Review Applied</em> में प्रकाशित — cryogenics के बिना noise-resistant photonic quantum computing की राह।</li>
+      <li><strong>IISER पुणे का 3-minute materials probe</strong> (2022) — beam-displacer और CCD spectrometer से Faraday rotation measure करके 2D materials की quantum states घंटों के बजाय minutes में characterise; <em>Nature</em> research highlight में featured।</li>
+      <li><strong>IIT बॉम्बे के light-controlled quantum states</strong> (~दिसंबर 2025) — single linearly-polarised laser pulse से 2D semiconductors में electron "valley" states को reversibly switch करना — light-controlled quantum devices की तरफ़ क़दम।</li>
+      <li><strong>IIT मद्रास का CQuICC</strong> (2021) — Centre for Quantum Information, Communication and Computing; IBM Quantum Network से जुड़ने वाली पहली भारतीय संस्था (सितंबर 2022), MPhasis के ₹21 करोड़ grant के साथ।</li>
+    </ul>
+  </section>
+
+  <section class="facts">
+    <h2>Facts &amp; figures</h2>
+    <dl>
+      <div><dt>सबसे लंबा single-fiber demo</dt><dd>380 km, IIT दिल्ली DPS-QKD (अक्टूबर 2023)</dd></div>
+      <div><dt>सबसे लंबा quantum network</dt><dd>1,000 km, NQM + QNu Labs (अप्रैल 2026)</dd></div>
+      <div><dt>पहला free-space entanglement QKD</dt><dd>50 m, RRI–ISRO QuEST (फ़रवरी 2021)</dd></div>
+      <div><dt>पहला intercity QKD</dt><dd>&gt;100 km, प्रयागराज–विंध्याचल, 10 kHz तक sifted (फ़रवरी 2022)</dd></div>
+      <div><dt>Free-space key rate</dt><dd>~240 bps, QBER &lt;7%, IIT दिल्ली campus (जून 2025)</dd></div>
+      <div><dt>QRNG speed</dt><dd>~150 kbps, NIST + Die-harder certified (दिसंबर 2020)</dd></div>
+      <div><dt>स्वदेशी qubits</dt><dd>6, ring-resonator superconducting processor, DYSL-QT + TIFR + TCS (अगस्त 2024)</dd></div>
+      <div><dt>Military field trials</dt><dd>DRDO + Taqbit Labs, productised fibre QKD (जुलाई 2026)</dd></div>
+      <div><dt>पेश किए गए quantum products</dt><dd>14, C-DOT 43rd Foundation Day (अगस्त 2026)</dd></div>
+      <div><dt>Research centre</dt><dd>DRDO Quantum Technology Research Centre, Metcalfe House, दिल्ली (मई 2025)</dd></div>
+    </dl>
+  </section>
+
+  <section class="references">
+    <h2>References</h2>
+    <p class="ref-lead">
+      जिन sources से यह page बना — और हर source किस काम आया।
+    </p>
+    <ol>
+      <li>
+        <span>PIB, DRDO — intercity QKD demonstration (23 फ़रवरी 2022, PRID 1800648)।</span>
+        <br /><span class="ref-use">काम आया: प्रयागराज–विंध्याचल link, &gt;100 km commercial fiber, 10 kHz sifted key rate, military key-hierarchy का मकसद।</span>
+      </li>
+      <li>
+        <span>Nature Scientific Reports — 380 km तक phase-encoded QKD (2023); DailyWorld / New Kerala via reported (6 अक्टूबर 2023)।</span>
+        <br /><span class="ref-use">काम आया: 380 km DPS-QKD, QBER &lt;2.5%, trusted-node-free, world-first claim, Kanseri team।</span>
+      </li>
+      <li>
+        <span>PIB, DRDO — free-space quantum secure communication (16 जून 2025, PRID 2136702)।</span>
+        <br /><span class="ref-use">काम आया: &gt;1 km entanglement QKD, ~240 bps, QBER &lt;7%, DFTM project, DIA-CoE, "game changer" remark; 2024 का 100 km fiber milestone भी।</span>
+      </li>
+      <li>
+        <span>PIB, DRDO — fiber-optic branch-path QRNG (29 दिसंबर 2020, PRID 1684381)।</span>
+        <br /><span class="ref-use">काम आया: ~150 kbps, NIST और Die-harder certification, SAG indigenous verification।</span>
+      </li>
+      <li>
+        <span>Indian Defence News — DRDO–TIFR 6-qubit processor milestone (अगस्त 2024)।</span>
+        <br /><span class="ref-use">काम आया: ring-resonator architecture, TIFR fabrication, DYSL-QT electronics, TCS cloud interface। Exact announcement day unverified।</span>
+      </li>
+      <li>
+        <span>Indian Defence News — DRDO + Taqbit Labs QKD field trials (जुलाई 2026)।</span>
+        <br /><span class="ref-use">काम आया: military field trials, multi-hop productised fibre QKD। Exact day और technical parameters प्रकाशित नहीं।</span>
+      </li>
+      <li>
+        <span>Tele.net.in — STL + C-DOT multi-core-fibre QKD (7 मई 2025)।</span>
+        <br /><span class="ref-use">काम आया: भारत का पहला 100 km MCF QKD, चार cores पर quantum + classical, dark fiber की ज़रूरत नहीं।</span>
+      </li>
+      <li>
+        <span>Inside Quantum Technology (मार्च 2021); Jagran Josh ISRO explainer।</span>
+        <br /><span class="ref-use">काम आया: QuEST 50 m night entanglement demo; ISRO SAC 300 m link, NAVIC time sync, live quantum-secured video call।</span>
+      </li>
+      <li>
+        <span>Devdiscourse — IIT बॉम्बे में quantum &amp; cryogenic milestones (25 नवंबर 2025)।</span>
+        <br /><span class="ref-use">काम आया: QMagPI, Quantum Diamond Microscope, Q-Confocal cancer sensing, Liquid Helium Facility।</span>
+      </li>
+      <li>
+        <span>PIB, Ministry of Science &amp; Technology — 1,000 km quantum network (8 अप्रैल 2026, PRID 2250162)।</span>
+        <br /><span class="ref-use">काम आया: NQM 1,000 km demonstration, QNu Labs indigenous technology, defence/banking use।</span>
+      </li>
+      <li>
+        <span>TelecomTalk / Ministry of Communications — C-DOT के 14 quantum products (31 अगस्त 2026)।</span>
+        <br /><span class="ref-use">काम आया: product names और QKD/PQC product range।</span>
+      </li>
+      <li>
+        <span>PIB, DRDO — Quantum Technology Research Centre inauguration (27 मई 2025, PRID 2131757)।</span>
+        <br /><span class="ref-use">काम आया: Metcalfe House में QTRC, SAG और SSPL facility roles।</span>
+      </li>
+      <li>
+        <span>IIT (BHU) Foundation project page; IJAM journal (2025) — photon–magnon proposal और teleportation cryptosystem theory paper।</span>
+        <br /><span class="ref-use">काम आया: honesty note — ये मौजूद हैं, लेकिन दोनों में से कोई demonstrated teleportation experiment नहीं है, इसलिए IIT BHU सूची में नहीं है।</span>
+      </li>
+    </ol>
+  </section>
+
+  <section class="keypoints">
+    <h2>क्वांटम भारत में आगे</h2>
+    <ul>
+      <li><strong>Startups &amp; industry</strong> — QNu Labs, QpiAI, BosonQ Psi, और भारत का quantum stack बनाने वाली companies।</li>
+      <li><strong>Jobs</strong> — roles, employers, indicative salaries, और student इस field में कैसे enter करे।</li>
+      <li>Section बढ़ेगा तो DRDO और IIT के individual experiments के अपने pages यहीं slot किए जा सकेंगे।</li>
+    </ul>
+  </section>
+
+  <div class="pager" data-pagefind-ignore>
+    <a href="/hi/quantum-bharat/mission/">
+      <span class="dir">← Back</span>
+      <span class="lbl">राष्ट्रीय क्वांटम मिशन</span>
+    </a>
+  </div>
+</SiteLayout>
