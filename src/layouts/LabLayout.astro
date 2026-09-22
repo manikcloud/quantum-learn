@@ -1,0 +1,362 @@
+---
+// LabLayout — the labs section's own visual identity: a dark "lab notebook"
+// theme, deliberately different from the lesson pages.
+//
+// Conventions for lab pages (used by future lab content):
+//   <section class="lab-steps">            wrapper for numbered steps
+//     <div class="step">                   one step; gets auto number + checkbox
+//       <h3>Step title</h3>
+//       <p>…instructions…</p>
+//       <pre class="lab-code">…code…</pre>
+//       <div class="checkpoint"><strong>✓ Checkpoint:</strong> what you should see</div>
+//       <div class="stuck"><strong>Stuck?</strong> what to try</div>
+//     </div>
+//   </section>
+//   <div class="lab-progress"><div data-lab-progress></div></div>   progress bar
+//   <button class="lab-complete" data-lab-complete="lab-slug">…</button>  done toggle
+// Step checkboxes persist in localStorage under qlh-lab-<labSlug>.
+const {
+  title = "Quantum Labs",
+  description = "Hands-on quantum lab sessions — step-by-step experiments you run yourself.",
+  prevUrl = "",
+  nextUrl = "",
+  lang = "en",
+  altUrl = "",
+  labSlug = "",
+  noGate = false,
+  noFooter = false,
+} = Astro.props;
+
+const isHi = lang === "hi";
+const footerText = isHi
+  ? "Zero से quantum तक — एक qubit, एक कदम।"
+  : "Zero to quantum — one qubit at a time.";
+---
+<!doctype html>
+<html lang={lang} data-theme="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <title>{title} · {isHi ? "क्वांटम लैब्स" : "Quantum Labs"}</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" />
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+    <style>
+      .lab-root {
+        --lbg: #070b12;
+        --lbg2: #0b1220;
+        --lcard: #0e1624;
+        --lborder: #1c2a40;
+        --ltext: #e8eef6;
+        --lmuted: #93a1b5;
+        --lfaint: #5d6b80;
+        --laccent: #3fb950;
+        --laccent-dim: #1a3a24;
+        --lamber: #d29922;
+        --lcode: #05080e;
+        --lradius: 12px;
+        margin: 0;
+        background: var(--lbg);
+        color: var(--ltext);
+        font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans", sans-serif;
+        line-height: 1.65;
+        min-height: 100vh;
+      }
+      .lab-root a { color: #58a6ff; }
+      /* top bar */
+      .lab-topbar {
+        position: sticky; top: 0; z-index: 50;
+        display: flex; align-items: center; gap: 12px;
+        padding: 12px 20px;
+        background: rgba(7, 11, 18, 0.92);
+        border-bottom: 1px solid var(--lborder);
+        backdrop-filter: blur(8px);
+      }
+      .lab-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ltext); }
+      .lab-brand:hover { text-decoration: none; }
+      .lab-mark {
+        width: 34px; height: 34px; border-radius: 9px;
+        display: inline-flex; align-items: center; justify-content: center;
+        background: linear-gradient(135deg, #123a22, #0b2417);
+        border: 1px solid #245c36; color: var(--laccent);
+        font-weight: 800; font-size: 18px;
+      }
+      .lab-brand b { font-size: 16px; letter-spacing: -0.01em; }
+      .lab-brand small { display: block; font-size: 11px; color: var(--lfaint); font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; }
+      .lab-spacer { flex: 1; }
+      .lab-lang, .lab-home {
+        font-size: 13.5px; font-weight: 700; text-decoration: none;
+        border: 1px solid var(--lborder); border-radius: 8px;
+        padding: 7px 12px; color: var(--ltext); background: var(--lcard);
+      }
+      .lab-lang:hover, .lab-home:hover { border-color: var(--laccent); text-decoration: none; color: var(--ltext); }
+      /* main */
+      .lab { max-width: 860px; margin: 0 auto; padding: 34px 22px 80px; }
+      .lab-hero .prompt {
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        color: var(--laccent); font-size: 14px; margin-bottom: 10px;
+      }
+      .lab-hero .prompt::before { content: "▸ "; }
+      .lab h1 { font-size: clamp(30px, 5vw, 44px); letter-spacing: -0.02em; margin: 0 0 12px; line-height: 1.15; }
+      .lab h2 { font-size: 22px; margin: 44px 0 14px; letter-spacing: -0.01em; }
+      .lab h2::before { content: "## "; color: var(--lfaint); font-weight: 400; }
+      .lab .lede { font-size: 18px; color: var(--lmuted); max-width: 640px; }
+      .lab-meta { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+      .lab-chip {
+        font-size: 12.5px; font-weight: 700; color: var(--laccent);
+        background: var(--laccent-dim); border: 1px solid #245c36;
+        border-radius: 999px; padding: 5px 12px;
+      }
+      /* how-it-works cards */
+      .how-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px; margin-top: 18px; }
+      .how-card { background: var(--lcard); border: 1px solid var(--lborder); border-radius: var(--lradius); padding: 16px; }
+      .how-card .ic { font-size: 22px; }
+      .how-card h3 { margin: 8px 0 4px; font-size: 15px; }
+      .how-card p { margin: 0; font-size: 13.5px; color: var(--lmuted); }
+      /* lab list */
+      .lab-list { display: grid; gap: 14px; margin-top: 18px; }
+      a.lab-card {
+        display: block; background: var(--lcard); border: 1px solid var(--lborder);
+        border-radius: var(--lradius); padding: 20px 22px; color: var(--ltext); text-decoration: none;
+        transition: transform 0.14s ease, border-color 0.14s ease;
+      }
+      a.lab-card:hover { transform: translateY(-2px); border-color: var(--laccent); text-decoration: none; }
+      .lab-card.soon { border-style: dashed; opacity: 0.85; }
+      .lab-num { font-size: 12px; font-weight: 800; letter-spacing: 0.1em; color: var(--laccent); text-transform: uppercase; }
+      .lab-card h3 { margin: 8px 0 6px; font-size: 19px; }
+      .lab-card p { margin: 0; font-size: 14px; color: var(--lmuted); }
+      .soon-tag {
+        display: inline-block; margin-top: 12px; font-size: 12px; font-weight: 700;
+        color: var(--lamber); border: 1px dashed var(--lamber); border-radius: 999px; padding: 4px 12px;
+      }
+      /* steps */
+      .lab-steps { counter-reset: step; display: grid; gap: 14px; margin-top: 20px; }
+      .step {
+        position: relative; background: var(--lcard); border: 1px solid var(--lborder);
+        border-radius: var(--lradius); padding: 18px 20px 18px 64px;
+        transition: border-color 0.2s ease, opacity 0.2s ease;
+      }
+      .step::before {
+        counter-increment: step; content: counter(step);
+        position: absolute; left: 18px; top: 18px;
+        width: 32px; height: 32px; border-radius: 50%;
+        background: var(--lbg2); border: 1px solid var(--lborder);
+        display: flex; align-items: center; justify-content: center;
+        font-weight: 800; font-size: 14px; color: var(--lmuted);
+      }
+      .step.done { border-color: #245c36; }
+      .step.done::before { background: var(--laccent-dim); border-color: #245c36; color: var(--laccent); }
+      .step.done .step-title { text-decoration: line-through; text-decoration-color: var(--laccent); }
+      .step-check {
+        position: absolute; left: 18px; top: 58px;
+        display: flex; align-items: center; gap: 8px; cursor: pointer;
+        font-size: 12px; color: var(--lfaint); font-weight: 700;
+      }
+      .step-check input { accent-color: var(--laccent); width: 16px; height: 16px; cursor: pointer; }
+      .step h3 { margin: 0 0 8px; font-size: 17px; }
+      .step p { margin: 0 0 10px; font-size: 15px; color: var(--lmuted); }
+      .step p:last-child { margin-bottom: 0; }
+      .lab-code {
+        background: var(--lcode); border: 1px solid var(--lborder); border-radius: 8px;
+        padding: 14px 16px; margin: 10px 0; overflow-x: auto;
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        font-size: 13.5px; line-height: 1.6; color: #c9d4e3;
+      }
+      .checkpoint {
+        border: 1px solid #245c36; background: rgba(63, 185, 80, 0.07);
+        border-radius: 8px; padding: 12px 14px; margin: 12px 0 4px; font-size: 14px;
+      }
+      .checkpoint strong { color: var(--laccent); }
+      .stuck {
+        border: 1px solid #5a4413; background: rgba(210, 153, 34, 0.07);
+        border-radius: 8px; padding: 12px 14px; margin: 12px 0 4px; font-size: 14px;
+      }
+      .stuck strong { color: var(--lamber); }
+      /* progress */
+      .lab-progress { height: 8px; background: var(--lbg2); border: 1px solid var(--lborder); border-radius: 999px; overflow: hidden; margin: 26px 0 8px; }
+      .lab-progress > div { height: 100%; width: 0; background: linear-gradient(90deg, #2ea043, var(--laccent)); transition: width 0.3s ease; }
+      .lab-progress-label { font-size: 13px; color: var(--lfaint); font-weight: 600; }
+      .lab-complete {
+        margin-top: 26px; width: 100%; padding: 14px; font-size: 15px; font-weight: 800;
+        border-radius: 10px; border: 1px solid #245c36; cursor: pointer;
+        background: var(--laccent-dim); color: var(--laccent);
+      }
+      .lab-complete.is-done { background: var(--laccent); color: #04120a; border-color: var(--laccent); }
+      .lab-foot {
+        margin-top: 70px; padding-top: 22px; border-top: 1px solid var(--lborder);
+        color: var(--lfaint); font-size: 13px; text-align: center;
+      }
+      /* auth gate */
+      #auth-gate {
+        position: fixed; inset: 0; z-index: 100;
+        background: var(--lbg); display: flex; align-items: center; justify-content: center;
+      }
+      #auth-gate .gate-card { text-align: center; color: var(--lmuted); }
+      #auth-gate .spinner {
+        width: 34px; height: 34px; margin: 0 auto 14px; border-radius: 50%;
+        border: 3px solid var(--lborder); border-top-color: var(--laccent);
+        animation: labspin 0.9s linear infinite;
+      }
+      @keyframes labspin { to { transform: rotate(360deg); } }
+      @media (max-width: 640px) {
+        .lab { padding: 26px 16px 64px; }
+        .step { padding-left: 56px; }
+        .step::before { left: 14px; }
+        .step-check { left: 14px; }
+      }
+    </style>
+  </head>
+  <body class="lab-root" data-lab={labSlug || undefined} data-prev={prevUrl || undefined} data-next={nextUrl || undefined} data-nogate={noGate ? "1" : undefined}>
+    {!noGate && (
+      <div id="auth-gate" aria-hidden="true">
+        <div class="gate-card">
+          <div class="spinner"></div>
+          <p class="gate-msg">{isHi ? "साइन-इन जाँचा जा रहा है…" : "Checking sign-in…"}</p>
+        </div>
+      </div>
+    )}
+    <header class="lab-topbar">
+      <a class="lab-brand" href={isHi ? "/hi/labs/" : "/labs/"}>
+        <span class="lab-mark">⚗</span>
+        <span><b>{isHi ? "क्वांटम लैब्स" : "Quantum Labs"}</b><small>{isHi ? "करके सीखें" : "learn by doing"}</small></span>
+      </a>
+      <span class="lab-spacer"></span>
+      {altUrl && <a class="lab-lang" href={altUrl}>{isHi ? "EN" : "हिंदी"}</a>}
+      <a class="lab-home" href={isHi ? "/hi/" : "/"}>{isHi ? "← सभी पाठ" : "← All lessons"}</a>
+    </header>
+
+    <main class="lab" data-pagefind-body>
+      <span data-pagefind-filter="lang" hidden>{lang}</span>
+      <slot />
+      {!noFooter && <footer class="lab-foot">{footerText}</footer>}
+    </main>
+
+    <script>
+      (function () {
+        var HI = document.documentElement.lang === "hi";
+        var slug = document.body.getAttribute("data-lab") || "";
+
+        /* step checkboxes — persist per lab */
+        function stepKey() { return "qlh-lab-" + slug; }
+        function loadSteps() {
+          try { return JSON.parse(localStorage.getItem(stepKey()) || "[]"); } catch (e) { return []; }
+        }
+        function saveSteps(list) {
+          try { localStorage.setItem(stepKey(), JSON.stringify(list)); } catch (e) {}
+        }
+        var boxes = Array.prototype.slice.call(document.querySelectorAll(".step input[type='checkbox']"));
+        var bar = document.querySelector("[data-lab-progress]");
+        var barLabel = document.querySelector("[data-lab-progress-label]");
+        function paintSteps() {
+          var done = loadSteps();
+          boxes.forEach(function (box, i) {
+            var on = done.indexOf(i) !== -1;
+            box.checked = on;
+            var step = box.closest(".step");
+            if (step) step.classList.toggle("done", on);
+          });
+          var n = boxes.filter(function (b) { return b.checked; }).length;
+          if (bar) bar.style.width = (boxes.length ? Math.round((n / boxes.length) * 100) : 0) + "%";
+          if (barLabel) barLabel.textContent = HI
+            ? (boxes.length + " में से " + n + " steps पूरे")
+            : (n + " of " + boxes.length + " steps done");
+        }
+        boxes.forEach(function (box, i) {
+          box.addEventListener("change", function () {
+            var done = loadSteps();
+            var at = done.indexOf(i);
+            if (box.checked && at === -1) done.push(i);
+            if (!box.checked && at !== -1) done.splice(at, 1);
+            saveSteps(done); paintSteps();
+          });
+        });
+        paintSteps();
+
+        /* mark lab complete */
+        function labsDone() {
+          try { return JSON.parse(localStorage.getItem("qlh-labs-done") || "[]"); } catch (e) { return []; }
+        }
+        var completeBtn = document.querySelector("[data-lab-complete]");
+        function syncComplete() {
+          if (!completeBtn || !slug) return;
+          var id = completeBtn.getAttribute("data-lab-complete");
+          var done = labsDone().indexOf(id) !== -1;
+          completeBtn.textContent = done
+            ? (HI ? "✓ लैब पूर्ण — वापस लेने के लिए क्लिक करें" : "✓ Lab complete — click to undo")
+            : (HI ? "लैब पूर्ण चिह्नित करें" : "Mark lab as complete");
+          completeBtn.classList.toggle("is-done", done);
+        }
+        if (completeBtn) completeBtn.addEventListener("click", function () {
+          var id = completeBtn.getAttribute("data-lab-complete");
+          var done = labsDone();
+          var at = done.indexOf(id);
+          if (at === -1) done.push(id); else done.splice(at, 1);
+          try { localStorage.setItem("qlh-labs-done", JSON.stringify(done)); } catch (e) {}
+          syncComplete();
+        });
+        syncComplete();
+
+        /* math rendering */
+        function renderMath() {
+          if (window.renderMathInElement) {
+            renderMathInElement(document.body, {
+              delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true },
+              ],
+              throwOnError: false,
+            });
+          }
+        }
+        if (document.readyState === "complete") renderMath();
+        else window.addEventListener("load", renderMath);
+      })();
+    </script>
+    {/* Same site-wide login wall contract as SiteLayout (see public/auth/README.md). */}
+    <script>
+      (function () {
+        if (document.body && document.body.dataset.nogate === "1") return;
+        var AUTH_BASE = "/auth/";
+        var gate = document.getElementById("auth-gate");
+        var HI = document.documentElement.lang === "hi";
+        function hideGate() { if (gate) gate.style.display = "none"; }
+        function gateMsg(t) { var m = gate && gate.querySelector(".gate-msg"); if (m) m.textContent = t; }
+        function unreachable() {
+          gateMsg(HI
+            ? "साइन-इन सेवा नहीं मिल रही — कनेक्शन जाँचें और पेज reload करें।"
+            : "Sign-in service unreachable — check your connection and reload.");
+        }
+        function loginUrl(denied, unverified) {
+          var base = HI ? "/hi/login/" : "/login/";
+          var next = encodeURIComponent(window.location.pathname + window.location.search);
+          return base + "?next=" + next + (denied ? "&denied=1" : "") + (unverified ? "&unverified=1" : "");
+        }
+        import(/* @vite-ignore */ AUTH_BASE + "config.js").then(function () {
+          return import(/* @vite-ignore */ AUTH_BASE + "index.js");
+        }).then(function (mod) {
+          var auth = mod.auth;
+          if (!auth.configured) { hideGate(); return; }
+          var settled = false;
+          auth.ready.catch(unreachable);
+          auth.onAuthChange(function (user, info) {
+            if (info && info.denied) { window.location.replace(loginUrl(true, false)); return; }
+            if (info && info.unverified) { window.location.replace(loginUrl(false, true)); return; }
+            if (!user) { window.location.replace(loginUrl(false, false)); return; }
+            settled = true;
+            hideGate();
+          }).catch(unreachable);
+          setTimeout(function () {
+            if (!settled && gate && gate.style.display !== "none") {
+              gateMsg(HI
+                ? "साइन-इन में देर हो रही है — पेज reload करें।"
+                : "Sign-in is taking too long — reload the page.");
+            }
+          }, 20000);
+        }).catch(unreachable);
+      })();
+    </script>
+  </body>
+</html>

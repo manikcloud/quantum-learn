@@ -1,0 +1,73 @@
+---
+import LabLayout from "../../layouts/LabLayout.astro";
+---
+<LabLayout
+  title="Quantum Labs — hands-on sessions"
+  description="Step-by-step quantum lab sessions. Stop reading, start doing — run the steps, hit the checkpoints, tick them off."
+  currentSlug="labs"
+  lang="en"
+  altUrl="/hi/labs/"
+  labSlug="labs-index"
+>
+  <section class="lab-hero">
+    <div class="prompt">$ welcome to the lab</div>
+    <h1>Quantum Labs</h1>
+    <p class="lede">
+      Lessons teach you the ideas. <strong>Labs make you do them.</strong> Each lab is a step-by-step
+      hands-on session: follow the steps, check your result against the checkpoints, and tick each
+      step off as you go. Your progress is saved on this device.
+    </p>
+    <div class="lab-meta">
+      <span class="lab-chip">step-by-step</span>
+      <span class="lab-chip">checkpoints</span>
+      <span class="lab-chip">your turn</span>
+      <span class="lab-chip">debrief</span>
+    </div>
+  </section>
+
+  <section>
+    <h2>How a lab works</h2>
+    <div class="how-grid">
+      <div class="how-card">
+        <span class="ic">🧪</span>
+        <h3>Follow the steps</h3>
+        <p>Numbered steps, one thing at a time. Tick the checkbox when a step is done.</p>
+      </div>
+      <div class="how-card">
+        <span class="ic">🎯</span>
+        <h3>Hit the checkpoints</h3>
+        <p>Green boxes tell you exactly what you should see. If you don't see it — the amber box has your back.</p>
+      </div>
+      <div class="how-card">
+        <span class="ic">✋</span>
+        <h3>Your turn</h3>
+        <p>Some steps hand you the controls: change one thing, predict, then run it and compare.</p>
+      </div>
+      <div class="how-card">
+        <span class="ic">📓</span>
+        <h3>Debrief</h3>
+        <p>Every lab ends with what the experiment proved — and where the idea goes next.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Lab sessions</h2>
+    <div class="lab-list">
+      <div class="lab-card soon">
+        <span class="lab-num">Lab 01</span>
+        <h3>First session — in the works</h3>
+        <p>The first hands-on lab is being written right now. Check back soon — or warm up with the lessons in the meantime.</p>
+        <span class="soon-tag">dropping soon</span>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>What you'll need</h2>
+    <p class="lede" style="font-size:16px">
+      Nothing to install. Labs run in your browser — just bring curiosity and about 30–45 minutes.
+      If a lab ever needs extra tools, the first step will tell you exactly what to grab.
+    </p>
+  </section>
+</LabLayout>

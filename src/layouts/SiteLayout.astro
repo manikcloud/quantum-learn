@@ -101,6 +101,12 @@ const lessonCount = flatLessons.length;
             </li>
             <li>
               <a
+                href={`${base}/labs/`}
+                class={currentSlug === "labs" ? "active" : ""}
+              >{isHi ? "क्वांटम लैब्स" : "Quantum Labs"}</a>
+            </li>
+            <li>
+              <a
                 href={`${base}/quantum-upanishads/`}
                 class={currentSlug === "quantum-upanishads" ? "active" : ""}
               >{isHi ? "क्वांटम और उपनिषद" : "Quantum & the Upanishads"}</a>
