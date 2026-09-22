@@ -7,6 +7,7 @@ import { t } from "../../data/i18n.js";
   description="Quantum Learning Hub में जाने के लिए Google या ईमेल से साइन इन करें।"
   lang="hi"
   noGate={true}
+  noFooter={true}
   altUrl="/login/"
 >
   <div class="login-wrap" data-pagefind-ignore>
@@ -50,7 +51,6 @@ import { t } from "../../data/i18n.js";
         </div>
         <p class="login-note"><a href="#" id="verify-signout">{t("hi", "signOut")}</a></p>
       </div>
-      <p class="login-note">{t("hi", "loginNote")}</p>
       <div id="login-authed" hidden>
         <p>{t("hi", "signedInAs")} <strong id="login-email"></strong></p>
         <p>
@@ -60,12 +60,42 @@ import { t } from "../../data/i18n.js";
         </p>
       </div>
     </div>
+    <figure class="login-quote" data-pagefind-ignore>
+      <blockquote id="login-quote-text"></blockquote>
+      <figcaption id="login-quote-by"></figcaption>
+    </figure>
   </div>
 
   {/* Login logic talks ONLY to the auth interface in /auth/
       (see public/auth/README.md) — zero provider-specific code here. */
   <script>
     (function () {
+      /* Rotating quantum quotes under the login card. */
+      var QUOTES = [
+        ["अगर आपको लगता है कि आप क्वांटम मैकेनिक्स समझ गए हैं, तो आप क्वांटम मैकेनिक्स नहीं समझे।", "रिचर्ड फाइनमैन"],
+        ["मैं पूरे विश्वास से कह सकता हूँ कि क्वांटम मैकेनिक्स कोई नहीं समझता।", "रिचर्ड फाइनमैन"],
+        ["ब्रह्मांड न सिर्फ़ हमारी कल्पना से अजीब है, बल्कि हमारी कल्पना की सीमा से भी ज़्यादा अजीब है।", "जे. बी. एस. हाल्डेन"],
+        ["जिसे हम वास्तविक कहते हैं, वह सब ऐसी चीज़ों से बना है जिन्हें वास्तविक नहीं कहा जा सकता।", "नील्स बोर"],
+        ["अगर क्वांटम मैकेनिक्स ने आपको गहराई से हैरान नहीं किया, तो आप उसे अभी समझे नहीं हैं।", "नील्स बोर"],
+        ["ईश्वर ब्रह्मांड के साथ पासे नहीं खेलता।", "अल्बर्ट आइंस्टीन"],
+      ];
+      var qText = document.getElementById("login-quote-text");
+      var qBy = document.getElementById("login-quote-by");
+      var qFig = qText && qText.closest(".login-quote");
+      var qi = Math.floor(Math.random() * QUOTES.length);
+      function showQuote() {
+        if (!qText) return;
+        qText.textContent = QUOTES[qi][0];
+        qBy.textContent = "\u2014 " + QUOTES[qi][1];
+        qi = (qi + 1) % QUOTES.length;
+      }
+      showQuote();
+      setInterval(function () {
+        if (!qFig) return;
+        qFig.classList.add("fade");
+        setTimeout(function () { showQuote(); qFig.classList.remove("fade"); }, 500);
+      }, 9000);
+
       var AUTH_BASE = "/auth/";
       var errBox = document.getElementById("login-err");
       var okBox = document.getElementById("login-ok");

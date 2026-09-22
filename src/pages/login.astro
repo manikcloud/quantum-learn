@@ -7,6 +7,7 @@ import { t } from "../data/i18n.js";
   description="Sign in with Google or email to access the Quantum Learning Hub."
   lang="en"
   noGate={true}
+  noFooter={true}
   altUrl="/hi/login/"
 >
   <div class="login-wrap" data-pagefind-ignore>
@@ -50,7 +51,6 @@ import { t } from "../data/i18n.js";
         </div>
         <p class="login-note"><a href="#" id="verify-signout">{t("en", "signOut")}</a></p>
       </div>
-      <p class="login-note">{t("en", "loginNote")}</p>
       <div id="login-authed" hidden>
         <p>{t("en", "signedInAs")} <strong id="login-email"></strong></p>
         <p>
@@ -60,12 +60,42 @@ import { t } from "../data/i18n.js";
         </p>
       </div>
     </div>
+    <figure class="login-quote" data-pagefind-ignore>
+      <blockquote id="login-quote-text"></blockquote>
+      <figcaption id="login-quote-by"></figcaption>
+    </figure>
   </div>
 
   {/* Login logic talks ONLY to the auth interface in /auth/
       (see public/auth/README.md) — zero provider-specific code here. */
   <script>
     (function () {
+      /* Rotating quantum quotes under the login card. */
+      var QUOTES = [
+        ["If you think you understand quantum mechanics, you don't understand quantum mechanics.", "Richard Feynman"],
+        ["I think I can safely say that nobody understands quantum mechanics.", "Richard Feynman"],
+        ["The universe is not only stranger than we imagine, it is stranger than we can imagine.", "J. B. S. Haldane"],
+        ["Everything we call real is made of things that cannot be regarded as real.", "Niels Bohr"],
+        ["If quantum mechanics hasn't profoundly shocked you, you haven't understood it yet.", "Niels Bohr"],
+        ["God does not play dice with the universe.", "Albert Einstein"],
+      ];
+      var qText = document.getElementById("login-quote-text");
+      var qBy = document.getElementById("login-quote-by");
+      var qFig = qText && qText.closest(".login-quote");
+      var qi = Math.floor(Math.random() * QUOTES.length);
+      function showQuote() {
+        if (!qText) return;
+        qText.textContent = QUOTES[qi][0];
+        qBy.textContent = "\u2014 " + QUOTES[qi][1];
+        qi = (qi + 1) % QUOTES.length;
+      }
+      showQuote();
+      setInterval(function () {
+        if (!qFig) return;
+        qFig.classList.add("fade");
+        setTimeout(function () { showQuote(); qFig.classList.remove("fade"); }, 500);
+      }, 9000);
+
       var AUTH_BASE = "/auth/";
       var errBox = document.getElementById("login-err");
       var okBox = document.getElementById("login-ok");
