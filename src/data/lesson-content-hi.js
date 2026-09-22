@@ -10,6 +10,15 @@ export const lessonContentHi = {
       <p>सबसे पहले — <strong>"quantum"</strong> शब्द का मतलब क्या है? यह Latin का शब्द है, मतलब "कितना": किसी चीज़ की एक fixed मात्रा, एक <strong>packet</strong>। इसका plural है <strong>"quanta"</strong> — छोटे-छोटे packets।</p>
       <p>Picture में यह आया <strong>1900</strong> में। Physicist Max Planck एक puzzle पर अटके थे — <em>blackbody radiation</em>: गरम चीज़ें जो light देती हैं, उसका हिसाब classical physics की किसी prediction से मिल नहीं रहा था। मज़बूरी में उन्होंने एक mathematical trick आज़माई — मान लो energy लगातार बहती नहीं, बल्कि छोटे-छोटे packets, <em>quanta</em>, में आती है। Trick काम कर गई।</p>
       <p>यहीं से quantum physics शुरू होती है: सबसे छोटे scale पर nature smooth और लगातार नहीं है — वह <strong>chunks</strong> में बँधी है। और quantum computer बस इसी idea की machine है: इन्हीं chunks — <strong>qubits</strong> — से computing, इन्हीं के rules पर।</p>
+      <div class="note-box">
+        <p><strong>एक पुरानी भारतीय गूँज — quantum physics नहीं, लेकिन वही instinct।</strong> Planck से बहुत पहले भारत के वैशेषिक दर्शन (ऋषि कणाद) ने तर्क दिया था कि matter को अनंत तक बाँटा नहीं जा सकता: सबसे नीचे अविभाज्य, नित्य कण होने चाहिए — <em>परमाणु</em>। भागवत पुराण इसे श्लोक में कहता है:</p>
+        <p>चरमः सद्विशेषाणामनेकोऽसंयुतः सदा ।<br/>परमाणुः स विज्ञेयो नृणामैक्यभ्रमो यतः ॥ <em>(भागवत पुराण 3.11.1)</em></p>
+        <p>"भौतिक जगत का अंतिम कण — अविभाज्य, जो खुद कभी शरीर नहीं बनता — <em>परमाणु</em> कहलाता है। वह हमेशा रहता है, अदृश्य, सारे रूप मिट जाने के बाद भी; हर शरीर बस ऐसे ही परमाणुओं का combination है।"</p>
+        <p>और वे जुड़ते कैसे हैं, कुछ श्लोक आगे:</p>
+        <p>अणुर्द्वौ परमाणू स्यात्त्रसरेणुस्त्रयः स्मृतः ।<br/>जालार्करश्म्यवगतः खमेवानुपतन्नगात् ॥ <em>(भागवत पुराण 3.11.5)</em></p>
+        <p>"दो परमाणुओं से एक <em>अणु</em>, तीन अणुओं से एक <em>त्रसरेणु</em> — वही कण जो खिड़की की जाली से आती धूप में नाचते दिखते हैं।"</p>
+        <p>ईमानदारी से: यह philosophy है, physics नहीं। कणाद के पास न experiments थे, न equations, न Planck's constant — उनके परमाणु शुद्ध तर्क से निकले थे। लेकिन instinct वही है जो दो हज़ार साल बाद Planck को ले गया: नीचे उतरो, तो nature <strong>chunks</strong> में मिलती है।</p>
+      </div>
       <p>जो आप पहले से जानते हैं, वहीं से शुरू करते हैं। classical bit — जो आपके laptop के अंदर होता है — एक <strong>light switch</strong> की तरह है। यह या तो OFF होता है (जिसे हम 0 कहते हैं) या ON (जिसे हम 1 कहते हैं)। बीच में कुछ नहीं होता।</p>
       <p><strong>qubit</strong> एक <strong>घूमते हुए सिक्के</strong> की तरह है। जब सिक्का हवा में घूम रहा होता है, तब वह न चित (heads) होता है, न पट (tails) — वह एक ही समय में दोनों संभावनाओं का <em>मिश्रण (blend)</em> होता है। physicists इस मिश्रण को <strong>superposition</strong> कहते हैं।</p>
       <p>अब qubit का <strong>measurement</strong> कीजिए। यह घूमते सिक्के पर हाथ मारने जैसा है: उसी पल वह चित (0) <em>या</em> पट (1) बन जाता है। घूमना रुक जाता है, मिश्रण खत्म, और आपको एक पक्का जवाब मिल जाता है।</p>

@@ -22,6 +22,15 @@ export const lessonContent = {
       <p>Before anything else — what does <strong>"quantum"</strong> even mean? It is a Latin word meaning "how much": a fixed amount, a <strong>packet</strong>, of something. Its plural is <strong>"quanta"</strong> — little packets.</p>
       <p>It entered the picture in <strong>1900</strong>. The physicist Max Planck was stuck on a puzzle called <em>blackbody radiation</em>: the light glowing-hot objects give off did not match anything classical physics predicted. In desperation he tried a mathematical trick — suppose energy does not flow continuously, but arrives in tiny packets, <em>quanta</em>. The trick worked.</p>
       <p>That is where quantum physics begins: at the smallest scales, nature is not smooth and continuous — it comes in <strong>chunks</strong>. A quantum computer is simply that idea turned into a machine: computing with those chunks — <strong>qubits</strong> — playing by their rules.</p>
+      <div class="note-box">
+        <p><strong>An old Indian echo — not quantum physics, but the same instinct.</strong> Long before Planck, India's Vaisheshika school (sage Kanada) argued that matter cannot be divided forever: it must bottom out in indivisible, eternal particles — <em>paramāṇu</em>. The Bhagavata Purana states it as a verse:</p>
+        <p>चरमः सद्विशेषाणामनेकोऽसंयुतः सदा ।<br/>परमाणुः स विज्ञेयो नृणामैक्यभ्रमो यतः ॥ <em>(Bhagavata Purana 3.11.1)</em></p>
+        <p>"The ultimate particle of the material world — indivisible, never itself combining into a body — is called the <em>paramāṇu</em>. It exists always, invisible, even after all forms dissolve; every body is but a combination of such atoms."</p>
+        <p>And how they combine, a few verses later:</p>
+        <p>अणुर्द्वौ परमाणू स्यात्त्रसरेणुस्त्रयः स्मृतः ।<br/>जालार्करश्म्यवगतः खमेवानुपतन्नगात् ॥ <em>(Bhagavata Purana 3.11.5)</em></p>
+        <p>"Two <em>paramāṇus</em> make one <em>aṇu</em>; three <em>aṇus</em> make one <em>trasareṇu</em> — the mote you can see dancing in a sunbeam slanting through a window screen."</p>
+        <p>Be honest about what this is: philosophy, not physics. Kanada had no experiments, no equations, no Planck's constant — his atoms were reached by pure reasoning. But the instinct is the same one Planck followed two millennia later: go down far enough, and nature comes in <strong>chunks</strong>.</p>
+      </div>
       <p>Start with what you already know. A classical bit — the kind inside your laptop — is like a <strong>light switch</strong>. It is either OFF (we call that 0) or ON (we call that 1). There is no in-between.</p>
       <p>A <strong>qubit</strong> is like a <strong>spinning coin</strong>. While the coin spins in the air, it is neither heads nor tails — it is a <em>blend</em> of both possibilities at once. Physicists call this blend <strong>superposition</strong>.</p>
       <p>Now <strong>measure</strong> the qubit. That is like slapping your hand down on the spinning coin: in that instant it becomes heads (0) <em>or</em> tails (1). The spinning stops, the blend is gone, and you get one definite answer.</p>
