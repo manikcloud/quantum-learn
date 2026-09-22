@@ -1,0 +1,86 @@
+---
+import SiteLayout from "../../layouts/SiteLayout.astro";
+import { firebaseConfig, ALLOWED_EMAILS, authConfigured } from "../../data/auth-config.js";
+import { t } from "../../data/i18n.js";
+---
+<SiteLayout
+  title={t("hi", "loginTitle")}
+  description="Quantum Learning Hub में जाने के लिए Google से साइन इन करें।"
+  lang="hi"
+  noGate={true}
+  altUrl="/login/"
+>
+  <div class="login-wrap" data-pagefind-ignore>
+    <div class="login-card">
+      <div class="brand-mark login-mark">Q</div>
+      <h1>{t("hi", "loginTitle")}</h1>
+      <p class="login-sub">{t("hi", "loginSub")}</p>
+      <div id="login-err" class="login-err" hidden></div>
+      <button id="google-btn" class="google-btn">
+        <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+          <path fill="#4285F4" d="M23.5 12.3c0-.9-.1-1.5-.3-2.3H12v4.5h6.5c-.1 1.1-.8 2.7-2.4 3.8l3.6 2.8c2.2-2 3.8-5 3.8-8.8z"/>
+          <path fill="#34A853" d="M12 24c3.2 0 5.9-1.1 7.9-2.9l-3.8-2.9c-1 .7-2.4 1.2-4.1 1.2-3.1 0-5.8-2.1-6.8-5l-3.9 3C3.5 21.3 7.5 24 12 24z"/>
+          <path fill="#FBBC05" d="M5.2 14.4c-.2-.7-.4-1.5-.4-2.4s.1-1.7.4-2.4l-3.9-3C.5 8.3 0 10.1 0 12s.5 3.7 1.3 5.3l3.9-2.9z"/>
+          <path fill="#EA4335" d="M12 4.7c1.8 0 3 .8 3.7 1.4l3.3-3.2C17.9 1.1 15.2 0 12 0 7.5 0 3.5 2.7 1.3 6.7l3.9 3c1-2.9 3.7-5 6.8-5z"/>
+        </svg>
+        <span>{t("hi", "continueWithGoogle")}</span>
+      </button>
+      <p class="login-note">{t("hi", "loginNote")}</p>
+      <div id="login-authed" hidden>
+        <p>{t("hi", "signedInAs")} <strong id="login-email"></strong></p>
+        <p>
+          <a id="login-continue" href="/hi/">{t("hi", "continueToSite")}</a>
+          {" · "}
+          <a href="#" id="login-switch">{t("hi", "switchAccount")}</a>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <script define:vars={{ fbConfig: firebaseConfig, allowed: ALLOWED_EMAILS, configured: authConfigured }}>
+    (function () {
+      var errBox = document.getElementById("login-err");
+      var btn = document.getElementById("google-btn");
+      var authedBox = document.getElementById("login-authed");
+      function showErr(msg) { errBox.hidden = false; errBox.textContent = msg; }
+      var params = new URLSearchParams(window.location.search);
+      var next = params.get("next") || "/hi/";
+      if (next.charAt(0) !== "/") next = "/hi/";
+      if (params.get("denied") === "1") showErr("यह Google account access list में नहीं है।");
+      if (!configured) {
+        btn.disabled = true;
+        showErr("साइन-इन अभी जुड़ा नहीं है — setup चल रहा है। कृपया बाद में फिर कोशिश करें।");
+        return;
+      }
+      function boot() {
+        if (!window.firebase) { showErr("साइन-इन सेवा नहीं मिल रही — कनेक्शन जाँचें और reload करें।"); return; }
+        try { firebase.initializeApp(fbConfig); } catch (e) { /* already initialized */ }
+        var auth = firebase.auth();
+        auth.getRedirectResult().catch(function (e) {
+          showErr((e && e.message) || "साइन-इन असफल रहा। कृपया फिर कोशिश करें।");
+        });
+        auth.onAuthStateChanged(function (user) {
+          if (!user) return;
+          if (allowed && allowed.length && allowed.indexOf(user.email) === -1) {
+            auth.signOut().then(function () { showErr("यह Google account access list में नहीं है।"); });
+            return;
+          }
+          authedBox.hidden = false;
+          document.getElementById("login-email").textContent = user.email || user.displayName || "";
+          document.getElementById("login-continue").setAttribute("href", next);
+          btn.style.display = "none";
+          setTimeout(function () { window.location.replace(next); }, 1200);
+        });
+        btn.addEventListener("click", function () {
+          auth.signInWithRedirect(new firebase.auth.GoogleAuthProvider());
+        });
+        document.getElementById("login-switch").addEventListener("click", function (e) {
+          e.preventDefault();
+          auth.signOut().then(function () { window.location.reload(); });
+        });
+      }
+      if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot);
+      else boot();
+    })();
+  </script>
+</SiteLayout>

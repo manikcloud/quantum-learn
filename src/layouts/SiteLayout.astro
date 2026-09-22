@@ -3,6 +3,7 @@ import "../styles/global.css";
 import { modules, flatLessons, moduleOf } from "../data/curriculum.js";
 import { t } from "../data/i18n.js";
 import { hiModuleTitle, hiLessonTitle } from "../data/hi-meta.js";
+import { firebaseConfig, ALLOWED_EMAILS, authConfigured } from "../data/auth-config.js";
 
 const {
   title = "Quantum Learning Hub",
@@ -12,6 +13,7 @@ const {
   nextUrl = "",
   lang = "en",
   altUrl = "",
+  noGate = false,
 } = Astro.props;
 
 const isHi = lang === "hi";
@@ -30,8 +32,18 @@ const lessonCount = flatLessons.length;
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" />
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
   </head>
   <body data-prev={prevUrl || undefined} data-next={nextUrl || undefined} data-lesson-count={lessonCount}>
+    {!noGate && (
+      <div id="auth-gate" aria-hidden="true">
+        <div class="gate-card">
+          <div class="spinner"></div>
+          <p class="gate-msg">{isHi ? "साइन-इन जाँचा जा रहा है…" : "Checking sign-in…"}</p>
+        </div>
+      </div>
+    )}
     <header class="topbar">
       <button class="icon-btn" id="menu-toggle" aria-label="Open navigation">☰</button>
       <a class="brand" href={isHi ? "/hi/" : "/"}>
@@ -52,6 +64,8 @@ const lessonCount = flatLessons.length;
           {isHi ? "EN" : "हिंदी"}
         </a>
       )}
+      <span id="user-chip" class="user-chip" hidden></span>
+      <button class="icon-btn" id="signout-btn" hidden title={t(lang, "signOut")} aria-label={t(lang, "signOut")}>⏻</button>
       <button class="icon-btn" id="theme-toggle" aria-label="Toggle light/dark mode">◐</button>
     </header>
 
@@ -289,5 +303,63 @@ const lessonCount = flatLessons.length;
         else window.addEventListener("load", renderMath);
       })();
     </script>
+    {!noGate && (
+      <script define:vars={{ fbConfig: firebaseConfig, allowed: ALLOWED_EMAILS, configured: authConfigured, uiLang: lang }}>
+        (function () {
+          var gate = document.getElementById("auth-gate");
+          function hideGate() { if (gate) gate.style.display = "none"; }
+          /* Firebase not wired yet — leave the site public until it is. */
+          if (!configured) { hideGate(); return; }
+          function loginUrl(denied) {
+            var base = uiLang === "hi" ? "/hi/login/" : "/login/";
+            var next = encodeURIComponent(window.location.pathname + window.location.search);
+            return base + "?next=" + next + (denied ? "&denied=1" : "");
+          }
+          function boot() {
+            if (!window.firebase) {
+              var m0 = gate && gate.querySelector(".gate-msg");
+              if (m0) m0.textContent = uiLang === "hi"
+                ? "साइन-इन सेवा नहीं मिल रही — कनेक्शन जाँचें और पेज reload करें।"
+                : "Sign-in service unreachable — check your connection and reload.";
+              return;
+            }
+            try { firebase.initializeApp(fbConfig); } catch (e) { /* already initialized */ }
+            var auth = firebase.auth();
+            auth.onAuthStateChanged(function (user) {
+              if (!user) { window.location.replace(loginUrl(false)); return; }
+              if (allowed && allowed.length && allowed.indexOf(user.email) === -1) {
+                auth.signOut().then(function () { window.location.replace(loginUrl(true)); });
+                return;
+              }
+              document.body.classList.add("is-authed");
+              hideGate();
+              var chip = document.getElementById("user-chip");
+              if (chip) {
+                chip.hidden = false;
+                chip.textContent = user.email || user.displayName || "";
+                chip.title = user.email || user.displayName || "";
+              }
+              var so = document.getElementById("signout-btn");
+              if (so) {
+                so.hidden = false;
+                so.addEventListener("click", function () {
+                  auth.signOut().then(function () { window.location.replace(loginUrl(false)); });
+                });
+              }
+            });
+            setTimeout(function () {
+              if (!document.body.classList.contains("is-authed") && gate && gate.style.display !== "none") {
+                var m = gate.querySelector(".gate-msg");
+                if (m) m.textContent = uiLang === "hi"
+                  ? "साइन-इन में देर हो रही है — पेज reload करें।"
+                  : "Sign-in is taking too long — reload the page.";
+              }
+            }, 20000);
+          }
+          if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot);
+          else boot();
+        })();
+      </script>
+    )}
   </body>
 </html>
