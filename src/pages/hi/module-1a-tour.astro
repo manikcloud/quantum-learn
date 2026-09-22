@@ -1,0 +1,207 @@
+---
+import SiteLayout from "../../layouts/SiteLayout.astro";
+
+const stops = [
+  {
+    n: 1,
+    title: "एक तस्वीर में पूरा course",
+    lesson: "/hi/lessons/m1a-course-map/",
+    text: "पूरे subject को 3 pillars संभालते हैं: <strong>quantum computing</strong> — future की computing; <strong>machine learning</strong> — वह technology जो आज की दुनिया चला रही है; और <strong>quantum machine learning</strong> जहाँ दोनों मिलते हैं। सफ़र qubits से quantum advantage तक, फिर ML तक — इसी order में, क्योंकि दोनों पक्ष मज़बूत हुए बिना उनका intersection समझ नहीं आएगा।",
+  },
+  {
+    n: 2,
+    title: "Bits, qubits, और 'कैसे?' वाला सवाल",
+    lesson: "/hi/lessons/m1a-qubit/",
+    text: "Classical bit हमेशा 0 या 1 होता है। <strong>qubit</strong> 0 और 1 के <strong>blend</strong> में एक साथ रह सकता है। स्वाभाविक सवाल — <em>यह possible कैसे है?</em> — का एक शब्द में जवाब है: <strong>superposition</strong>, quantum computing का सबसे अजीब और सबसे central idea।",
+  },
+  {
+    n: 3,
+    title: "Superposition और कई qubits",
+    lesson: "/hi/lessons/m1a-superposition/",
+    text: "Physicists quantum states को <strong>Dirac के ket notation</strong> में लिखते हैं: |0⟩, |1⟩, और |ψ⟩ = α|0⟩ + β|1⟩ जैसे blends। दूसरा qubit जुड़ते ही pair को describe करने में 4 numbers चाहिए; तीसरे पर 8। Description हर बार double — <strong>n qubits के लिए 2ⁿ numbers</strong>। क्या यह powerful नहीं है?",
+  },
+  {
+    n: 4,
+    title: "Bits बनाम qubits: scaling कैसे बदलती है",
+    lesson: "/hi/lessons/m1a-bits-vs-qubits/",
+    text: "2 punchlines quantum edge को capture करती हैं। जिसमें classically <strong>linear</strong> effort लगता है, उसमें quantumly सिर्फ़ <strong>logarithmic</strong> लग सकता है — और जिसमें classically <strong>exponential</strong> effort लगता है, वह सिर्फ़ <strong>linear</strong> बन सकता है। यही quantum advantage की जड़ है: कितना compute करना पड़े, इसका exponential compression।",
+  },
+  {
+    n: 5,
+    title: "Measurement: qubit का शाप",
+    lesson: "/hi/lessons/m1a-measurement/",
+    text: "qubit को measure करते ही वह <strong>एक ही state में collapse</strong> हो जाता है — superposition ख़त्म। और measurement का मतलब <em>कोई भी</em> intrusion है qubit की privacy में: उसे observe करता scientist, टकराता हुआ कोई stray atom, information leak करता photon। एक measurement, एक classical जवाब। Algorithms को clever सवाल पूछने पड़ते हैं।",
+  },
+  {
+    n: 6,
+    title: "qubit बन किस चीज़ से सकता है?",
+    lesson: "/hi/lessons/m1a-physical-qubits/",
+    text: "qubit कोई भी controllable <strong>two-level quantum system</strong> हो सकता है। Electron का ground बनाम excited energy level। Electron का spin, up या down। Photon का polarization, horizontal या vertical। और भी कई — trapped ions, superconducting circuits, neutral atoms, quantum dots — हर एक अलग engineering trade-off।",
+  },
+  {
+    n: 7,
+    title: "3 बुनियादी properties",
+    lesson: "/hi/lessons/m1a-three-properties/",
+    text: "<strong>Superposition</strong> — वह blend जो quantum physics को computing के लिए interesting बनाता है। <strong>Interference</strong> — circuit की wave-like amplitudes को इस तरह steer करना कि ग़लत जवाब cancel हो जाएँ और सही बच जाए। <strong>Entanglement</strong> — qubits के बीच वह 'spooky' correlation जो quantum system की capacity बढ़ा देता है। और नहीं, इससे messages नहीं भेजे जा सकते, न time travel होता है।",
+  },
+  {
+    n: 8,
+    title: "quantum algorithms क्यों जीतते हैं",
+    lesson: "/hi/lessons/m1a-merits/",
+    text: "Computational steps को problem size के against plot करो, तो मुश्किल problems के लिए classical curve <strong>exponentially फट</strong> जाती है जबकि quantum curves नीचे ही रहती हैं। Flagship example: numbers को factorize करने में classically super-polynomial effort लगता है — यही hardness पूरे modern encryption की नींव है — जबकि <strong>Shor's algorithm</strong> polynomial time में factorize करता है। Merit clock speed में नहीं, scaling में नापी जाती है।",
+  },
+  {
+    n: 9,
+    title: "quantum algorithms के 3 circles",
+    lesson: "/hi/lessons/m1a-three-circles/",
+    text: "3 overlapping circles imagine करो: <strong>practical utility</strong>, <strong>few number of qubits</strong>, और <strong>quantum advantage</strong>। Center — जहाँ तीनों एक साथ मिलें — वही desired area है। Shor's algorithm में utility और advantage है पर कई qubits चाहिए; 2019 के supremacy experiment में कुछ qubits पर advantage था पर utility नहीं। Center ही field का लक्ष्य है।",
+  },
+  {
+    n: 10,
+    title: "आज के quantum computers: NISQ era",
+    lesson: "/hi/lessons/m1a-nisq/",
+    text: "हम <strong>NISQ era</strong> में जी रहे हैं — Noisy Intermediate-Scale Quantum। <em>Noisy:</em> error correction अभी इस्तेमाल में नहीं। <em>Intermediate:</em> qubit counts बहुत बड़ी नहीं। Noise qubits को decoherence में धकेलता है, कई designs को near-absolute-zero cooling चाहिए, और raw qubit count कुछ नहीं बताता — <strong>quantum volume</strong> और <strong>CLOPS</strong> quality और speed नापते हैं।",
+  },
+  {
+    n: 11,
+    title: "5 मिनट में machine learning",
+    lesson: "/hi/lessons/m1a-ml-basics/",
+    text: "<strong>Machine learning data से predict करता है</strong> — mathematically, function approximation plus optimization। 4 तरह के problems: <strong>classification</strong> (cat है या नहीं, spam है या नहीं), <strong>regression</strong> (कल का मौसम, अगले quarter की sales), <strong>clustering</strong> (natural groups खोजो), और <strong>recommendation</strong> (आगे क्या देखोगे)। जवाब labeled हों तो supervised, न हों तो unsupervised।",
+  },
+  {
+    n: 12,
+    title: "quantum machine learning: 4 flavors",
+    lesson: "/hi/lessons/m1a-qml/",
+    text: "हर QML idea को एक 2×2 box में sort करो — <em>data</em> classical है या quantum, <em>processor</em> classical है या quantum? <strong>CC:</strong> quantum-inspired classical algorithms (Tang dequantization story)। <strong>QC:</strong> quantum hardware को बेहतर बनाता ML। <strong>CQ:</strong> ML के लिए quantum speedups, data loading की bottleneck के साथ। <strong>QQ:</strong> quantum processors पर quantum data — कोई loading problem नहीं।",
+  },
+];
+---
+<SiteLayout
+  title="Module 1a tour: 12 stops में big picture"
+  description="पहले lecture के पूरे arc का guided carousel — qubits, superposition, measurement, physical platforms, quantum advantage, NISQ era, machine learning और quantum machine learning — हर stop अपने full lesson से जुड़ा।"
+  altUrl="/module-1a-tour/"
+  currentSlug="module-1a-tour"
+>
+  <nav class="crumbs" data-pagefind-ignore>
+    <a href="/hi/">Home</a> / Module 1a tour
+  </nav>
+  <span class="tag">विशेष फ़ीचर</span>
+  <h1>Module 1a tour: 12 stops में big picture</h1>
+
+  <section class="explain-simple">
+    <div class="kicker">यह क्या है</div>
+    <p>
+      पहले lecture का पूरा arc — हर बड़ा idea, पहले qubit से quantum machine learning के 4 flavors तक —
+      12 stops के guided tour के रूप में। Stops को slides की तरह पलटो, फिर किसी भी stop के full bilingual lesson
+      में dive करो। पूरे treatment के लिए sidebar में <a href="/hi/modules/module-1a/">Module 1A: The Big Picture</a> से शुरू करो।
+    </p>
+  </section>
+
+  <section class="tour" aria-label="Guided tour">
+    <div class="tour-viewport">
+      <div class="tour-track" id="tourTrack">
+        {stops.map((s) => (
+          <article class="tour-card" aria-label={`Stop ${s.n} of 12`}>
+            <div class="tour-stop">Stop {s.n} of 12</div>
+            <h2>{s.title}</h2>
+            <p set:html={s.text} />
+            <a class="tour-link" href={s.lesson}>पूरा lesson पढ़ो →</a>
+          </article>
+        ))}
+      </div>
+    </div>
+    <div class="tour-controls" data-pagefind-ignore>
+      <button id="tourPrev" aria-label="Previous stop">← पिछला</button>
+      <div class="tour-dots" id="tourDots" role="tablist" aria-label="Tour stops">
+        {stops.map((s, i) => (
+          <button role="tab" aria-label={`Go to stop ${s.n}`} data-i={i} class={i === 0 ? "on" : ""}></button>
+        ))}
+      </div>
+      <button id="tourNext" aria-label="Next stop">अगला →</button>
+    </div>
+  </section>
+
+  <section class="keypoints">
+    <h2>मुख्य बातें</h2>
+    <ul>
+      <li>Qubits 0 और 1 का blend रखते हैं (superposition); n qubits को 2ⁿ numbers describe करते हैं — यही quantum power का स्रोत है।</li>
+      <li>Measurement blend को collapse कर देता है, और कोई भी intrusion — observation, stray particles, leak होते photons — measurement ही है।</li>
+      <li>Superposition, interference और entanglement तीनों मिलकर quantum algorithms को जिताते हैं।</li>
+      <li>Quantum advantage scaling का खेल है: exponential classical effort का polynomial quantum effort बन जाना।</li>
+      <li>आज का hardware NISQ है — noisy, intermediate-scale; machines को qubit count से नहीं, quantum volume और CLOPS से judge करो।</li>
+      <li>Quantum machine learning 4 boxes (CC, CQ, QC, QQ) में बँटता है — data और processor classical हैं या quantum, इस हिसाब से।</li>
+    </ul>
+  </section>
+
+  <section class="references">
+    <h2>References</h2>
+    <p class="ref-lead">इस tour के पीछे standard sources — textbooks और landmark papers। हर sentence original rewrite है; कोई course material reproduce नहीं किया गया।</p>
+    <ol>
+      <li>
+        <span>Nielsen &amp; Chuang, <em>Quantum Computation and Quantum Information</em> (Cambridge).</span>
+        <br /><span class="ref-use">Used for: qubit formalism, Born rule, 2ⁿ state space, Shor's algorithm, error correction।</span>
+      </li>
+      <li>
+        <span>Preskill, "Quantum computing in the NISQ era and beyond" (Quantum 2, 79, 2018)।</span>
+        <br /><span class="ref-use">Used for: NISQ concept और उसकी framing।</span>
+      </li>
+      <li>
+        <span>Arute et al., "Quantum supremacy using a programmable superconducting processor" (Nature 574, 2019)।</span>
+        <br /><span class="ref-use">Used for: stop 9 में 2019 supremacy experiment।</span>
+      </li>
+      <li>
+        <span>Tang, "A quantum-inspired classical algorithm for recommendation systems" (STOC 2019; arXiv:1807.04271)।</span>
+        <br /><span class="ref-use">Used for: stop 12 में dequantization story।</span>
+      </li>
+    </ol>
+  </section>
+
+  <style>
+    .tour { margin: 1.5rem 0; }
+    .tour-viewport { overflow: hidden; border: 1px solid var(--border); border-radius: var(--radius); background: var(--card); box-shadow: var(--shadow); }
+    .tour-track { display: flex; transition: transform 0.35s ease; }
+    .tour-card { flex: 0 0 100%; box-sizing: border-box; padding: 1.75rem; min-height: 300px; }
+    .tour-stop { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 0.5rem; }
+    .tour-card h2 { margin: 0 0 0.75rem; font-size: 1.35rem; }
+    .tour-card p { line-height: 1.65; color: var(--text); }
+    .tour-link { display: inline-block; margin-top: 1rem; font-weight: 600; color: var(--accent); text-decoration: none; }
+    .tour-link:hover { text-decoration: underline; }
+    .tour-controls { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-top: 0.9rem; }
+    .tour-controls button { cursor: pointer; border: 1px solid var(--border); background: var(--card); color: var(--text); border-radius: var(--radius); padding: 0.5rem 1rem; font-size: 0.95rem; }
+    .tour-controls button:hover { background: var(--card-hover); }
+    .tour-dots { display: flex; gap: 0.45rem; flex-wrap: wrap; justify-content: center; }
+    .tour-dots button { width: 0.8rem; height: 0.8rem; border-radius: 50%; padding: 0; border: 1px solid var(--border); background: transparent; }
+    .tour-dots button.on { background: var(--accent); border-color: var(--accent); }
+  </style>
+
+  <script>
+    (function () {
+      var track = document.getElementById("tourTrack");
+      var dots = Array.prototype.slice.call(document.querySelectorAll("#tourDots button"));
+      var prev = document.getElementById("tourPrev");
+      var next = document.getElementById("tourNext");
+      var i = 0, total = dots.length;
+      function go(n) {
+        i = (n + total) % total;
+        track.style.transform = "translateX(-" + i * 100 + "%)";
+        dots.forEach(function (d, k) { d.classList.toggle("on", k === i); });
+      }
+      prev.addEventListener("click", function () { go(i - 1); });
+      next.addEventListener("click", function () { go(i + 1); });
+      dots.forEach(function (d) {
+        d.addEventListener("click", function () { go(parseInt(d.getAttribute("data-i"), 10)); });
+      });
+      document.addEventListener("keydown", function (e) {
+        if (e.key === "ArrowLeft") go(i - 1);
+        else if (e.key === "ArrowRight") go(i + 1);
+      });
+    })();
+  </script>
+
+  <div class="pager" data-pagefind-ignore>
+    <a href="/hi/modules/module-1a/">
+      <span class="dir">और गहराई में →</span>
+      <span class="lbl">Module 1A: The Big Picture — सभी 12 lessons</span>
+    </a>
+  </div>
+</SiteLayout>

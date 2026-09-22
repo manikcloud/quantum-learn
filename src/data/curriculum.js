@@ -20,6 +20,28 @@ export const modules = [
     ],
   },
   {
+    id: "module-1a",
+    number: "1A",
+    title: "The Big Picture",
+    tagline: "The full opening-lecture arc, rebuilt as lessons: qubits to QML.",
+    description:
+      "A companion module that walks the entire arc of the opening lecture — from bits and qubits through superposition, measurement, and physical platforms, to quantum advantage, the NISQ era, machine learning basics, and the four flavors of quantum machine learning. Every lesson is written from scratch in the site's own words.",
+    lessons: [
+      { slug: "m1a-course-map", title: "The Course in One Picture" },
+      { slug: "m1a-qubit", title: "Bits, Qubits, and the Question of How" },
+      { slug: "m1a-superposition", title: "Superposition and Many Qubits" },
+      { slug: "m1a-bits-vs-qubits", title: "Bits vs Qubits: How Scaling Changes" },
+      { slug: "m1a-measurement", title: "Measurement: The Curse of the Qubit" },
+      { slug: "m1a-physical-qubits", title: "What Can Become a Qubit?" },
+      { slug: "m1a-three-properties", title: "Three Fundamental Properties" },
+      { slug: "m1a-merits", title: "Why Quantum Algorithms Win" },
+      { slug: "m1a-three-circles", title: "Three Circles of Quantum Algorithms" },
+      { slug: "m1a-nisq", title: "Quantum Computers Today: The NISQ Era" },
+      { slug: "m1a-ml-basics", title: "Machine Learning in Five Minutes" },
+      { slug: "m1a-qml", title: "Quantum Machine Learning: Four Flavors" },
+    ],
+  },
+  {
     id: "module-2",
     number: 2,
     title: "Postulates of Quantum Computing",

@@ -3,6 +3,12 @@
 // curriculum entry, so Hindi coverage can grow lesson by lesson.
 
 export const hiModules = {
+  "module-1a": {
+    title: "The Big Picture — पूरा खाका",
+    tagline: "पहले lecture का पूरा सफ़र, lessons के रूप में: qubits से QML तक।",
+    description:
+      "एक companion module जो opening lecture के पूरे arc को lesson-दर-lesson खोलता है — bits और qubits से superposition, measurement और physical platforms तक, फिर quantum advantage, NISQ era, machine learning की basics, और quantum machine learning के 4 flavors। हर lesson site के अपने शब्दों में नए सिरे से लिखा गया है।",
+  },
   "module-1": {
     title: "Quantum Computing का परिचय",
     tagline: "Qubits, gates, और quantum world के अजीबोगरीब नियम।",
@@ -72,6 +78,18 @@ export const hiLessonTitles = {
   "phil-randomness-free-will": "Randomness, Determinism और Free Will",
   "phil-it-from-bit": "“It from Bit”: क्या Information ही Reality है?",
   "nobel-2025-clarke-devoret-martinis": "2025 · क्लार्क, डेवोरे और मार्टिनिस: क्वांटम कंप्यूटिंग नोबेल",
+  "m1a-course-map": "एक तस्वीर में पूरा course",
+  "m1a-qubit": "Bits, Qubits, और 'कैसे?' वाला सवाल",
+  "m1a-superposition": "Superposition और कई Qubits",
+  "m1a-bits-vs-qubits": "Bits बनाम Qubits: Scaling कैसे बदलती है",
+  "m1a-measurement": "Measurement: Qubit का शाप",
+  "m1a-physical-qubits": "Qubit बन किस चीज़ से सकता है?",
+  "m1a-three-properties": "3 बुनियादी Properties",
+  "m1a-merits": "Quantum Algorithms क्यों जीतते हैं",
+  "m1a-three-circles": "Quantum Algorithms के 3 Circles",
+  "m1a-nisq": "आज के Quantum Computers: NISQ Era",
+  "m1a-ml-basics": "5 मिनट में Machine Learning",
+  "m1a-qml": "Quantum Machine Learning: 4 Flavors",
 };
 
 export function hiModuleTitle(mod) {
