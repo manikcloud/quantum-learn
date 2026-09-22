@@ -19,6 +19,9 @@ export const lessonContent = {
   ...philosophyLessons,
   qubits: {
     simple: raw`
+      <p>Before anything else — what does <strong>"quantum"</strong> even mean? It is a Latin word meaning "how much": a fixed amount, a <strong>packet</strong>, of something. Its plural is <strong>"quanta"</strong> — little packets.</p>
+      <p>It entered the picture in <strong>1900</strong>. The physicist Max Planck was stuck on a puzzle called <em>blackbody radiation</em>: the light glowing-hot objects give off did not match anything classical physics predicted. In desperation he tried a mathematical trick — suppose energy does not flow continuously, but arrives in tiny packets, <em>quanta</em>. The trick worked.</p>
+      <p>That is where quantum physics begins: at the smallest scales, nature is not smooth and continuous — it comes in <strong>chunks</strong>. A quantum computer is simply that idea turned into a machine: computing with those chunks — <strong>qubits</strong> — playing by their rules.</p>
       <p>Start with what you already know. A classical bit — the kind inside your laptop — is like a <strong>light switch</strong>. It is either OFF (we call that 0) or ON (we call that 1). There is no in-between.</p>
       <p>A <strong>qubit</strong> is like a <strong>spinning coin</strong>. While the coin spins in the air, it is neither heads nor tails — it is a <em>blend</em> of both possibilities at once. Physicists call this blend <strong>superposition</strong>.</p>
       <p>Now <strong>measure</strong> the qubit. That is like slapping your hand down on the spinning coin: in that instant it becomes heads (0) <em>or</em> tails (1). The spinning stops, the blend is gone, and you get one definite answer.</p>

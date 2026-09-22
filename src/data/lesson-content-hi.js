@@ -7,6 +7,9 @@ const raw = String.raw;
 export const lessonContentHi = {
   qubits: {
     simple: raw`
+      <p>सबसे पहले — <strong>"quantum"</strong> शब्द का मतलब क्या है? यह Latin का शब्द है, मतलब "कितना": किसी चीज़ की एक fixed मात्रा, एक <strong>packet</strong>। इसका plural है <strong>"quanta"</strong> — छोटे-छोटे packets।</p>
+      <p>Picture में यह आया <strong>1900</strong> में। Physicist Max Planck एक puzzle पर अटके थे — <em>blackbody radiation</em>: गरम चीज़ें जो light देती हैं, उसका हिसाब classical physics की किसी prediction से मिल नहीं रहा था। मज़बूरी में उन्होंने एक mathematical trick आज़माई — मान लो energy लगातार बहती नहीं, बल्कि छोटे-छोटे packets, <em>quanta</em>, में आती है। Trick काम कर गई।</p>
+      <p>यहीं से quantum physics शुरू होती है: सबसे छोटे scale पर nature smooth और लगातार नहीं है — वह <strong>chunks</strong> में बँधी है। और quantum computer बस इसी idea की machine है: इन्हीं chunks — <strong>qubits</strong> — से computing, इन्हीं के rules पर।</p>
       <p>जो आप पहले से जानते हैं, वहीं से शुरू करते हैं। classical bit — जो आपके laptop के अंदर होता है — एक <strong>light switch</strong> की तरह है। यह या तो OFF होता है (जिसे हम 0 कहते हैं) या ON (जिसे हम 1 कहते हैं)। बीच में कुछ नहीं होता।</p>
       <p><strong>qubit</strong> एक <strong>घूमते हुए सिक्के</strong> की तरह है। जब सिक्का हवा में घूम रहा होता है, तब वह न चित (heads) होता है, न पट (tails) — वह एक ही समय में दोनों संभावनाओं का <em>मिश्रण (blend)</em> होता है। physicists इस मिश्रण को <strong>superposition</strong> कहते हैं।</p>
       <p>अब qubit का <strong>measurement</strong> कीजिए। यह घूमते सिक्के पर हाथ मारने जैसा है: उसी पल वह चित (0) <em>या</em> पट (1) बन जाता है। घूमना रुक जाता है, मिश्रण खत्म, और आपको एक पक्का जवाब मिल जाता है।</p>
