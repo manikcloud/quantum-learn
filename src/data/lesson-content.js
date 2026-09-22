@@ -12,11 +12,13 @@ const raw = String.raw;
 import { physicsLessons } from "./lesson-extra/physics.js";
 import { nobelLessons } from "./lesson-extra/nobel.js";
 import { philosophyLessons } from "./lesson-extra/philosophy.js";
+import { m1aLessons } from "./lesson-extra/m1a.js";
 
 export const lessonContent = {
   ...physicsLessons,
   ...nobelLessons,
   ...philosophyLessons,
+  ...m1aLessons,
   qubits: {
     simple: raw`
       <p>Before anything else — what does <strong>"quantum"</strong> even mean? It is a Latin word meaning "how much": a fixed amount, a <strong>packet</strong>, of something. Its plural is <strong>"quanta"</strong> — little packets.</p>

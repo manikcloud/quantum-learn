@@ -4,7 +4,10 @@
 
 const raw = String.raw;
 
+import { m1aLessonsHi } from "./lesson-extra/m1a-hi.js";
+
 export const lessonContentHi = {
+  ...m1aLessonsHi,
   qubits: {
     simple: raw`
       <p>सबसे पहले — <strong>"quantum"</strong> शब्द का मतलब क्या है? यह Latin का शब्द है, मतलब "कितना": किसी चीज़ की एक fixed मात्रा, एक <strong>packet</strong>। इसका plural है <strong>"quanta"</strong> — छोटे-छोटे packets।</p>

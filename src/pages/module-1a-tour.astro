@@ -1,0 +1,208 @@
+---
+import SiteLayout from "../layouts/SiteLayout.astro";
+
+const stops = [
+  {
+    n: 1,
+    title: "The course in one picture",
+    lesson: "/lessons/m1a-course-map/",
+    text: "Three pillars hold the whole subject up: <strong>quantum computing</strong> — the computing of the future; <strong>machine learning</strong> — the technology already carrying today's world; and <strong>quantum machine learning</strong> where the two meet. The journey runs from qubits to quantum advantage to ML, in that order, because the intersection only makes sense once both sides are solid.",
+  },
+  {
+    n: 2,
+    title: "Bits, qubits, and the question of how",
+    lesson: "/lessons/m1a-qubit/",
+    text: "A classical bit is always 0 or 1. A <strong>qubit</strong> can exist in a <strong>blend of 0 and 1</strong> at the same time. The natural question — <em>how is this possible?</em> — has a one-word answer: <strong>superposition</strong>, the strangest and most central idea in all of quantum computing.",
+  },
+  {
+    n: 3,
+    title: "Superposition and many qubits",
+    lesson: "/lessons/m1a-superposition/",
+    text: "Physicists write quantum states in <strong>Dirac's ket notation</strong>: |0⟩, |1⟩, and blends like |ψ⟩ = α|0⟩ + β|1⟩. Add a second qubit and you need 4 numbers to describe the pair; a third needs 8. The description doubles every time — <strong>2ⁿ numbers for n qubits</strong>. Is it not very powerful?",
+  },
+  {
+    n: 4,
+    title: "Bits vs qubits: how scaling changes",
+    lesson: "/lessons/m1a-bits-vs-qubits/",
+    text: "Two punchlines capture the quantum edge. What takes <strong>linear</strong> effort classically can take only <strong>logarithmic</strong> effort quantumly — and what takes <strong>exponential</strong> effort classically can become merely <strong>linear</strong>. This is the root of quantum advantage: exponential compression of how much must be computed.",
+  },
+  {
+    n: 5,
+    title: "Measurement: the curse of the qubit",
+    lesson: "/lessons/m1a-measurement/",
+    text: "Measure a qubit and it <strong>collapses to a single state</strong> — superposition gone. And measurement means <em>any</em> intrusion into the qubit's privacy: a scientist observing it, a stray atom bumping it, a photon leaking information about it. One measurement, one classical answer. Algorithms must ask clever questions.",
+  },
+  {
+    n: 6,
+    title: "What can become a qubit?",
+    lesson: "/lessons/m1a-physical-qubits/",
+    text: "A qubit is any controllable <strong>two-level quantum system</strong>. An electron's ground vs excited energy level. An electron's spin, up or down. A photon's polarization, horizontal or vertical. And many others — trapped ions, superconducting circuits, neutral atoms, quantum dots — each a different engineering trade-off.",
+  },
+  {
+    n: 7,
+    title: "Three fundamental properties",
+    lesson: "/lessons/m1a-three-properties/",
+    text: "<strong>Superposition</strong> — the blend that makes quantum physics interesting for computing. <strong>Interference</strong> — steering a circuit's wave-like amplitudes so wrong answers cancel and the right one survives. <strong>Entanglement</strong> — the 'spooky' correlation between qubits that expands what a quantum system can represent. And no, it cannot send messages or travel through time.",
+  },
+  {
+    n: 8,
+    title: "Why quantum algorithms win",
+    lesson: "/lessons/m1a-merits/",
+    text: "Plot computational steps against problem size and the classical curve for hard problems <strong>explodes exponentially</strong> while quantum curves stay low. The flagship: factoring numbers takes super-polynomial effort classically — the hardness all modern encryption rests on — while <strong>Shor's algorithm</strong> factors in polynomial time. Merit is measured in scaling, not clock speed.",
+  },
+  {
+    n: 9,
+    title: "Three circles of quantum algorithms",
+    lesson: "/lessons/m1a-three-circles/",
+    text: "Picture three overlapping circles: <strong>practical utility</strong>, <strong>few number of qubits</strong>, and <strong>quantum advantage</strong>. The center — all three at once — is the desired area. Shor's algorithm has utility and advantage but needs many qubits; the 2019 supremacy experiment had advantage on few qubits but no utility yet. The center is the field's goal.",
+  },
+  {
+    n: 10,
+    title: "Quantum computers today: the NISQ era",
+    lesson: "/lessons/m1a-nisq/",
+    text: "We live in the <strong>NISQ era</strong> — Noisy Intermediate-Scale Quantum. <em>Noisy:</em> error correction is not yet in use. <em>Intermediate:</em> qubit counts are not huge. Noise drags qubits into decoherence, many designs need near-absolute-zero cooling, and raw qubit count says little — <strong>quantum volume</strong> and <strong>CLOPS</strong> measure quality and speed instead.",
+  },
+  {
+    n: 11,
+    title: "Machine learning in five minutes",
+    lesson: "/lessons/m1a-ml-basics/",
+    text: "<strong>Machine learning predicts from data</strong> — mathematically, function approximation plus optimization. Four problem types: <strong>classification</strong> (cat or not, spam or not), <strong>regression</strong> (tomorrow's weather, next quarter's sales), <strong>clustering</strong> (find the natural groups), and <strong>recommendation</strong> (what you'll watch next). Supervised when answers are labeled, unsupervised when they aren't.",
+  },
+  {
+    n: 12,
+    title: "Quantum machine learning: four flavors",
+    lesson: "/lessons/m1a-qml/",
+    text: "Sort every QML idea into a 2×2 box — is the <em>data</em> classical or quantum, is the <em>processor</em> classical or quantum? <strong>CC:</strong> quantum-inspired classical algorithms (the Tang dequantization story). <strong>QC:</strong> ML improving quantum hardware. <strong>CQ:</strong> quantum speedups for ML, bottlenecked by loading data in. <strong>QQ:</strong> quantum data on quantum processors — no loading problem at all.",
+  },
+];
+---
+<SiteLayout
+  title="Module 1a tour: the big picture in 12 stops"
+  description="A guided carousel through the full opening-lecture arc — qubits, superposition, measurement, physical platforms, quantum advantage, the NISQ era, machine learning, and quantum machine learning — each stop linking to its full lesson."
+  altUrl="/hi/module-1a-tour/"
+  currentSlug="module-1a-tour"
+>
+  <nav class="crumbs" data-pagefind-ignore>
+    <a href="/">Home</a> / Module 1a tour
+  </nav>
+  <span class="tag">Special feature</span>
+  <h1>Module 1a tour: the big picture in 12 stops</h1>
+
+  <section class="explain-simple">
+    <div class="kicker">What this is</div>
+    <p>
+      The full arc of the opening lecture — every major idea, from the first qubit to the four
+      flavors of quantum machine learning — as a twelve-stop guided tour. Flip through the stops
+      like slides, then dive into any stop's full bilingual lesson. For the complete treatment,
+      start at <a href="/modules/module-1a/">Module 1A: The Big Picture</a> in the sidebar.
+    </p>
+  </section>
+
+  <section class="tour" aria-label="Guided tour">
+    <div class="tour-viewport">
+      <div class="tour-track" id="tourTrack">
+        {stops.map((s) => (
+          <article class="tour-card" aria-label={`Stop ${s.n} of 12`}>
+            <div class="tour-stop">Stop {s.n} of 12</div>
+            <h2>{s.title}</h2>
+            <p set:html={s.text} />
+            <a class="tour-link" href={s.lesson}>Read the full lesson →</a>
+          </article>
+        ))}
+      </div>
+    </div>
+    <div class="tour-controls" data-pagefind-ignore>
+      <button id="tourPrev" aria-label="Previous stop">← Prev</button>
+      <div class="tour-dots" id="tourDots" role="tablist" aria-label="Tour stops">
+        {stops.map((s, i) => (
+          <button role="tab" aria-label={`Go to stop ${s.n}`} data-i={i} class={i === 0 ? "on" : ""}></button>
+        ))}
+      </div>
+      <button id="tourNext" aria-label="Next stop">Next →</button>
+    </div>
+  </section>
+
+  <section class="keypoints">
+    <h2>Key takeaways</h2>
+    <ul>
+      <li>Qubits blend 0 and 1 (superposition); n of them are described by 2ⁿ numbers — the source of quantum power.</li>
+      <li>Measurement collapses the blend, and any intrusion — observation, stray particles, leaking photons — counts as measurement.</li>
+      <li>Superposition, interference, and entanglement together are what make quantum algorithms win.</li>
+      <li>Quantum advantage is about scaling: exponential classical effort becoming polynomial quantum effort.</li>
+      <li>Today's hardware is NISQ — noisy, intermediate-scale; judge machines by quantum volume and CLOPS, not qubit count.</li>
+      <li>Quantum machine learning sorts into four boxes (CC, CQ, QC, QQ) by whether data and processor are classical or quantum.</li>
+    </ul>
+  </section>
+
+  <section class="references">
+    <h2>References</h2>
+    <p class="ref-lead">Standard sources behind this tour — textbooks and landmark papers. Every sentence here is an original rewrite; no course material is reproduced.</p>
+    <ol>
+      <li>
+        <span>Nielsen &amp; Chuang, <em>Quantum Computation and Quantum Information</em> (Cambridge).</span>
+        <br /><span class="ref-use">Used for: qubit formalism, Born rule, 2ⁿ state space, Shor's algorithm, error correction.</span>
+      </li>
+      <li>
+        <span>Preskill, "Quantum computing in the NISQ era and beyond" (Quantum 2, 79, 2018).</span>
+        <br /><span class="ref-use">Used for: the NISQ concept and its framing.</span>
+      </li>
+      <li>
+        <span>Arute et al., "Quantum supremacy using a programmable superconducting processor" (Nature 574, 2019).</span>
+        <br /><span class="ref-use">Used for: the 2019 supremacy experiment in stop 9.</span>
+      </li>
+      <li>
+        <span>Tang, "A quantum-inspired classical algorithm for recommendation systems" (STOC 2019; arXiv:1807.04271).</span>
+        <br /><span class="ref-use">Used for: the dequantization story in stop 12.</span>
+      </li>
+    </ol>
+  </section>
+
+  <style>
+    .tour { margin: 1.5rem 0; }
+    .tour-viewport { overflow: hidden; border: 1px solid var(--border); border-radius: var(--radius); background: var(--card); box-shadow: var(--shadow); }
+    .tour-track { display: flex; transition: transform 0.35s ease; }
+    .tour-card { flex: 0 0 100%; box-sizing: border-box; padding: 1.75rem; min-height: 300px; }
+    .tour-stop { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 0.5rem; }
+    .tour-card h2 { margin: 0 0 0.75rem; font-size: 1.35rem; }
+    .tour-card p { line-height: 1.65; color: var(--text); }
+    .tour-link { display: inline-block; margin-top: 1rem; font-weight: 600; color: var(--accent); text-decoration: none; }
+    .tour-link:hover { text-decoration: underline; }
+    .tour-controls { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-top: 0.9rem; }
+    .tour-controls button { cursor: pointer; border: 1px solid var(--border); background: var(--card); color: var(--text); border-radius: var(--radius); padding: 0.5rem 1rem; font-size: 0.95rem; }
+    .tour-controls button:hover { background: var(--card-hover); }
+    .tour-dots { display: flex; gap: 0.45rem; flex-wrap: wrap; justify-content: center; }
+    .tour-dots button { width: 0.8rem; height: 0.8rem; border-radius: 50%; padding: 0; border: 1px solid var(--border); background: transparent; }
+    .tour-dots button.on { background: var(--accent); border-color: var(--accent); }
+  </style>
+
+  <script>
+    (function () {
+      var track = document.getElementById("tourTrack");
+      var dots = Array.prototype.slice.call(document.querySelectorAll("#tourDots button"));
+      var prev = document.getElementById("tourPrev");
+      var next = document.getElementById("tourNext");
+      var i = 0, total = dots.length;
+      function go(n) {
+        i = (n + total) % total;
+        track.style.transform = "translateX(-" + i * 100 + "%)";
+        dots.forEach(function (d, k) { d.classList.toggle("on", k === i); });
+      }
+      prev.addEventListener("click", function () { go(i - 1); });
+      next.addEventListener("click", function () { go(i + 1); });
+      dots.forEach(function (d) {
+        d.addEventListener("click", function () { go(parseInt(d.getAttribute("data-i"), 10)); });
+      });
+      document.addEventListener("keydown", function (e) {
+        if (e.key === "ArrowLeft") go(i - 1);
+        else if (e.key === "ArrowRight") go(i + 1);
+      });
+    })();
+  </script>
+
+  <div class="pager" data-pagefind-ignore>
+    <a href="/modules/module-1a/">
+      <span class="dir">Dive deeper →</span>
+      <span class="lbl">Module 1A: The Big Picture — all 12 lessons</span>
+    </a>
+  </div>
+</SiteLayout>
