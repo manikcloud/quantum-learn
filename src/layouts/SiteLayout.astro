@@ -321,10 +321,10 @@ const lessonCount = flatLessons.length;
               ? "साइन-इन सेवा नहीं मिल रही — कनेक्शन जाँचें और पेज reload करें।"
               : "Sign-in service unreachable — check your connection and reload.");
           }
-          function loginUrl(denied) {
+          function loginUrl(denied, unverified) {
             var base = HI ? "/hi/login/" : "/login/";
             var next = encodeURIComponent(window.location.pathname + window.location.search);
-            return base + "?next=" + next + (denied ? "&denied=1" : "");
+            return base + "?next=" + next + (denied ? "&denied=1" : "") + (unverified ? "&unverified=1" : "");
           }
           import(/* @vite-ignore */ AUTH_BASE + "config.js").then(function () {
             return import(/* @vite-ignore */ AUTH_BASE + "index.js");
@@ -335,8 +335,9 @@ const lessonCount = flatLessons.length;
             var settled = false;
             auth.ready.catch(unreachable);
             auth.onAuthChange(function (user, info) {
-              if (info && info.denied) { window.location.replace(loginUrl(true)); return; }
-              if (!user) { window.location.replace(loginUrl(false)); return; }
+              if (info && info.denied) { window.location.replace(loginUrl(true, false)); return; }
+              if (info && info.unverified) { window.location.replace(loginUrl(false, true)); return; }
+              if (!user) { window.location.replace(loginUrl(false, false)); return; }
               settled = true;
               document.body.classList.add("is-authed");
               hideGate();
@@ -350,7 +351,7 @@ const lessonCount = flatLessons.length;
               if (so) {
                 so.hidden = false;
                 so.addEventListener("click", function () {
-                  auth.signOut().then(function () { window.location.replace(loginUrl(false)); });
+                  auth.signOut().then(function () { window.location.replace(loginUrl(false, false)); });
                 });
               }
             }).catch(unreachable);

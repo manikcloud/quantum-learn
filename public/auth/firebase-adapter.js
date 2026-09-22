@@ -25,12 +25,24 @@ function loadScript(src) {
 
 function shapeUser(u) {
   if (!u) return null;
+  var providerId = "";
+  try {
+    if (u.providerData && u.providerData.length) providerId = u.providerData[0].providerId || "";
+  } catch (e) { /* ignore */ }
   return {
     email: u.email || "",
     displayName: u.displayName || "",
     photoURL: u.photoURL || "",
+    emailVerified: !!u.emailVerified,
+    provider: providerId,
     raw: u,
   };
+}
+
+function isPasswordUser(u) {
+  try {
+    return (u.providerData || []).some(function (p) { return p.providerId === "password"; });
+  } catch (e) { return false; }
 }
 
 export function createAuth(cfg) {
@@ -75,8 +87,9 @@ export function createAuth(cfg) {
       return shapeUser(userCache);
     },
 
-    // cb(user|null, info) — info = { denied: true } when the signed-in
-    // account fails the allowedEmails policy (it is signed out first).
+    // cb(user|null, info) — info is one of:
+    //   { denied: true }     account fails the allowedEmails policy (signed out first)
+    //   { unverified: true } email/password account whose email is not verified yet
     onAuthChange: function (cb) {
       return ready.then(function () {
         return auth.onAuthStateChanged(function (u) {
@@ -85,14 +98,69 @@ export function createAuth(cfg) {
             auth.signOut().then(function () { cb(null, { denied: true }); });
             return;
           }
+          if (u && isPasswordUser(u) && !u.emailVerified) {
+            cb(shapeUser(u), { unverified: true });
+            return;
+          }
           cb(shapeUser(u), null);
         });
       });
     },
 
+    // Google sign-in (redirect flow). Rejects visibly on misconfiguration
+    // (e.g. unauthorized domain) so the login page can show the real error.
     signIn: function () {
       return ready.then(function () {
         return auth.signInWithRedirect(new window.firebase.auth.GoogleAuthProvider());
+      });
+    },
+
+    // Email/password sign-up. Creates the account and sends the verification
+    // link; the user lands in the "unverified" state until they click it.
+    signUpWithEmail: function (email, password) {
+      return ready.then(function () {
+        return auth.createUserWithEmailAndPassword(email, password).then(function (cred) {
+          return cred.user.sendEmailVerification().then(function () { return shapeUser(cred.user); });
+        });
+      });
+    },
+
+    // Email/password sign-in. The onAuthChange listener reports unverified
+    // accounts via info.unverified — the login page shows the verify prompt.
+    signInWithEmail: function (email, password) {
+      return ready.then(function () {
+        return auth.signInWithEmailAndPassword(email, password).then(function (cred) {
+          return shapeUser(cred.user);
+        });
+      });
+    },
+
+    // Re-send the verification link to the currently signed-in user.
+    sendVerification: function () {
+      return ready.then(function () {
+        var u = auth.currentUser;
+        if (!u) throw { code: "auth/no-current-user", message: "No signed-in user." };
+        return u.sendEmailVerification();
+      });
+    },
+
+    // Send a password-reset email.
+    resetPassword: function (email) {
+      return ready.then(function () {
+        return auth.sendPasswordResetEmail(email);
+      });
+    },
+
+    // Re-fetch the user (e.g. after they clicked the verification link
+    // in another tab) so emailVerified is current. Does not fire onAuthChange.
+    reloadUser: function () {
+      return ready.then(function () {
+        var u = auth.currentUser;
+        if (!u) return null;
+        return u.reload().then(function () {
+          userCache = auth.currentUser;
+          return shapeUser(userCache);
+        });
       });
     },
 
