@@ -51,7 +51,12 @@ const lessonCount = flatLessons.length;
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" />
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
-    <style>
+    <style is:global>
+      /* Lab-only styles. Global (not Astro-scoped) because the markup they target
+         lives in the lab *pages* rendered through <slot />, which carry a different
+         scope id — scoped selectors would silently never match. All classes here
+         are lab-prefixed (lab-, nb-, step, code-, tok-) so they cannot collide
+         with lesson/site styles. */
 /* ===== Lab content styles — page chrome (topbar/sidebar/footer) comes from global.css ===== */
       .lab-hero { padding: 6px 0 2px; }
       .lab-hero .prompt {
