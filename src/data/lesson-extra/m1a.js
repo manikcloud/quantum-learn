@@ -44,6 +44,26 @@ export const m1aLessons = {
         options: ["Both are equally mature technologies", "Machine learning is proven at scale; quantum computing is promising but young", "Quantum computing has already replaced classical ML in industry", "Machine learning is a subfield of quantum computing"],
         answer: 1,
         why: "ML runs deployed infrastructure worldwide today, while quantum computing is still an emerging technology — QML must respect both realities." }
+    ],
+    slides: [
+      { title: "Three pillars",
+        body: "This course stands on <strong>three pillars</strong>: quantum computing, machine learning, and quantum machine learning — the intersection of the two.",
+        visual: '<svg viewBox="0 0 220 100" fill="none" stroke="currentColor" stroke-width="4"><rect x="14" y="14" width="192" height="12" rx="6"/><rect x="24" y="32" width="44" height="58" rx="8"/><rect x="88" y="32" width="44" height="58" rx="8"/><rect x="152" y="32" width="44" height="58" rx="8"/></svg>' },
+      { title: "Pillar 1 — Quantum computing",
+        body: "Computing built on the rules of quantum physics — the candidate for much of <strong>tomorrow's heavy computation</strong>.",
+        visual: '<svg viewBox="0 0 120 100" fill="none" stroke="currentColor" stroke-width="3"><circle cx="60" cy="50" r="7" fill="currentColor" stroke="none"/><ellipse cx="60" cy="50" rx="46" ry="18"/><ellipse cx="60" cy="50" rx="46" ry="18" transform="rotate(60 60 50)"/><ellipse cx="60" cy="50" rx="46" ry="18" transform="rotate(120 60 50)"/></svg>' },
+      { title: "Pillar 2 — Machine learning",
+        body: "The technology <strong>already carrying today's world</strong>: the recommendations in your feeds, vision systems, language models.",
+        visual: '<svg viewBox="0 0 160 100" fill="none" stroke="currentColor" stroke-width="3"><circle cx="25" cy="25" r="8"/><circle cx="25" cy="50" r="8"/><circle cx="25" cy="75" r="8"/><circle cx="135" cy="35" r="8"/><circle cx="135" cy="65" r="8"/><path d="M33 25 L127 35 M33 50 L127 35 M33 50 L127 65 M33 75 L127 65" stroke-width="2"/></svg>' },
+      { title: "The order matters",
+        body: "Quantum computing first, then machine learning on its own — and only then their intersection. <strong>Foundations first</strong>: the meeting point only makes sense once both sides are solid.",
+        visual: '<svg viewBox="0 0 240 80" fill="none" stroke="currentColor" stroke-width="3"><circle cx="40" cy="40" r="22"/><circle cx="120" cy="40" r="22"/><circle cx="200" cy="40" r="22"/><path d="M62 40 H94 M142 40 H174"/><path d="M86 32 L96 40 L86 48 M166 32 L176 40 L166 48"/><text x="40" y="48" text-anchor="middle" font-size="20" fill="currentColor" stroke="none">1</text><text x="120" y="48" text-anchor="middle" font-size="20" fill="currentColor" stroke="none">2</text><text x="200" y="48" text-anchor="middle" font-size="20" fill="currentColor" stroke="none">3</text></svg>' },
+      { title: "The destination",
+        body: "Quantum machine learning: quantum learning algorithms, quantum data — and the honest question of <strong>where the quantum side gives a genuine advantage</strong>.",
+        visual: '<svg viewBox="0 0 160 100" fill="none" stroke="currentColor" stroke-width="3"><circle cx="60" cy="50" r="34"/><circle cx="100" cy="50" r="34"/></svg>' },
+      { title: "Proven vs promising",
+        body: "Machine learning is <strong>proven at planetary scale</strong>; quantum computing is <strong>promising but young</strong>. QML must respect both realities.",
+        visual: '<svg viewBox="0 0 140 100" fill="none" stroke="currentColor" stroke-width="3"><path d="M70 10 V88 M42 88 H98"/><path d="M70 22 H20 M70 22 H120"/><path d="M20 22 L10 54 H30 Z M120 22 L110 54 H130 Z"/></svg>' }
     ]
   },
   "m1a-qubit": {

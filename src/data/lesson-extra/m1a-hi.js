@@ -43,6 +43,26 @@ export const m1aLessonsHi = {
         options: ["दोनों equally mature technologies हैं", "machine learning scale पर proven है; quantum computing promising लेकिन young है", "quantum computing industry में classical ML को replace कर चुकी है", "machine learning, quantum computing का एक subfield है"],
         answer: 1,
         why: "ML आज दुनिया भर में deployed infrastructure चलाता है, जबकि quantum computing अभी emerging technology है — QML को दोनों realities का सम्मान करना होगा।" }
+    ],
+    slides: [
+      { title: "3 pillars",
+        body: "यह course <strong>3 pillars</strong> पर खड़ा है: quantum computing, machine learning, और इन दोनों का intersection — quantum machine learning।",
+        visual: '<svg viewBox="0 0 220 100" fill="none" stroke="currentColor" stroke-width="4"><rect x="14" y="14" width="192" height="12" rx="6"/><rect x="24" y="32" width="44" height="58" rx="8"/><rect x="88" y="32" width="44" height="58" rx="8"/><rect x="152" y="32" width="44" height="58" rx="8"/></svg>' },
+      { title: "Pillar 1 — Quantum computing",
+        body: "Quantum physics के नियमों पर बनी computing — <strong>कल की heavy computation</strong> की दावेदार।",
+        visual: '<svg viewBox="0 0 120 100" fill="none" stroke="currentColor" stroke-width="3"><circle cx="60" cy="50" r="7" fill="currentColor" stroke="none"/><ellipse cx="60" cy="50" rx="46" ry="18"/><ellipse cx="60" cy="50" rx="46" ry="18" transform="rotate(60 60 50)"/><ellipse cx="60" cy="50" rx="46" ry="18" transform="rotate(120 60 50)"/></svg>' },
+      { title: "Pillar 2 — Machine learning",
+        body: "वह technology जो <strong>आज की दुनिया चला रही है</strong>: आपके feeds के recommendations, vision systems, language models।",
+        visual: '<svg viewBox="0 0 160 100" fill="none" stroke="currentColor" stroke-width="3"><circle cx="25" cy="25" r="8"/><circle cx="25" cy="50" r="8"/><circle cx="25" cy="75" r="8"/><circle cx="135" cy="35" r="8"/><circle cx="135" cy="65" r="8"/><path d="M33 25 L127 35 M33 50 L127 35 M33 50 L127 65 M33 75 L127 65" stroke-width="2"/></svg>' },
+      { title: "Order matter करता है",
+        body: "पहले quantum computing, फिर machine learning अपने आप में — और सबसे आखिर में इनका intersection। <strong>पहले foundation</strong>: दोनों sides मज़बूत हों, तभी intersection समझ आएगा।",
+        visual: '<svg viewBox="0 0 240 80" fill="none" stroke="currentColor" stroke-width="3"><circle cx="40" cy="40" r="22"/><circle cx="120" cy="40" r="22"/><circle cx="200" cy="40" r="22"/><path d="M62 40 H94 M142 40 H174"/><path d="M86 32 L96 40 L86 48 M166 32 L176 40 L166 48"/><text x="40" y="48" text-anchor="middle" font-size="20" fill="currentColor" stroke="none">1</text><text x="120" y="48" text-anchor="middle" font-size="20" fill="currentColor" stroke="none">2</text><text x="200" y="48" text-anchor="middle" font-size="20" fill="currentColor" stroke="none">3</text></svg>' },
+      { title: "मंज़िल",
+        body: "Quantum machine learning: quantum learning algorithms, quantum data — और ईमानदार सवाल: quantum side <strong>असली advantage कहाँ</strong> देता है?",
+        visual: '<svg viewBox="0 0 160 100" fill="none" stroke="currentColor" stroke-width="3"><circle cx="60" cy="50" r="34"/><circle cx="100" cy="50" r="34"/></svg>' },
+      { title: "Proven बनाम promising",
+        body: "Machine learning <strong>planetary scale पर proven</strong> है; quantum computing <strong>promising है लेकिन young</strong>। QML को दोनों realities का सम्मान करना होगा।",
+        visual: '<svg viewBox="0 0 140 100" fill="none" stroke="currentColor" stroke-width="3"><path d="M70 10 V88 M42 88 H98"/><path d="M70 22 H20 M70 22 H120"/><path d="M20 22 L10 54 H30 Z M120 22 L110 54 H130 Z"/></svg>' }
     ]
   },
   "m1a-qubit": {

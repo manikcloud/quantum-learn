@@ -1,6 +1,7 @@
 ---
 import SiteLayout from "../../../layouts/SiteLayout.astro";
 import Quiz from "../../../components/Quiz.astro";
+import SlideDeck from "../../../components/SlideDeck.astro";
 import { flatLessons, neighbors, moduleOf } from "../../../data/curriculum.js";
 import { lessonContent } from "../../../data/lesson-content.js";
 import { lessonContentHi } from "../../../data/lesson-content-hi.js";
@@ -36,6 +37,17 @@ const modTitle = hiModuleTitle(mod);
   </nav>
   <span class="tag">{t("hi", "moduleWord")} {mod.number} · {modTitle}</span>
   <h1>{title}</h1>
+
+  {content?.slides && (
+    <SlideDeck
+      slides={content.slides}
+      deckId={`deck-hi-${lesson.slug}`}
+      kicker="Slide view"
+      heading="यह lesson — slides में"
+      prevLabel="← पिछला"
+      nextLabel="अगला →"
+    />
+  )}
 
   {content ? (
     <>

@@ -1,6 +1,7 @@
 ---
 import SiteLayout from "../../layouts/SiteLayout.astro";
 import Quiz from "../../components/Quiz.astro";
+import SlideDeck from "../../components/SlideDeck.astro";
 import { flatLessons, neighbors, moduleOf } from "../../data/curriculum.js";
 import { lessonContent } from "../../data/lesson-content.js";
 
@@ -26,6 +27,15 @@ const content = lessonContent[lesson.slug];
   </nav>
   <span class="tag">Module {mod.number} · {mod.title}</span>
   <h1>{lesson.title}</h1>
+
+  {content?.slides && (
+    <SlideDeck
+      slides={content.slides}
+      deckId={`deck-${lesson.slug}`}
+      kicker="Slide view"
+      heading="This lesson in slides"
+    />
+  )}
 
   {content ? (
     <>
