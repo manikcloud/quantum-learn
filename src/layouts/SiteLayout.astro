@@ -90,6 +90,23 @@ const lessonCount = flatLessons.length;
             </div>
           ))
         }
+        <div class="mod-group">
+          <span class="mod-head"><span class="n">✦</span>{isHi ? "विशेष फ़ीचर" : "Special features"}</span>
+          <ul class="lesson-links">
+            <li>
+              <a
+                href={`${base}/quantum-year-2025/`}
+                class={currentSlug === "quantum-year-2025" ? "active" : ""}
+              >{isHi ? "2025: क्वांटम का अंतरराष्ट्रीय वर्ष" : "2025: The International Year of Quantum"}</a>
+            </li>
+            <li>
+              <a
+                href={`${base}/quantum-upanishads/`}
+                class={currentSlug === "quantum-upanishads" ? "active" : ""}
+              >{isHi ? "क्वांटम और उपनिषद" : "Quantum & the Upanishads"}</a>
+            </li>
+          </ul>
+        </div>
       </aside>
 
       <main data-pagefind-body>
