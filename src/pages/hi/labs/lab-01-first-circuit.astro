@@ -1,0 +1,188 @@
+---
+import LabLayout from "../../../layouts/LabLayout.astro";
+---
+<LabLayout
+  title="Lab 01 — आपका पहला quantum circuit"
+  description="Python और Qiskit setup करें, 1-qubit circuit बनाएँ, simulator पर चलाएँ, और measurement counts में superposition को खुद देखें।"
+  lang="hi"
+  altUrl="/labs/lab-01-first-circuit/"
+  labSlug="lab-01-first-circuit"
+  prevUrl="/hi/labs/"
+>
+  <section class="lab-hero">
+    <div class="prompt">$ lab 01 // नमस्ते, qubit</div>
+    <h1>Lab 01 — आपका पहला quantum circuit</h1>
+    <p class="lede">
+      इस lab में आप अपनी machine setup करेंगे, Qiskit install करेंगे, और simulator पर एक असली quantum circuit
+      चलाएँगे। आखिरी step तक एक qubit वह करेगा जो कोई classical bit नहीं कर सकता: कई runs में
+      <strong>0 <em>और</em> 1</strong> — दोनों — measure होगा।
+    </p>
+    <div class="lab-meta">
+      <span class="lab-chip">~45 minute</span>
+      <span class="lab-chip">beginner</span>
+      <span class="lab-chip">कोई account नहीं चाहिए</span>
+    </div>
+    <div class="lab-progress"><div data-lab-progress></div></div>
+    <div class="lab-progress-label" data-lab-progress-label></div>
+  </section>
+
+  <section class="lab-steps">
+    <div class="step">
+      <label class="step-check"><input type="checkbox" /><span>done</span></label>
+      <h3 class="step-title">Python लाएँ</h3>
+      <p>
+        इस lab की हर चीज़ Python पर चलती है। सबसे आसान रास्ता <strong>Anaconda distribution</strong> है
+        (Python के साथ scientific tools bundled), या python.org से सीधे Python लें — version 3.10 या नया।
+      </p>
+      <pre class="lab-code">python --version
+# दिखना चाहिए: Python 3.10 (या नया)</pre>
+      <div class="checkpoint"><strong>✓ Checkpoint:</strong> command Python का version print करे, 3.10+।</div>
+      <div class="stuck"><strong>अटक गए?</strong> "command not found" का मतलब अक्सर terminal install से पहले खोला गया था — बंद करके नया खोलें।</div>
+    </div>
+
+    <div class="step">
+      <label class="step-check"><input type="checkbox" /><span>done</span></label>
+      <h3 class="step-title">एक साफ़ कमरा बनाएँ</h3>
+      <p>
+        Quantum libraries बहुत सारी dependencies लाती हैं। उन्हें अपने environment में अलग रखें ताकि वे
+        system Python से कभी न लड़ें:
+      </p>
+      <pre class="lab-code">conda create -n qc-lab python=3.11
+conda activate qc-lab</pre>
+      <p>conda नहीं है? Built-in तरीका भी वही काम करता है:</p>
+      <pre class="lab-code">python -m venv qc-lab
+source qc-lab/bin/activate   # Windows: qc-lab\Scripts\activate</pre>
+      <div class="checkpoint"><strong>✓ Checkpoint:</strong> terminal prompt अब <code>(qc-lab)</code> से शुरू हो।</div>
+    </div>
+
+    <div class="step">
+      <label class="step-check"><input type="checkbox" /><span>done</span></label>
+      <h3 class="step-title">Jupyter install करें</h3>
+      <p>
+        Jupyter notebooks में code cell-by-cell चलता है और result तुरंत दिखता है — circuits के साथ
+        experiment करने के लिए perfect:
+      </p>
+      <pre class="lab-code">pip install notebook
+jupyter --version</pre>
+      <div class="checkpoint"><strong>✓ Checkpoint:</strong> version number print हो। फिर <code>jupyter notebook</code> चलाएँ — browser tab खुलना चाहिए।</div>
+    </div>
+
+    <div class="step">
+      <label class="step-check"><input type="checkbox" /><span>done</span></label>
+      <h3 class="step-title">Quantum stack install करें</h3>
+      <p>Notebook cell (या terminal) में Qiskit और उसका simulator install करें:</p>
+      <pre class="lab-code">pip install qiskit qiskit-aer</pre>
+      <p>Verify करें:</p>
+      <pre class="lab-code">import qiskit
+print(qiskit.__version__)</pre>
+      <div class="checkpoint"><strong>✓ Checkpoint:</strong> बिना error के <code>2.x</code> जैसा version print हो।</div>
+      <div class="stuck"><strong>अटक गए?</strong> Install में कुछ सौ MB download होता है — slow progress bar normal है, freeze नहीं। पुरानी machine पर fail हो तो pip command में <code>--prefer-binary</code> जोड़कर retry करें।</div>
+    </div>
+
+    <div class="step">
+      <label class="step-check"><input type="checkbox" /><span>done</span></label>
+      <h3 class="step-title">Python warm-up (3 minute)</h3>
+      <p>Qiskit एक Python library है, तो वे तीन constructs जगा लें जिन्हें आप बार-बार use करेंगे:</p>
+      <pre class="lab-code"># variables + f-strings
+shots = 1000
+print(f"Running &#123;shots&#125; shots")
+
+# loops
+total = 0
+for i in range(10):
+    total += i
+print(total)   # 45
+
+# functions
+def greet(name):
+    return f"Hello, &#123;name&#125;!"
+print(greet("qubit"))</pre>
+      <div class="checkpoint"><strong>✓ Checkpoint:</strong> तीन lines print हों: <code>Running 1000 shots</code>, <code>45</code>, <code>Hello, qubit!</code>।</div>
+    </div>
+
+    <div class="step">
+      <label class="step-check"><input type="checkbox" /><span>done</span></label>
+      <h3 class="step-title">अपना पहला circuit बनाएँ</h3>
+      <p>
+        Quantum circuit में <strong>qubits</strong> (quantum registers) और <strong>classical bits</strong>
+        (जहाँ measurement results जाते हैं) होते हैं। एक qubit, एक classical bit, एक measurement:
+      </p>
+      <pre class="lab-code">from qiskit import QuantumCircuit
+
+qc = QuantumCircuit(1, 1)  # 1 qubit, 1 classical bit
+qc.measure(0, 0)           # qubit 0 को measure करके bit 0 में डालें
+print(qc.draw())</pre>
+      <p>Circuit diagram दिखना चाहिए:</p>
+      <pre class="lab-code">     ┌─┐
+  q: ┤M├
+     └╥┘
+c: 1/═╩═
+      0</pre>
+      <div class="checkpoint"><strong>✓ Checkpoint:</strong> diagram में measurement gate (<code>M</code>) qubit line को classical line से जोड़ता दिखे।</div>
+    </div>
+
+    <div class="step">
+      <label class="step-check"><input type="checkbox" /><span>done</span></label>
+      <h3 class="step-title">Simulator पर चलाएँ</h3>
+      <p>
+        Quantum hardware की ज़रूरत नहीं — <code>AerSimulator</code> आपके laptop पर ideal quantum computer की
+        नकल करता है। Circuit को 1,000 बार चलाकर outcomes गिनें:
+      </p>
+      <pre class="lab-code">from qiskit_aer import AerSimulator
+
+sim = AerSimulator()
+job = sim.run(qc, shots=1000)
+counts = job.result().get_counts()
+print(counts)</pre>
+      <div class="checkpoint"><strong>✓ Checkpoint:</strong> <code>&#123;'0': 1000&#125;</code> — |0⟩ state वाला qubit हर बार 0 ही measure होगा। अभी तक boring classical जैसा। अब यह बदलेगा।</div>
+    </div>
+
+    <div class="step">
+      <label class="step-check"><input type="checkbox" /><span>done</span></label>
+      <h3 class="step-title">आपकी बारी: qubit को flip करें</h3>
+      <p>
+        <strong>X gate</strong> quantum NOT है — |0⟩ को |1⟩ में flip करता है। इसे measurement से
+        <em>पहले</em> लगाएँ। चलाने से पहले: <strong>ज़ोर से predict</strong> करें कि counts क्या आएँगे।
+      </p>
+      <pre class="lab-code">qc2 = QuantumCircuit(1, 1)
+qc2.x(0)          # |0> को |1> में flip करें
+qc2.measure(0, 0)
+
+counts2 = sim.run(qc2, shots=1000).result().get_counts()
+print(counts2)</pre>
+      <div class="checkpoint"><strong>✓ Checkpoint:</strong> <code>&#123;'1': 1000&#125;</code> — हर shot 1, बिल्कुल आपके prediction जैसा। Prediction match हुआ? आप quantum programmer की तरह सोच रहे हैं।</div>
+    </div>
+
+    <div class="step">
+      <label class="step-check"><input type="checkbox" /><span>done</span></label>
+      <h3 class="step-title">आपकी बारी: superposition</h3>
+      <p>
+        <strong>H (Hadamard) gate</strong> |0⟩ को superposition में डालता है — measure होने तक न 0, न 1।
+        पहले predict करें, फिर चलाएँ:
+      </p>
+      <pre class="lab-code">qc3 = QuantumCircuit(1, 1)
+qc3.h(0)          # |0> -> superposition
+qc3.measure(0, 0)
+
+counts3 = sim.run(qc3, shots=1000).result().get_counts()
+print(counts3)</pre>
+      <div class="checkpoint"><strong>✓ Checkpoint:</strong> कुछ ऐसा — <code>&#123;'0': 498, '1': 502&#125;</code> — लगभग आधा-आधा। यह <em>कभी</em> exactly 500/500 नहीं होगा, और हर run में अलग होगा। यह randomness bug नहीं है: यह quantum mechanics है, देखी हुई।</div>
+      <div class="stuck"><strong>अटक गए?</strong> अगर <code>&#123;'0': 1000&#125;</code> दिखे, तो H gate measurement के <em>बाद</em> लग गया — order मायने रखता है। Gates ऊपर से नीचे apply होते हैं।</div>
+    </div>
+
+    <div class="step">
+      <label class="step-check"><input type="checkbox" /><span>done</span></label>
+      <h3 class="step-title">Debrief — आपने क्या साबित किया?</h3>
+      <p>
+        तीन छोटे circuits से आपने quantum computing के core facts verify किए: qubit |0⟩ से शुरू होता है,
+        gates उसकी state बदलते हैं, measurement उसे classical bits में collapse करता है, और superposition
+        सचमुच random outcomes देता है। Simulator theory से सहमत हुआ — एक बार में 1,000 shots।
+      </p>
+      <p>
+        आगे: दो qubits, जहाँ चीज़ें <em>entangled</em> होती हैं — यह Lab 02 में। और H gate ऐसा <em>क्यों</em>
+        करता है, यह समझने के लिए <a href="/hi/lessons/qubits/">qubit वाला पाठ</a> देखें।
+      </p>
+      <button class="lab-complete" data-lab-complete="lab-01-first-circuit">लैब पूर्ण चिह्नित करें</button>
+    </div>
+  </section>
+</LabLayout>
