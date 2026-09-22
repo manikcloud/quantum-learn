@@ -1,8 +1,10 @@
 ---
-// LabLayout — the labs section's own visual identity: a dark "lab notebook"
-// theme, deliberately different from the lesson pages.
+// LabLayout — labs use the standard Quantum Learning Hub shell (same topbar,
+// sidebar, footer, theme and search as the lesson pages). Notebook styling is
+// kept only inside lab content: bordered code cells with In []: prompts,
+// step cards, checkpoint/stuck callouts, and the progress + complete flow.
 //
-// Conventions for lab pages (used by future lab content):
+// Conventions for lab pages (used by lab content):
 //   <section class="lab-steps">            wrapper for numbered steps
 //     <div class="step">                   one step; gets auto number + checkbox
 //       <h3>Step title</h3>
@@ -15,9 +17,15 @@
 //   <div class="lab-progress"><div data-lab-progress></div></div>   progress bar
 //   <button class="lab-complete" data-lab-complete="lab-slug">…</button>  done toggle
 // Step checkboxes persist in localStorage under qlh-lab-<labSlug>.
+import "../styles/global.css";
+import { modules, flatLessons } from "../data/curriculum.js";
+import { t } from "../data/i18n.js";
+import { hiModuleTitle, hiLessonTitle } from "../data/hi-meta.js";
+
 const {
   title = "Quantum Labs",
   description = "Hands-on quantum lab sessions — step-by-step experiments you run yourself.",
+  currentSlug = "labs",
   prevUrl = "",
   nextUrl = "",
   lang = "en",
@@ -28,9 +36,9 @@ const {
 } = Astro.props;
 
 const isHi = lang === "hi";
-const footerText = isHi
-  ? "Zero से quantum तक — एक qubit, एक कदम।"
-  : "Zero to quantum — one qubit at a time.";
+const base = isHi ? "/hi" : "";
+const searchNone = t(lang, "searchNone");
+const lessonCount = flatLessons.length;
 ---
 <!doctype html>
 <html lang={lang} data-theme="dark">
@@ -38,196 +46,149 @@ const footerText = isHi
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
-    <title>{title} · {isHi ? "क्वांटम लैब्स" : "Quantum Labs"}</title>
+    <title>{title} · {isHi ? "क्वांटम लर्निंग हब" : "Quantum Learning Hub"}</title>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" />
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
     <style>
-/* ===== Jupyter notebook look: flat deep-blue canvas, markdown + code cells ===== */
-      .lab-root {
-        --lbg: #1b3054;
-        --lpanel: #162a4d;
-        --lcode: #14294b;
-        --lborder: #55688f;
-        --lline: #2e4268;
-        --ltext: #e9eef9;
-        --lbody: #d4ddf0;
-        --lmuted: #a9b8d6;
-        --lfaint: #7f90b3;
-        --laccent: #7ee787;
-        --laccent-strong: #3fb950;
-        --lamber: #e3b341;
-        --lpurple: #b294f9;
-        margin: 0;
-        background: var(--lbg);
-        color: var(--ltext);
-        font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans", sans-serif;
-        line-height: 1.7;
-        min-height: 100vh;
+/* ===== Lab content styles — page chrome (topbar/sidebar/footer) comes from global.css ===== */
+      .lab-hero { padding: 6px 0 2px; }
+      .lab-hero .prompt {
+        font-family: var(--mono); font-size: 13px; color: var(--faint);
+        margin-bottom: 10px;
       }
-      .lab-root a { color: #8fc3ff; }
-
-      /* slim notebook toolbar */
-      .lab-topbar {
-        position: sticky; top: 0; z-index: 50;
-        display: flex; align-items: center; gap: 10px;
-        padding: 10px 18px;
-        background: var(--lpanel);
-        border-bottom: 1px solid var(--lline);
-      }
-      .lab-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ltext); }
-      .lab-brand:hover { text-decoration: none; }
-      .lab-mark {
-        width: 30px; height: 30px; border-radius: 6px;
-        display: inline-flex; align-items: center; justify-content: center;
-        background: #22365f; border: 1px solid #3c537f; color: #cfe0ff;
-        font-size: 15px; font-weight: 700;
-      }
-      .lab-brand b { font-size: 15px; }
-      .lab-brand small { display: block; font-size: 10.5px; color: var(--lfaint); font-weight: 600; letter-spacing: .08em; text-transform: uppercase; }
-      .lab-spacer { flex: 1; }
-      .lab-lang, .lab-home {
-        font-size: 13px; font-weight: 600; text-decoration: none;
-        border: 1px solid #3c537f; border-radius: 6px;
-        padding: 6px 12px; color: var(--ltext); background: #1e3560; white-space: nowrap;
-      }
-      .lab-lang:hover, .lab-home:hover { border-color: #6f8cc4; color: #fff; text-decoration: none; }
-
-      /* notebook body */
-      .lab { max-width: 920px; margin: 0 auto; padding: 38px 24px 90px; }
-
-      /* title block: big white heading + divider, like a notebook title cell */
-      .lab-hero { border-bottom: 1px solid var(--lline); padding-bottom: 24px; margin-bottom: 8px; }
-      .lab-hero .prompt { display: none; }
-      .lab h1 { font-size: clamp(30px, 5vw, 44px); margin: 0 0 12px; line-height: 1.2; color: #fff; letter-spacing: -0.01em; font-weight: 700; }
-      .lab .lede { font-size: 16.5px; color: var(--lmuted); max-width: 720px; }
+      .lab-hero .lede { font-size: 16.5px; color: var(--muted); max-width: 720px; }
       .lab-meta { display: flex; flex-wrap: wrap; gap: 4px 10px; margin-top: 14px; font-size: 13.5px; }
-      .lab-chip { background: none; border: none; padding: 0; color: var(--lfaint); font-size: 13.5px; font-weight: 600; box-shadow: none; }
-      .lab-chip + .lab-chip::before { content: "\00B7"; margin-right: 10px; color: #5a6f99; }
+      .lab-chip { color: var(--faint); font-size: 13.5px; font-weight: 600; }
+      .lab-chip + .lab-chip::before { content: "\00B7"; margin-right: 10px; color: var(--faint); }
 
-      /* section headings inside the notebook */
-      .lab h2 { font-size: clamp(22px, 3.4vw, 30px); color: #fff; font-weight: 700; margin: 44px 0 14px; }
+      /* progress bar under the hero */
+      .lab-progress { height: 6px; background: var(--bg-soft); border: 1px solid var(--border); border-radius: 999px; overflow: hidden; margin: 22px 0 8px; }
+      .lab-progress > div { height: 100%; width: 0; background: var(--accent2); transition: width .35s ease; border-radius: 999px; }
+      .lab-progress-label { font-size: 13px; color: var(--faint); }
 
-      /* progress: slim bar under the title block */
-      .lab-progress { height: 6px; background: var(--lcode); border: 1px solid var(--lline); border-radius: 999px; overflow: hidden; margin: 24px 0 8px; }
-      .lab-progress > div { height: 100%; width: 0; background: var(--laccent-strong); transition: width .35s ease; border-radius: 999px; }
-      .lab-progress-label { font-size: 13px; color: var(--lfaint); }
-
-      /* steps = notebook markdown cells: no cards, text flows on the canvas */
-      .lab-steps { margin-top: 6px; }
-      .step { position: relative; padding: 26px 0; border-bottom: 1px solid var(--lline); }
-      .step:last-child { border-bottom: none; }
-      .step .step-title, .step h3 { margin: 0 0 10px; font-size: 21px; color: #fff; font-weight: 700; padding-right: 118px; }
-      .step p { margin: 0 0 12px; font-size: 15.5px; color: var(--lbody); }
-      .step p:last-child { margin-bottom: 0; }
-      .step ul, .step ol { color: var(--lbody); font-size: 15.5px; }
-
-      /* "mark done" toggle: small toolbar-style pill, top-right of the cell */
-      .step-check { position: absolute; top: 28px; right: 0; cursor: pointer; font-size: 12.5px; font-weight: 600; }
-      .step-check input { display: none; }
-      .step-check span { display: inline-block; color: var(--lfaint); border: 1px solid #3c537f; background: #1e3560; padding: 4px 12px; border-radius: 6px; transition: all .15s ease; }
-      .step-check span::before { content: "\2610  "; }
-      .step-check:hover span { border-color: #6f8cc4; color: #fff; }
-      .step-check input:checked + span { background: rgba(63,185,80,.16); border-color: var(--laccent-strong); color: var(--laccent); }
-      .step-check input:checked + span::before { content: "\2611  "; }
-      .step.done .step-title { color: var(--lmuted); }
-
-      /* challenge cells: subtle purple left rule */
-      .step.challenge { border-left: 3px solid var(--lpurple); padding-left: 18px; }
-      .step.challenge .step-title::before { content: "\26A1  "; }
-
-      /* code cells: Jupyter input-cell look */
-      .lab-code {
+      /* steps: numbered cards on the site palette */
+      .lab-steps { counter-reset: labstep; margin-top: 18px; display: grid; gap: 14px; }
+      .step {
         position: relative;
-        background: var(--lcode);
-        border: 1px solid var(--lborder);
-        border-radius: 8px;
-        padding: 14px 16px 26px;
+        background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
+        padding: 22px 22px 20px;
+      }
+      .step h3 { margin: 0 0 10px; padding-right: 118px; font-size: 20px; }
+      .step h3::before {
+        counter-increment: labstep; content: counter(labstep) ". ";
+        color: var(--accent2); font-weight: 700;
+      }
+      .step p { margin: 0 0 12px; color: var(--muted); }
+      .step p:last-child { margin-bottom: 0; }
+      .step ul, .step ol { color: var(--muted); }
+      .step.done h3 { color: var(--faint); }
+
+      /* "mark done" toggle: small pill, top-right of the card */
+      .step-check { position: absolute; top: 22px; right: 20px; cursor: pointer; font-size: 12.5px; font-weight: 600; }
+      .step-check input { display: none; }
+      .step-check span {
+        display: inline-block; color: var(--muted);
+        border: 1px solid var(--border); background: var(--bg-soft);
+        padding: 4px 12px; border-radius: 999px; transition: all .15s ease;
+      }
+      .step-check span::before { content: "\2610  "; }
+      .step-check:hover span { border-color: var(--accent); color: var(--text); }
+      .step-check input:checked + span { background: var(--accent2-soft); border-color: var(--accent2); color: var(--accent2); }
+      .step-check input:checked + span::before { content: "\2611  "; }
+
+      /* challenge steps: teal left rule */
+      .step.challenge { border-left: 3px solid var(--accent); }
+      .step.challenge h3::after { content: " \26A1"; }
+
+      /* code cells: notebook input-cell look, dark code surface in both themes */
+      .prose pre.lab-code {
+        position: relative;
+        background: #101a30;
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        border-radius: 10px;
+        padding: 34px 16px 28px;
         margin: 16px 0;
         overflow-x: auto;
-        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+        font-family: var(--mono);
         font-size: 13.5px; line-height: 1.7;
         color: #d6deeb;
         tab-size: 4;
       }
-      .code-lang { position: absolute; bottom: 7px; right: 13px; font-size: 11px; color: var(--lfaint); font-family: ui-sans-serif, system-ui, sans-serif; }
+      .code-in {
+        position: absolute; top: 10px; left: 14px;
+        font-family: var(--mono); font-size: 12px; font-weight: 700; color: #8b7cf6;
+        user-select: none;
+      }
+      .code-lang { position: absolute; bottom: 8px; right: 14px; font-size: 11px; color: #7f90b3; font-family: ui-sans-serif, system-ui, sans-serif; user-select: none; }
       .copy-btn {
         position: absolute; top: 8px; right: 8px;
         display: inline-flex; align-items: center; gap: 6px;
-        background: #22365f; border: 1px solid #3c537f; color: var(--lmuted);
+        background: #1c2a4d; border: 1px solid #3c537f; color: #a9b8d6;
         font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: 6px;
         cursor: pointer; opacity: 0; transition: opacity .15s ease, border-color .15s ease;
       }
-      .lab-code:hover .copy-btn, .lab-code:focus-within .copy-btn { opacity: 1; }
+      .prose pre.lab-code:hover .copy-btn, .prose pre.lab-code:focus-within .copy-btn { opacity: 1; }
       .copy-btn:hover { border-color: #8fc3ff; color: #fff; }
-      .copy-btn.ok { border-color: var(--laccent-strong); color: var(--laccent); opacity: 1; }
+      .copy-btn.ok { border-color: #4ade80; color: #4ade80; opacity: 1; }
       .copy-btn svg { width: 13px; height: 13px; }
 
-      /* syntax highlighting: match the reference screenshot */
+      /* python syntax colors on the dark code surface */
       .tok-k { color: #f78c6c; }
       .tok-s { color: #c3e88d; }
       .tok-c { color: #63718f; font-style: italic; }
       .tok-n { color: #f78c6c; }
       .tok-f { color: #82aaff; }
 
-      /* callouts: flat notebook admonitions */
-      .checkpoint, .stuck { border-radius: 0 8px 8px 0; padding: 12px 16px; margin: 16px 0 4px; font-size: 14.5px; color: var(--lbody); }
-      .checkpoint { border-left: 3px solid var(--laccent-strong); background: rgba(63,185,80,.08); }
-      .checkpoint strong { color: var(--laccent); }
-      .stuck { border-left: 3px solid var(--lamber); background: rgba(227,179,65,.08); }
-      .stuck strong { color: var(--lamber); }
-      .checkpoint code, .stuck code { background: rgba(255,255,255,.08); border-radius: 4px; padding: 1px 6px; font-size: 13px; color: var(--ltext); }
+      /* callouts */
+      .checkpoint, .stuck { border-radius: 0 10px 10px 0; padding: 12px 16px; margin: 16px 0 4px; font-size: 14.5px; color: var(--muted); }
+      .checkpoint { border-left: 3px solid var(--accent2); background: var(--accent2-soft); }
+      .checkpoint strong { color: var(--accent2); }
+      .stuck { border-left: 3px solid #e3b341; background: rgba(227, 179, 65, 0.08); }
+      .stuck strong { color: #e3b341; }
+      .checkpoint code, .stuck code { background: rgba(127, 144, 179, 0.16); border-radius: 4px; padding: 1px 6px; font-size: 13px; color: var(--text); }
 
       /* complete button */
       .lab-complete {
-        margin-top: 36px; width: 100%; padding: 15px;
+        margin-top: 34px; width: 100%; padding: 15px;
         font-size: 15.5px; font-weight: 700;
-        border-radius: 8px; border: 1px solid var(--laccent-strong);
-        cursor: pointer; background: #1d5c33; color: #fff;
-        transition: background .15s ease;
+        border-radius: 10px; border: 1px solid var(--accent);
+        cursor: pointer; background: var(--accent); color: #fff;
+        transition: filter .15s ease;
       }
-      .lab-complete:hover { background: #25703f; }
-      .lab-complete.is-done { background: #2ea043; border-color: #2ea043; color: #04120a; }
+      .lab-complete:hover { filter: brightness(1.1); }
+      .lab-complete.is-done { background: var(--good); border-color: var(--good); color: #04120a; }
 
-      /* labs index */
+      /* labs index cards */
       .how-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-top: 20px; }
-      .how-card { background: var(--lpanel); border: 1px solid var(--lline); border-radius: 8px; padding: 16px; transition: border-color .15s ease; }
-      .how-card:hover { border-color: var(--lborder); }
+      .how-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; transition: border-color .15s ease; }
+      .how-card:hover { border-color: var(--accent); }
       .how-card .ic { font-size: 24px; display: block; margin-bottom: 8px; }
-      .how-card h3 { margin: 0 0 6px; font-size: 15.5px; color: #fff; }
-      .how-card p { margin: 0; font-size: 13.5px; color: var(--lmuted); }
+      .how-card h3 { margin: 0 0 6px; font-size: 15.5px; }
+      .how-card p { margin: 0; font-size: 13.5px; color: var(--muted); }
       .lab-list { display: grid; gap: 12px; margin-top: 26px; }
-      .lab-card { display: block; background: var(--lpanel); border: 1px solid var(--lline); border-radius: 8px; padding: 18px 20px; text-decoration: none; transition: border-color .15s ease; }
-      a.lab-card:hover { border-color: var(--lborder); text-decoration: none; }
-      .lab-num { display: inline-block; font-size: 12.5px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--laccent); margin-bottom: 8px; }
-      .lab-card h2 { margin: 0 0 8px; font-size: 20px; color: #fff; }
-      .lab-card p { margin: 0; font-size: 14.5px; color: var(--lmuted); }
+      .lab-card { display: block; background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px 20px; text-decoration: none; transition: border-color .15s ease; }
+      a.lab-card:hover { border-color: var(--accent); text-decoration: none; }
+      .lab-num { display: inline-block; font-size: 12.5px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--accent2); margin-bottom: 8px; }
+      .lab-card h2 { margin: 0 0 8px; font-size: 20px; }
+      .lab-card p { margin: 0; font-size: 14.5px; color: var(--muted); }
       .lab-card.soon { opacity: .75; }
-      .soon-tag { display: inline-block; margin-left: 8px; font-size: 11.5px; font-weight: 700; color: var(--lamber); border: 1px solid var(--lamber); border-radius: 999px; padding: 2px 10px; vertical-align: middle; }
-
-      /* footer */
-      .lab-foot { margin-top: 64px; padding-top: 20px; border-top: 1px solid var(--lline); color: var(--lfaint); font-size: 13px; text-align: center; }
+      .soon-tag { display: inline-block; margin-left: 8px; font-size: 11.5px; font-weight: 700; color: #e3b341; border: 1px solid #e3b341; border-radius: 999px; padding: 2px 10px; vertical-align: middle; }
 
       /* confetti */
-      .confetti-bit { position: fixed; top: -12px; width: 8px; height: 12px; z-index: 200; pointer-events: none; animation: confetti-fall 2.4s ease-in forwards; }
+      .confetti-bit { position: fixed; top: -12px; width: 8px; height: 12px; z-index: 300; pointer-events: none; animation: confetti-fall 2.4s ease-in forwards; }
       @keyframes confetti-fall { to { transform: translateY(72vh) rotate(720deg); opacity: 0; } }
 
-      /* auth gate */
-      #auth-gate { position: fixed; inset: 0; z-index: 100; background: var(--lbg); display: flex; align-items: center; justify-content: center; }
-      #auth-gate .gate-card { text-align: center; color: var(--lmuted); }
-      #auth-gate .spinner { width: 36px; height: 36px; margin: 0 auto 14px; border-radius: 50%; border: 3px solid var(--lline); border-top-color: #8fc3ff; animation: labspin 0.9s linear infinite; }
-      @keyframes labspin { to { transform: rotate(360deg); } }
-
       @media (max-width: 640px) {
-        .lab { padding: 28px 16px 70px; }
-        .step .step-title, .step h3 { padding-right: 0; }
+        .step { padding: 18px 16px 16px; }
+        .step h3 { padding-right: 0; font-size: 18px; }
         .step-check { position: static; display: block; margin-top: 14px; }
-        .lab-code { font-size: 12.5px; padding: 12px 12px 24px; }
+        .prose pre.lab-code { font-size: 12.5px; padding: 32px 12px 26px; }
       }
     </style>
   </head>
-  <body class="lab-root" data-lab={labSlug || undefined} data-prev={prevUrl || undefined} data-next={nextUrl || undefined} data-nogate={noGate ? "1" : undefined}>
+  <body data-lab={labSlug || undefined} data-prev={prevUrl || undefined} data-next={nextUrl || undefined} data-lesson-count={lessonCount} data-nogate={noGate ? "1" : undefined}>
     {!noGate && (
       <div id="auth-gate" aria-hidden="true">
         <div class="gate-card">
@@ -236,21 +197,290 @@ const footerText = isHi
         </div>
       </div>
     )}
-    <header class="lab-topbar">
-      <a class="lab-brand" href={isHi ? "/hi/labs/" : "/labs/"}>
-        <span class="lab-mark">⚗</span>
-        <span><b>{isHi ? "क्वांटम लैब्स" : "Quantum Labs"}</b><small>{isHi ? "करके सीखें" : "learn by doing"}</small></span>
+    <header class="topbar">
+      <button class="icon-btn" id="menu-toggle" aria-label="Open navigation">☰</button>
+      <a class="brand" href={isHi ? "/hi/" : "/"}>
+        <span class="brand-mark">Q</span>
+        <span>
+          <span class="brand-name">{isHi ? "क्वांटम लर्निंग हब" : "Quantum Learning Hub"}</span><br />
+          <span class="brand-sub">{t(lang, "brandSub")}</span>
+        </span>
       </a>
-      <span class="lab-spacer"></span>
-      {altUrl && <a class="lab-lang" href={altUrl}>{isHi ? "EN" : "हिंदी"}</a>}
-      <a class="lab-home" href={isHi ? "/hi/" : "/"}>{isHi ? "← सभी पाठ" : "← All lessons"}</a>
+      <span class="topbar-spacer"></span>
+      <div class="search-wrap">
+        <span class="search-icon">⌕</span>
+        <input id="site-search" type="search" placeholder={t(lang, "searchPh")} data-none={searchNone} autocomplete="off" />
+        <div id="search-results" hidden></div>
+      </div>
+      {altUrl && (
+        <a class="lang-btn" href={altUrl} aria-label={isHi ? "Switch to English" : "हिंदी में पढ़ें"}>
+          {isHi ? "EN" : "हिंदी"}
+        </a>
+      )}
+      <span id="user-chip" class="user-chip" hidden></span>
+      <button class="icon-btn" id="signout-btn" hidden title={t(lang, "signOut")} aria-label={t(lang, "signOut")}>⏻</button>
+      <button class="icon-btn" id="theme-toggle" aria-label="Toggle light/dark mode">◐</button>
     </header>
 
-    <main class="lab" data-pagefind-body>
-      <span data-pagefind-filter="lang" hidden>{lang}</span>
-      <slot />
-      {!noFooter && <footer class="lab-foot">{footerText}</footer>}
-    </main>
+    <div class="shell">
+      <aside class="sidebar" id="sidebar">
+        <h3>{t(lang, "sidebarTitle")}</h3>
+        {
+          modules.map((m) => (
+            <div class="mod-group">
+              <a class="mod-head" href={`${base}/modules/${m.id}/`}>
+                <span class="n">{m.number}</span>{isHi ? hiModuleTitle(m) : m.title}
+              </a>
+              <ul class="lesson-links">
+                {m.lessons.map((l) => (
+                  <li>
+                    <a
+                      href={`${base}/lessons/${l.slug}/`}
+                      data-lesson-link={l.slug}
+                      class={currentSlug === l.slug ? "active" : ""}
+                    >{isHi ? hiLessonTitle(l) : l.title}</a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))
+        }
+        <div class="mod-group">
+          <span class="mod-head"><span class="n">✦</span>{isHi ? "विशेष फ़ीचर" : "Special features"}</span>
+          <ul class="lesson-links">
+            <li>
+              <a
+                href={`${base}/quantum-year-2025/`}
+                class={currentSlug === "quantum-year-2025" ? "active" : ""}
+              >{isHi ? "2025: क्वांटम का अंतरराष्ट्रीय वर्ष" : "2025: The International Year of Quantum"}</a>
+            </li>
+            <li>
+              <a
+                href={`${base}/labs/`}
+                class={currentSlug === "labs" ? "active" : ""}
+              >{isHi ? "क्वांटम लैब्स" : "Quantum Labs"}</a>
+            </li>
+            <li>
+              <a
+                href={`${base}/quantum-upanishads/`}
+                class={currentSlug === "quantum-upanishads" ? "active" : ""}
+              >{isHi ? "क्वांटम और उपनिषद" : "Quantum & the Upanishads"}</a>
+            </li>
+          </ul>
+        </div>
+      </aside>
+
+      <main data-pagefind-body>
+        <span data-pagefind-filter="lang" hidden>{lang}</span>
+        <div class="prose">
+          <slot />
+          {!noFooter && (
+          <footer class="site-foot" data-pagefind-ignore>
+            {t(lang, "footerText")}
+          </footer>
+          )}
+        </div>
+      </main>
+    </div>
+
+    <script>
+      (function () {
+        var root = document.documentElement;
+        var isHi = root.lang === "hi";
+
+        /* theme */
+        try {
+          var saved = localStorage.getItem("qlh-theme");
+          if (saved) root.setAttribute("data-theme", saved);
+        } catch (e) {}
+        var themeBtn = document.getElementById("theme-toggle");
+        if (themeBtn) themeBtn.addEventListener("click", function () {
+          var next = root.getAttribute("data-theme") === "light" ? "dark" : "light";
+          root.setAttribute("data-theme", next);
+          try { localStorage.setItem("qlh-theme", next); } catch (e) {}
+        });
+
+        /* mobile sidebar */
+        var menuBtn = document.getElementById("menu-toggle");
+        var sidebar = document.getElementById("sidebar");
+        if (menuBtn && sidebar) menuBtn.addEventListener("click", function () {
+          sidebar.classList.toggle("open");
+        });
+
+        /* search — Pagefind full-text index (built into /pagefind/) */
+        var input = document.getElementById("site-search");
+        var results = document.getElementById("search-results");
+        var pagefindApi = null;
+        var searchTimer = null;
+        function escHtml(s) {
+          return String(s).replace(/[&<>"']/g, function (c) {
+            return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+          });
+        }
+        function cleanTitle(t) { return String(t).split(" · ")[0]; }
+        function pagefindReady() {
+          if (pagefindApi) return Promise.resolve(pagefindApi);
+          var pfUrl = "/pagefind/" + "pagefind.js"; /* built at runtime so the bundler leaves it alone */
+          return import(/* @vite-ignore */ pfUrl).then(function (mod) {
+            var ready = mod.init ? mod.init() : Promise.resolve();
+            return ready.then(function () { pagefindApi = mod; return mod; });
+          });
+        }
+        function runSearch(q) {
+          if (!q) { results.hidden = true; results.innerHTML = ""; return; }
+          pagefindReady().then(function (pf) {
+            var withFilter = pf.search(q, { filters: { lang: isHi ? "hi" : "en" } });
+            return withFilter.catch(function () { return pf.search(q); });
+          }).then(function (res) {
+            if (!res || input.value.trim() !== q) return;
+            var list = (res.results || []).slice(0, 20);
+            function noResults() {
+              results.innerHTML = '<div class="search-none">' +
+                escHtml(input.getAttribute("data-none") || "") + "</div>";
+              results.hidden = false;
+            }
+            if (!list.length) { noResults(); return null; }
+            return Promise.all(list.map(function (r) { return r.data(); })).then(function (datas) {
+              if (input.value.trim() !== q) return;
+              /* Pagefind degrades unknown words to short prefixes (even a single
+                 character), which returns junk matches. Keep only results whose
+                 title or excerpt actually contains a query word. */
+              var words = q.toLowerCase().split(/\s+/).map(function (w) {
+                return w.replace(/[^\p{L}\p{N}]/gu, "");
+              }).filter(function (w) { return w.length; });
+              var keep = datas.filter(function (d) {
+                var hay = (((d.meta && d.meta.title) || "") + " " +
+                  String(d.excerpt || "").replace(/<[^>]+>/g, " ")).toLowerCase();
+                return words.some(function (w) { return hay.indexOf(w) !== -1; });
+              }).slice(0, 8);
+              if (!keep.length) { noResults(); return; }
+              results.innerHTML = keep.map(function (d) {
+                return '<a class="search-hit" href="' + escHtml(d.url) + '">' +
+                  "<span>" + escHtml(cleanTitle((d.meta && d.meta.title) || "")) + "</span>" +
+                  "<small>" + d.excerpt + "</small></a>";
+              }).join("");
+              results.hidden = false;
+            });
+          }).catch(function () { results.hidden = true; });
+        }
+        if (input) {
+          input.addEventListener("input", function () {
+            clearTimeout(searchTimer);
+            var q = input.value.trim();
+            searchTimer = setTimeout(function () { runSearch(q); }, 180);
+          });
+          input.addEventListener("focus", function () {
+            pagefindReady().catch(function () {});
+            if (input.value.trim()) runSearch(input.value.trim());
+          });
+          input.addEventListener("blur", function () { setTimeout(function () { results.hidden = true; }, 160); });
+        }
+
+        /* progress */
+        function doneList() {
+          try { return JSON.parse(localStorage.getItem("qlh-done") || "[]"); } catch (e) { return []; }
+        }
+        function saveDone(list) {
+          try { localStorage.setItem("qlh-done", JSON.stringify(list)); } catch (e) {}
+        }
+        var total = parseInt(document.body.getAttribute("data-lesson-count") || "0", 10);
+        function paintProgress() {
+          var done = doneList();
+          var pct = total ? Math.round((done.length / total) * 100) : 0;
+          document.querySelectorAll("[data-progress-bar]").forEach(function (bar) { bar.style.width = pct + "%"; });
+          document.querySelectorAll("[data-progress-text]").forEach(function (el) {
+            el.textContent = isHi
+              ? (total + " में से " + done.length + " पाठ पूर्ण")
+              : (done.length + " of " + total + " lessons complete");
+          });
+          document.querySelectorAll("[data-lesson-link]").forEach(function (a) {
+            if (done.indexOf(a.getAttribute("data-lesson-link")) !== -1) a.classList.add("done");
+          });
+          document.querySelectorAll(".lesson-row").forEach(function (row) {
+            var link = row.querySelector("[data-lesson-link]");
+            if (link && done.indexOf(link.getAttribute("data-lesson-link")) !== -1) row.classList.add("done");
+          });
+        }
+        var completeBtn = document.querySelector("[data-complete]");
+        function syncCompleteBtn() {
+          if (!completeBtn) return;
+          var slug = completeBtn.getAttribute("data-complete");
+          var done = doneList().indexOf(slug) !== -1;
+          completeBtn.textContent = done
+            ? (isHi ? "✓ पूर्ण — वापस लेने के लिए क्लिक करें" : "✓ Completed — click to undo")
+            : (isHi ? "पाठ पूर्ण चिह्नित करें" : "Mark lesson as complete");
+          completeBtn.classList.toggle("is-done", done);
+        }
+        if (completeBtn) completeBtn.addEventListener("click", function () {
+          var slug = completeBtn.getAttribute("data-complete");
+          var done = doneList();
+          var i = done.indexOf(slug);
+          if (i === -1) done.push(slug); else done.splice(i, 1);
+          saveDone(done); paintProgress(); syncCompleteBtn();
+        });
+        syncCompleteBtn(); paintProgress();
+
+        /* quizzes */
+        document.querySelectorAll("[data-quiz]").forEach(function (quiz) {
+          var answered = 0, correct = 0;
+          var qs = quiz.querySelectorAll(".quiz-q");
+          qs.forEach(function (q) {
+            var answer = parseInt(q.getAttribute("data-answer"), 10);
+            q.querySelectorAll(".quiz-opt").forEach(function (opt) {
+              opt.addEventListener("click", function () {
+                if (q.classList.contains("locked")) return;
+                q.classList.add("locked");
+                var chosen = parseInt(opt.getAttribute("data-oi"), 10);
+                q.querySelectorAll(".quiz-opt").forEach(function (o) {
+                  var oi = parseInt(o.getAttribute("data-oi"), 10);
+                  if (oi === answer) o.classList.add("correct");
+                  else if (oi === chosen) o.classList.add("wrong");
+                  o.disabled = true;
+                });
+                if (chosen === answer) correct++;
+                answered++;
+                var why = q.querySelector(".quiz-why");
+                if (why) why.hidden = false;
+                if (answered === qs.length) {
+                  var score = quiz.querySelector(".quiz-score");
+                  score.hidden = false;
+                  score.textContent = isHi
+                    ? ("आपने " + qs.length + " में से " + correct + " सही किए।" +
+                      (correct === qs.length ? " बिल्कुल सही — अब अगले पाठ पर चलें।" : " पाठ को एक बार और देख लें, फिर आगे बढ़ें।"))
+                    : ("You got " + correct + " out of " + qs.length + " right." +
+                      (correct === qs.length ? " Perfect — on to the next lesson." : " Skim the lesson once more, then move on."));
+                }
+              });
+            });
+          });
+        });
+
+        /* keyboard page turning */
+        document.addEventListener("keydown", function (e) {
+          if (e.target && (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA")) return;
+          var prev = document.body.getAttribute("data-prev");
+          var next = document.body.getAttribute("data-next");
+          if (e.key === "ArrowLeft" && prev) window.location.href = prev;
+          if (e.key === "ArrowRight" && next) window.location.href = next;
+        });
+
+        /* math rendering */
+        function renderMath() {
+          if (window.renderMathInElement) {
+            renderMathInElement(document.body, {
+              delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true },
+              ],
+              throwOnError: false,
+            });
+          }
+        }
+        if (document.readyState === "complete") renderMath();
+        else window.addEventListener("load", renderMath);
+      })();
+    </script>
 
     <script>
       (function () {
@@ -293,7 +523,7 @@ const footerText = isHi
         });
         paintSteps();
 
-        /* code blocks: python highlighting + copy button, GitHub-readme style */
+        /* code cells: python highlighting, In []: prompt, copy button (code only) */
         function highlightPython(code) {
           var esc = code.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
           var re = /(#[^\n]*)|("""[\s\S]*?"""|'''[\s\S]*?'''|f"(?:\\.|[^"\\])*"|f'(?:\\.|[^'\\])*'|"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*')|\b(import|from|as|def|return|for|in|if|else|elif|while|with|print|True|False|None|and|or|not|class|try|except|lambda|pass|break|continue|raise|assert|yield)\b|(\b\d[\d._]*(?:[eE][+-]?\d+)?j?\b)|([A-Za-z_]\w*)(?=\s*\()/g;
@@ -313,6 +543,10 @@ const footerText = isHi
               pre.innerHTML = highlightPython(pre.textContent);
               pre.dataset.hl = "1";
             }
+            var prompt = document.createElement("span");
+            prompt.className = "code-in";
+            prompt.textContent = "In []:";
+            pre.insertBefore(prompt, pre.firstChild);
             var lang = document.createElement("span");
             lang.className = "code-lang";
             lang.textContent = pre.dataset.lang || "python";
@@ -373,7 +607,7 @@ const footerText = isHi
 
         /* confetti burst when a lab is completed */
         function confetti() {
-          var colors = ["#3fb950", "#58a6ff", "#d29922", "#a371f7", "#f778ba", "#7ee787"];
+          var colors = ["#8b7cf6", "#4fd1c5", "#4ade80", "#f78c6c", "#e3b341", "#f778ba"];
           for (var i = 0; i < 60; i++) {
             var p = document.createElement("i");
             p.className = "confetti-bit";
@@ -384,66 +618,70 @@ const footerText = isHi
             (function (el) { setTimeout(function () { el.remove(); }, 3000); })(p);
           }
         }
-
-        /* math rendering */
-        function renderMath() {
-          if (window.renderMathInElement) {
-            renderMathInElement(document.body, {
-              delimiters: [
-                { left: "$$", right: "$$", display: true },
-                { left: "\\(", right: "\\)", display: false },
-                { left: "\\[", right: "\\]", display: true },
-              ],
-              throwOnError: false,
-            });
+      })();
+    </script>
+    {/* Same site-wide login wall contract as SiteLayout (see public/auth/README.md).
+        NOTE: this script is intentionally NOT wrapped in a JSX conditional.
+        Astro renders conditional <script> tags unconditionally, which caused
+        an infinite /login/ -> /login/?next=... redirect loop. Instead the
+        script exempts itself at runtime via body[data-nogate="1"], which the
+        login pages set through the layout's noGate prop. */}
+      <script>
+        (function () {
+          if (document.body && document.body.dataset.nogate === "1") return;
+          var AUTH_BASE = "/auth/";
+          var gate = document.getElementById("auth-gate");
+          var HI = document.documentElement.lang === "hi";
+          function hideGate() { if (gate) gate.style.display = "none"; }
+          function gateMsg(t) { var m = gate && gate.querySelector(".gate-msg"); if (m) m.textContent = t; }
+          function unreachable() {
+            gateMsg(HI
+              ? "साइन-इन सेवा नहीं मिल रही — कनेक्शन जाँचें और पेज reload करें।"
+              : "Sign-in service unreachable — check your connection and reload.");
           }
-        }
-        if (document.readyState === "complete") renderMath();
-        else window.addEventListener("load", renderMath);
-      })();
-    </script>
-    {/* Same site-wide login wall contract as SiteLayout (see public/auth/README.md). */}
-    <script>
-      (function () {
-        if (document.body && document.body.dataset.nogate === "1") return;
-        var AUTH_BASE = "/auth/";
-        var gate = document.getElementById("auth-gate");
-        var HI = document.documentElement.lang === "hi";
-        function hideGate() { if (gate) gate.style.display = "none"; }
-        function gateMsg(t) { var m = gate && gate.querySelector(".gate-msg"); if (m) m.textContent = t; }
-        function unreachable() {
-          gateMsg(HI
-            ? "साइन-इन सेवा नहीं मिल रही — कनेक्शन जाँचें और पेज reload करें।"
-            : "Sign-in service unreachable — check your connection and reload.");
-        }
-        function loginUrl(denied, unverified) {
-          var base = HI ? "/hi/login/" : "/login/";
-          var next = encodeURIComponent(window.location.pathname + window.location.search);
-          return base + "?next=" + next + (denied ? "&denied=1" : "") + (unverified ? "&unverified=1" : "");
-        }
-        import(/* @vite-ignore */ AUTH_BASE + "config.js").then(function () {
-          return import(/* @vite-ignore */ AUTH_BASE + "index.js");
-        }).then(function (mod) {
-          var auth = mod.auth;
-          if (!auth.configured) { hideGate(); return; }
-          var settled = false;
-          auth.ready.catch(unreachable);
-          auth.onAuthChange(function (user, info) {
-            if (info && info.denied) { window.location.replace(loginUrl(true, false)); return; }
-            if (info && info.unverified) { window.location.replace(loginUrl(false, true)); return; }
-            if (!user) { window.location.replace(loginUrl(false, false)); return; }
-            settled = true;
-            hideGate();
+          function loginUrl(denied, unverified) {
+            var base = HI ? "/hi/login/" : "/login/";
+            var next = encodeURIComponent(window.location.pathname + window.location.search);
+            return base + "?next=" + next + (denied ? "&denied=1" : "") + (unverified ? "&unverified=1" : "");
+          }
+          import(/* @vite-ignore */ AUTH_BASE + "config.js").then(function () {
+            return import(/* @vite-ignore */ AUTH_BASE + "index.js");
+          }).then(function (mod) {
+            var auth = mod.auth;
+            /* Auth service not wired yet — leave the site public until it is. */
+            if (!auth.configured) { hideGate(); return; }
+            var settled = false;
+            auth.ready.catch(unreachable);
+            auth.onAuthChange(function (user, info) {
+              if (info && info.denied) { window.location.replace(loginUrl(true, false)); return; }
+              if (info && info.unverified) { window.location.replace(loginUrl(false, true)); return; }
+              if (!user) { window.location.replace(loginUrl(false, false)); return; }
+              settled = true;
+              document.body.classList.add("is-authed");
+              hideGate();
+              var chip = document.getElementById("user-chip");
+              if (chip) {
+                chip.hidden = false;
+                chip.textContent = user.email || user.displayName || "";
+                chip.title = user.email || user.displayName || "";
+              }
+              var so = document.getElementById("signout-btn");
+              if (so) {
+                so.hidden = false;
+                so.addEventListener("click", function () {
+                  auth.signOut().then(function () { window.location.replace(loginUrl(false, false)); });
+                });
+              }
+            }).catch(unreachable);
+            setTimeout(function () {
+              if (!settled && gate && gate.style.display !== "none") {
+                gateMsg(HI
+                  ? "साइन-इन में देर हो रही है — पेज reload करें।"
+                  : "Sign-in is taking too long — reload the page.");
+              }
+            }, 20000);
           }).catch(unreachable);
-          setTimeout(function () {
-            if (!settled && gate && gate.style.display !== "none") {
-              gateMsg(HI
-                ? "साइन-इन में देर हो रही है — पेज reload करें।"
-                : "Sign-in is taking too long — reload the page.");
-            }
-          }, 20000);
-        }).catch(unreachable);
-      })();
-    </script>
+        })();
+      </script>
   </body>
 </html>
