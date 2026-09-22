@@ -45,8 +45,15 @@ export function createAuth(cfg) {
 
   var ready = (async function () {
     if (!configured) throw new Error("[site-auth] firebase not configured");
-    await Promise.all(SDK_URLS.map(loadScript));
-    if (!window.firebase) throw new Error("[site-auth] firebase SDK missing");
+    // Sequential: auth-compat must evaluate AFTER app-compat defines the
+    // firebase namespace. Promise.all raced them and intermittently left
+    // firebase.auth unregistered (dead sign-in button, no redirect).
+    for (const src of SDK_URLS) {
+      await loadScript(src);
+    }
+    if (!window.firebase || !window.firebase.auth) {
+      throw new Error("[site-auth] firebase SDK failed to initialize");
+    }
     try {
       window.firebase.initializeApp(fb);
     } catch (e) { /* already initialized */ }

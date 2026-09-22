@@ -4,15 +4,13 @@
 var cfg = window.__SITE_AUTH__ || {};
 var provider = cfg.provider || "firebase";
 
-var adapter;
-if (provider === "firebase") {
-  adapter = await import("./firebase-adapter.js");
-} else {
-  throw new Error(
-    "[site-auth] unknown provider \"" + provider +
-    "\" — add public/auth/" + provider + "-adapter.js (see README.md)"
-  );
+// Sanitized dynamic import: any "<id>-adapter.js" in this directory that
+// implements the interface from README.md can be selected with one word in
+// config.js — no switchboard edits needed.
+if (!/^[a-z0-9-]{1,40}$/.test(provider)) {
+  throw new Error("[site-auth] invalid provider id");
 }
+var adapter = await import("./" + provider + "-adapter.js");
 
 export const auth = adapter.createAuth(cfg);
 export const authConfig = cfg;
