@@ -61,14 +61,14 @@ export const hiModules = {
     title: "Quantum Philosophy",
     tagline: "वे गहरे सवाल जो quantum computing हमसे पूछने पर मजबूर करती है।",
     description:
-      "Quantum computing को philosophy की ज़रूरत क्यों है: quantum mechanics की छह interpretations और हर एक के अनुसार आपका quantum computer क्या कर रहा है, local realism का अंत, randomness बनाम determinism और free will, और Wheeler का “it from bit”। Original enrichment सामग्री — वे सवाल जिनका physics के पास अभी जवाब नहीं।",
+      "Quantum computing को philosophy की ज़रूरत क्यों है: quantum mechanics की 6 interpretations और हर एक के अनुसार आपका quantum computer क्या कर रहा है, local realism का अंत, randomness बनाम determinism और free will, और Wheeler का “it from bit”। Original enrichment सामग्री — वे सवाल जिनका physics के पास अभी जवाब नहीं।",
   },
 };
 
 export const hiLessonTitles = {
   qubits: "क्वांटम बिट (Qubits)",
   "phil-why-philosophy": "Quantum Computing को Philosophy की ज़रूरत क्यों है",
-  "phil-interpretations": "छह Interpretations — और आपका Quantum Computer क्या कर रहा है",
+  "phil-interpretations": "6 Interpretations — और आपका Quantum Computer क्या कर रहा है",
   "phil-randomness-free-will": "Randomness, Determinism और Free Will",
   "phil-it-from-bit": "“It from Bit”: क्या Information ही Reality है?",
   "nobel-2025-clarke-devoret-martinis": "2025 · क्लार्क, डेवोरे और मार्टिनिस: क्वांटम कंप्यूटिंग नोबेल",
