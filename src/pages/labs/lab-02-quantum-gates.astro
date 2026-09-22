@@ -1,0 +1,206 @@
+---
+import LabLayout from "../../layouts/LabLayout.astro";
+---
+<LabLayout
+  title="Lab 02 — Meet the quantum gates"
+  description="Go beyond X and H: Pauli, phase, and rotation gates on one qubit — then CNOT and your first entangled Bell pair on two qubits."
+  lang="en"
+  altUrl="/hi/labs/lab-02-quantum-gates/"
+  labSlug="lab-02-quantum-gates"
+  prevUrl="/labs/"
+>
+  <section class="lab-hero">
+    <div class="prompt">$ lab 02 // gates, gates, gates</div>
+    <h1>Lab 02 — Meet the quantum gates</h1>
+    <p class="lede">
+      In Lab 01 a qubit did something no classical bit can. In this lab you meet the tools that make it
+      happen: the <strong>quantum gates</strong>. You will flip phases that never show up in the counts,
+      rotate a qubit by any angle you choose, and finish by entangling two qubits so tightly that they
+      always agree with each other.
+    </p>
+    <div class="lab-meta">
+      <span class="lab-chip">~40 min</span>
+      <span class="lab-chip">beginner</span>
+      <span class="lab-chip">builds on Lab 01</span>
+    </div>
+    <div class="lab-progress"><div data-lab-progress></div></div>
+    <div class="lab-progress-label" data-lab-progress-label></div>
+  </section>
+
+  <section class="lab-steps">
+    <div class="step">
+      <label class="step-check"><input type="checkbox" /><span>done</span></label>
+      <h3 class="step-title">Wake up your lab</h3>
+      <p>
+        Everything from Lab 01 is still on your machine. Reactivate the environment and confirm the
+        quantum stack still answers:
+      </p>
+      <pre class="lab-code" data-lang="bash">conda activate qc-lab   # (qc-lab) should appear in your prompt</pre>
+      <pre class="lab-code">import qiskit
+print(qiskit.__version__)</pre>
+      <div class="checkpoint"><strong>✓ Checkpoint:</strong> a version like <code>2.x</code> prints. No reinstalls today — we go straight to the gates.</div>
+      <div class="stuck"><strong>Stuck?</strong> If <code>conda</code> is not found, the environment step from Lab 01 was skipped — go back and do steps 1–4 there first.</div>
+    </div>
+
+    <div class="step">
+      <label class="step-check"><input type="checkbox" /><span>done</span></label>
+      <h3 class="step-title">See the state itself: Statevector</h3>
+      <p>
+        Measurement counts tell you what the qubit <em>measured as</em>. The
+        <strong>Statevector</strong> shows you what the qubit <em>actually is</em> — including the parts
+        measurement cannot see. It needs a circuit with no measurements in it:
+      </p>
+      <pre class="lab-code">from qiskit import QuantumCircuit
+from qiskit.quantum_info import Statevector
+from qiskit_aer import AerSimulator
+sim = AerSimulator()
+
+qc = QuantumCircuit(1)
+qc.x(0)
+sv = Statevector(qc)
+print(sv.to_dict())</pre>
+      <div class="checkpoint"><strong>✓ Checkpoint:</strong> <code>&#123;'1': (1+0j)&#125;</code> — the qubit <em>is</em> |1⟩, which is why it always <em>measures</em> 1. Two views of the same truth: counts show outcomes, the statevector shows the state.</div>
+    </div>
+
+    <div class="step">
+      <label class="step-check"><input type="checkbox" /><span>done</span></label>
+      <h3 class="step-title">Z gate: the invisible flip</h3>
+      <p>
+        The <strong>Z gate</strong> flips the <em>phase</em> of |1⟩: |1⟩ becomes −|1⟩, while |0⟩ is untouched.
+        Watch what the two views say:
+      </p>
+      <pre class="lab-code">qc = QuantumCircuit(1)
+qc.x(0)
+qc.z(0)   # flip the phase of |1>
+print(Statevector(qc).to_dict())</pre>
+      <pre class="lab-code">qc2 = QuantumCircuit(1, 1)
+qc2.x(0)
+qc2.z(0)
+qc2.measure(0, 0)
+print(sim.run(qc2, shots=1000).result().get_counts())</pre>
+      <div class="checkpoint"><strong>✓ Checkpoint:</strong> the statevector says <code>&#123;'1': (-1+0j)&#125;</code> — the minus sign is really there — yet the counts still read <code>&#123;'1': 1000&#125;</code>. Measurement is blind to phase. Phase only reveals itself when states <em>interfere</em> — which is exactly what the next steps exploit.</div>
+    </div>
+
+    <div class="step">
+      <label class="step-check"><input type="checkbox" /><span>done</span></label>
+      <h3 class="step-title">Y gate: flip with a twist</h3>
+      <p>
+        The <strong>Y gate</strong> does both jobs at once — it flips |0⟩ to |1⟩ <em>and</em> adds a phase:
+      </p>
+      <pre class="lab-code">qc = QuantumCircuit(1)
+qc.y(0)
+print(Statevector(qc).to_dict())</pre>
+      <div class="checkpoint"><strong>✓ Checkpoint:</strong> <code>&#123;'1': 1j&#125;</code> — the qubit flipped (it's |1⟩) <em>and</em> picked up an imaginary phase. The counts would still be a boring <code>&#123;'1': 1000&#125;</code>, because — say it with me — measurement can't see phase.</div>
+    </div>
+
+    <div class="step">
+      <label class="step-check"><input type="checkbox" /><span>done</span></label>
+      <h3 class="step-title">S and T: fractions of a flip</h3>
+      <p>
+        Phases come in fractions too. <strong>S</strong> is the square root of Z — apply it twice and you
+        get Z. <strong>T</strong> is the square root of S:
+      </p>
+      <pre class="lab-code">qc = QuantumCircuit(1)
+qc.x(0)
+qc.s(0)
+qc.s(0)   # S twice = Z
+print(Statevector(qc).to_dict())</pre>
+      <pre class="lab-code">qc2 = QuantumCircuit(1)
+qc2.x(0)
+qc2.t(0)
+qc2.t(0)  # T twice = S
+print(Statevector(qc2).to_dict())</pre>
+      <div class="checkpoint"><strong>✓ Checkpoint:</strong> the first prints <code>&#123;'1': (-1+0j)&#125;</code> (that's Z), the second <code>&#123;'1': 1j&#125;</code> (that's S). Gates have square roots — quantum control is finer than just on/off.</div>
+    </div>
+
+    <div class="step challenge">
+      <label class="step-check"><input type="checkbox" /><span>done</span></label>
+      <h3 class="step-title">Your turn: HZH = X</h3>
+      <p>
+        Here is a famous identity: a Z gate <em>surrounded by two Hadamards</em> behaves exactly like an X
+        gate. Before running — <strong>predict</strong> the counts out loud:
+      </p>
+      <pre class="lab-code">qc = QuantumCircuit(1, 1)
+qc.h(0)
+qc.z(0)
+qc.h(0)
+qc.measure(0, 0)
+print(sim.run(qc, shots=1000).result().get_counts())</pre>
+      <div class="checkpoint"><strong>✓ Checkpoint:</strong> <code>&#123;'1': 1000&#125;</code> — HZH flipped |0⟩ to |1⟩, exactly like X. Why it works: the Hadamards change the <em>basis</em>, turning a phase-flip into a bit-flip. You just used interference on purpose — the thing measurement couldn't see is now doing visible work.</div>
+    </div>
+
+    <div class="step">
+      <label class="step-check"><input type="checkbox" /><span>done</span></label>
+      <h3 class="step-title">Rotation gates: any angle you want</h3>
+      <p>
+        Gates aren't limited to fixed flips. <strong>RY(θ)</strong> rotates the qubit by any angle θ you
+        choose — a dial, not a switch. Half of a half-turn behaves like H:
+      </p>
+      <pre class="lab-code">import math
+
+qc = QuantumCircuit(1, 1)
+qc.ry(math.pi/2, 0)   # 90-degree rotation
+qc.measure(0, 0)
+print(sim.run(qc, shots=1000).result().get_counts())</pre>
+      <p>Now dial it down to 45 degrees and watch the bias appear:</p>
+      <pre class="lab-code">qc2 = QuantumCircuit(1, 1)
+qc2.ry(math.pi/4, 0)  # 45-degree rotation
+qc2.measure(0, 0)
+print(sim.run(qc2, shots=1000).result().get_counts())</pre>
+      <div class="checkpoint"><strong>✓ Checkpoint:</strong> the first is ~50/50 like H; the second is biased, something like <code>&#123;'0': 853, '1': 147&#125;</code>. You just <em>chose</em> a probability. No classical bit can do that — this continuous control is the real engine behind quantum algorithms.</div>
+    </div>
+
+    <div class="step">
+      <label class="step-check"><input type="checkbox" /><span>done</span></label>
+      <h3 class="step-title">Two qubits: CNOT</h3>
+      <p>
+        The <strong>CNOT</strong> (controlled-NOT) is the first gate that needs <em>two</em> qubits: it flips
+        the <strong>target</strong> only when the <strong>control</strong> is |1⟩. Control on qubit 0, target
+        on qubit 1:
+      </p>
+      <pre class="lab-code">qc = QuantumCircuit(2, 2)
+qc.x(0)        # control qubit -> |1>
+qc.cx(0, 1)    # flip target, because control is |1>
+qc.measure(0, 0)
+qc.measure(1, 1)
+print(qc.draw())
+print(sim.run(qc, shots=1000).result().get_counts())</pre>
+      <div class="checkpoint"><strong>✓ Checkpoint:</strong> <code>&#123;'11': 1000&#125;</code> — read the bitstring right-to-left as (qubit 1, qubit 0): both are 1. Now delete the <code>qc.x(0)</code> line and rerun: <code>&#123;'00': 1000&#125;</code>. Control |0⟩ → the target is never touched. The gate <em>conditions</em> on another qubit — that conditional power is what makes multi-qubit circuits interesting.</div>
+    </div>
+
+    <div class="step challenge">
+      <label class="step-check"><input type="checkbox" /><span>done</span></label>
+      <h3 class="step-title">Your turn: the Bell pair</h3>
+      <p>
+        Put the control qubit in superposition <em>first</em>, then CNOT. Before running, predict: which of
+        the four outcomes — 00, 01, 10, 11 — will appear?
+      </p>
+      <pre class="lab-code">bell = QuantumCircuit(2, 2)
+bell.h(0)       # control -> superposition
+bell.cx(0, 1)   # entangle target with it
+bell.measure(0, 0)
+bell.measure(1, 1)
+counts = sim.run(bell, shots=1000).result().get_counts()
+print(counts)</pre>
+      <div class="checkpoint"><strong>✓ Checkpoint:</strong> only <code>&#123;'00': ~500, '11': ~500&#125;</code> — never 01, never 10. The two qubits are <strong>entangled</strong>: measure one and you instantly know the other, however far apart they are. Einstein called it "spooky action at a distance." You just made it on your laptop in four lines.</div>
+      <div class="stuck"><strong>Stuck?</strong> Seeing <code>01</code> or <code>10</code>? Check the gate order — the H must come <em>before</em> the CNOT, and the CNOT's control must be qubit 0: <code>cx(0, 1)</code>, not <code>cx(1, 0)</code>.</div>
+    </div>
+
+    <div class="step">
+      <label class="step-check"><input type="checkbox" /><span>done</span></label>
+      <h3 class="step-title">Debrief — what did you prove?</h3>
+      <p>
+        Gates are the verbs of quantum computing. You verified that phase is real but invisible to
+        measurement (Z, Y, S, T), that rotations give you continuous control over probability (RY), and that
+        a controlled gate can tie two qubits into a single entangled fate (CNOT → Bell pair). Ten gates,
+        one simulator, zero hardware.
+      </p>
+      <p>
+        Next labs string these gates into real protocols — key distribution, teleportation. To understand
+        <em>why</em> the H gate creates superposition in the first place, visit the
+        <a href="/lessons/qubits/">qubit lesson</a>.
+      </p>
+      <button class="lab-complete" data-lab-complete="lab-02-quantum-gates">Mark lab as complete</button>
+    </div>
+  </section>
+</LabLayout>
