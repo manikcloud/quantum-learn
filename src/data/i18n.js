@@ -59,15 +59,15 @@ export const strings = {
       (correct === total ? " Perfect — on to the next lesson." : " Skim the lesson once more, then move on."),
   },
   hi: {
-    brandSub: "Quantum computing, सरल भाषा में",
+    brandSub: "Quantum computing, आसान भाषा में",
     searchPh: "पाठ खोजें…",
     searchNone: "कोई पाठ नहीं मिला — कोई और शब्द आज़माएँ।",
     sidebarTitle: "पाठ्यक्रम मॉड्यूल",
     footerText:
-      "Zero से quantum तक — एक-एक qubit करके। सरल भाषा में, अपने हाथ से बनाया गया।",
+      "Zero से quantum तक — एक qubit, एक कदम। आसान भाषा में, अपने हाथ से बनाया गया।",
     home: "मुख्य पृष्ठ",
     moduleWord: "मॉड्यूल",
-    simpleKicker: "सरल शब्दों में",
+    simpleKicker: "आसान शब्दों में",
     deeperSummary: "गहरे उतरें — गणित और सटीकता",
     keyTakeaways: "मुख्य बातें",
     references: "संदर्भ (References)",
