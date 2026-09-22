@@ -1,0 +1,368 @@
+---
+import SiteLayout from "../../layouts/SiteLayout.astro";
+---
+<SiteLayout
+  title="Quantum Bharat: Lab to Battlefield — India's Quantum Experiments"
+  description="India's quantum experiments from 2020 to 2026: DRDO–IIT Delhi's quantum key distribution records, the 6-qubit processor, free-space and satellite quantum links, diamond quantum sensors, and what real-world problems each one solves."
+  altUrl="/hi/quantum-bharat/experiments/"
+  currentSlug="quantum-bharat-experiments"
+>
+  <style>
+    .exp {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.15rem 1.35rem;
+      margin: 0 0 1rem;
+    }
+    .exp .when {
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+    .exp h3 {
+      margin: 0.3rem 0 0.55rem;
+    }
+    .exp .lab {
+      color: var(--accent);
+      font-weight: 700;
+      font-size: 0.82rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+    .exp .figs {
+      color: var(--muted);
+      font-size: 0.92rem;
+      border-top: 1px solid var(--border);
+      padding-top: 0.6rem;
+      margin-top: 0.8rem;
+    }
+  </style>
+
+  <nav class="crumbs" data-pagefind-ignore>
+    <a href="/">Home</a> / Quantum Bharat / Lab to Battlefield
+  </nav>
+  <span class="tag">Special feature · Quantum Bharat</span>
+  <h1>Quantum Bharat: Lab to Battlefield — India's Quantum Experiments</h1>
+
+  <section class="explain-simple">
+    <div class="kicker">In simple words</div>
+    <p>
+      India's quantum story is not just policy documents and funding announcements. Since 2020, Indian
+      labs have <strong>built and tested working quantum hardware</strong>: encryption keys sent over
+      hundreds of kilometres of ordinary optical fiber, keys beamed through open air between
+      buildings, a homegrown 6-qubit quantum processor, and diamond sensors that read magnetic fields a
+      billion times weaker than Earth's.
+    </p>
+    <p>
+      This page collects the ten most important experiments — each told in three beats:
+      <strong>what happened</strong>, <strong>how it works</strong> (the physics, in plain language),
+      and <strong>what real-world problem it solves</strong>. One honest note: you may have read about
+      a quantum teleportation experiment at IIT BHU — we could not verify any such demonstration, so it
+      is <strong>not</strong> listed here. Announced results and independently verified details are kept
+      separate throughout, and every claim carries its source.
+    </p>
+  </section>
+
+  <details class="deeper">
+    <summary>Go deeper — the full timeline and how this page treats evidence</summary>
+    <div class="deeper-body">
+      <h3>The timeline, 2020 → 2026</h3>
+      <ul>
+        <li><strong>Dec 2020</strong> — DRDO demonstrates QKD between two Hyderabad labs over 12 km of fiber; DYSL-QT announces an indigenous QRNG at ~150 kbps.</li>
+        <li><strong>Feb 2021</strong> — RRI–ISRO's QuEST project: India's first free-space entanglement-based QKD, beamed 50 m between buildings at night.</li>
+        <li><strong>Mar 2021</strong> — ISRO demonstrates free-space quantum communication over 300 m, including a live quantum-secured video call.</li>
+        <li><strong>Feb 2022</strong> — DRDO–IIT Delhi: India's first intercity QKD link, Prayagraj–Vindhyachal, over 100 km of commercial fiber.</li>
+        <li><strong>Oct 2023</strong> — IIT Delhi: trusted-node-free QKD over 380 km of standard telecom fiber (a claimed world first for the DPS protocol).</li>
+        <li><strong>Aug 2024</strong> — DYSL-QT, TIFR and TCS complete end-to-end testing of an indigenous 6-qubit superconducting processor.</li>
+        <li><strong>May 2025</strong> — STL + C-DOT demonstrate QKD over 100 km of multi-core fiber at IIT Madras; DRDO inaugurates the Quantum Technology Research Centre in Delhi.</li>
+        <li><strong>Jun 2025</strong> — DRDO–IIT Delhi: entanglement-based free-space quantum communication over 1 km on the IIT Delhi campus.</li>
+        <li><strong>Nov 2025</strong> — IIT Bombay unveils indigenous quantum sensing platforms: a portable diamond magnetometer, a quantum diamond microscope, and a cancer-sensing system.</li>
+        <li><strong>Apr 2026</strong> — The National Quantum Mission demonstrates a 1,000 km quantum communication network with indigenous QNu Labs technology.</li>
+        <li><strong>Jul 2026</strong> — DRDO and Taqbit Labs complete military field trials of a productised fibre-based QKD system.</li>
+        <li><strong>Aug 2026</strong> — C-DOT unveils 14 indigenous quantum products, from QKD systems to quantum-safe encryptors.</li>
+      </ul>
+      <h3>Announced vs. demonstrated</h3>
+      <p>
+        A government press release, a peer-reviewed paper, and a field trial are different kinds of
+        evidence. This page labels them: <strong>announced results</strong> (official releases),
+        <strong>demonstrated results</strong> (peer-reviewed or publicly witnessed), and where exact
+        dates or parameters were not published, it says so plainly rather than filling the gap.
+      </p>
+    </div>
+  </details>
+
+  <section>
+    <h2>The ten experiments</h2>
+
+    <article class="exp">
+      <div class="when">Announced 23 February 2022 · DRDO × IIT Delhi</div>
+      <h3>The first intercity quantum link</h3>
+      <p><span class="lab">How it works</span><br />
+        Quantum key distribution encodes encryption keys into single photons, so any interception
+        disturbs them and is detected. The DRDO–IIT Delhi team ran QKD between Prayagraj and
+        Vindhyachal over <strong>more than 100 km of commercial-grade optical fiber</strong> already
+        deployed in the field, reaching sifted key rates up to 10 kHz — within reported international
+        standards.</p>
+      <p><span class="lab">Why it matters</span><br />
+        The first proof that military-grade quantum keys could travel city to city on ordinary fiber.
+        The official announcement said the purpose was "bootstrapping military grade communication
+        security key hierarchy" — the key-management backbone Indian defence networks would run on.</p>
+      <div class="figs">Distance: &gt;100 km · Sifted key rate: up to 10 kHz · Fiber: commercial-grade, field-deployed</div>
+    </article>
+
+    <article class="exp">
+      <div class="when">Announced 6 October 2023 · IIT Delhi (Kanseri group)</div>
+      <h3>380 km with no trusted nodes</h3>
+      <p><span class="lab">How it works</span><br />
+        In differential-phase-shift QKD, each key bit is encoded in the <em>phase difference</em>
+        between consecutive laser pulses rather than in single photons; the receiver interferes each
+        pulse with its neighbour, and the brightness of the interference reveals the bit. By optimising
+        the laser's steadiness, detector noise and fiber dispersion, Prof. Bhaskar Kanseri's team kept
+        errors below 2.5% after <strong>380 km of standard telecom fiber</strong> — published in
+        <em>Nature Scientific Reports</em> and claimed as a world first for this protocol at that
+        distance.</p>
+      <p><span class="lab">Why it matters</span><br />
+        It removes intermediate "trusted nodes" — relay points that must be trusted not to leak the
+        key, and are security weak points. A trusted-node-free link is what quantum-safe banking and
+        strategic communication between states actually need.</p>
+      <div class="figs">Distance: 380 km · QBER: &lt;2.5% · No trusted nodes · Team: Kanseri, Pathak, Chaudhary, Sangeeta</div>
+    </article>
+
+    <article class="exp">
+      <div class="when">16 June 2025 · DRDO × IIT Delhi (DIA-CoE)</div>
+      <h3>Quantum keys through open air</h3>
+      <p><span class="lab">How it works</span><br />
+        A source creates pairs of photons whose polarisations are <em>entangled</em> — measuring one
+        instantly fixes the other. One photon of each pair flies through open air to each party; both
+        measure their photons, and matching measurements become secret key bits. The IIT Delhi campus
+        link achieved <strong>~240 secure bits per second with errors below 7%</strong> over more than
+        a kilometre of free space. Any eavesdropper trying to peek breaks the entanglement, showing up
+        as errors — so interception is <em>detected</em>, not just resisted.</p>
+      <p><span class="lab">Why it matters</span><br />
+        Cable-free military links for battlefields, remote terrain and cities where fiber cannot be
+        laid — and a stepping stone to ground-to-satellite quantum links. Defence Minister Rajnath
+        Singh called it a "game changer in future warfare".</p>
+      <div class="figs">Distance: &gt;1 km free space · Key rate: ~240 bps · QBER: &lt;7% · Project: DRDO Directorate of Futuristic Technology Management</div>
+    </article>
+
+    <article class="exp">
+      <div class="when">Announced 29 December 2020 · DRDO DYSL-QT</div>
+      <h3>Randomness you can trust</h3>
+      <p><span class="lab">How it works</span><br />
+        A single photon hits a 50/50 beam splitter — quantum physics says it goes left or right with
+        <em>no pattern whatsoever</em>, unlike computer-generated "pseudo-random" numbers that are
+        secretly predictable. Each choice becomes a 0 or 1, yielding <strong>~150,000 genuinely
+        unpredictable bits per second</strong>. The device passed the global NIST and Die-harder
+        randomness test suites, and was independently verified with DRDO's own indigenous test suite.</p>
+      <p><span class="lab">Why it matters</span><br />
+        True randomness feeds key generation, key wrapping and authentication in military
+        cryptography. Predictable randomness would be a fatal flaw in an adversary's hands — this
+        closes it with sovereign hardware.</p>
+      <div class="figs">Speed: ~150 kbps after post-processing · Certified: NIST + Die-harder + DRDO SAG suite</div>
+    </article>
+
+    <article class="exp">
+      <div class="when">Announced August 2024 · DYSL-QT × TIFR × TCS</div>
+      <h3>India's 6-qubit processor</h3>
+      <p><span class="lab">How it works</span><br />
+        Tiny superconducting circuits cooled near absolute zero behave as qubits — they can be 0, 1, or
+        both at once. TIFR designed and fabricated a <strong>novel ring-resonator architecture</strong>
+        to link six of them; DYSL-QT scientists assembled the control and measurement electronics; TCS
+        built the cloud interface. The full loop was tested: submit a circuit over the cloud, execute
+        it on the hardware, read the results back — demonstrated before the DYSL-QT apex committee.
+        (The exact announcement day was not confirmed in the reports available.)</p>
+      <p><span class="lab">Why it matters</span><br />
+        The first step toward India's own quantum computers for defence-grade optimisation and
+        research — running on Indian-designed hardware instead of depending on foreign machines.</p>
+      <div class="figs">Qubits: 6, superconducting · Architecture: in-house ring-resonator (TIFR Colaba) · Interface: TCS cloud</div>
+    </article>
+
+    <article class="exp">
+      <div class="when">Announced July 2026 · DRDO × Taqbit Labs (Bengaluru)</div>
+      <h3>Quantum keys meet the field</h3>
+      <p><span class="lab">How it works</span><br />
+        DRDO announced via its official channels that, with industry partner Taqbit Labs, it had
+        completed <strong>military field trials of a scalable, productised fibre-based QKD system</strong>
+        with a multi-hop architecture — moved beyond lab proof-of-concept into engineered, deployable
+        equipment. Exact dates and technical parameters were not published.</p>
+      <p><span class="lab">Why it matters</span><br />
+        This is the transition from "it works in the lab" to "soldiers can use it" — the stated aim
+        is future-proofing India's strategic communication networks against quantum computers.
+        Taqbit separately signed a February 2026 agreement for quantum-safe satellite communications.</p>
+      <div class="figs">System: fibre-based QKD, multi-hop · Status: field trials completed (announced) · Parameters: not published</div>
+    </article>
+
+    <article class="exp">
+      <div class="when">7 May 2025 · STL × C-DOT, at IIT Madras</div>
+      <h3>Quantum security on ordinary telecom cable</h3>
+      <p><span class="lab">How it works</span><br />
+        One glass fiber can contain <strong>four cores</strong> — separate light-carrying channels.
+        Quantum key pulses travel down one core while ordinary internet data races down the other
+        three; the physical separation stops the bright classical signals from blinding the faint
+        quantum ones. Demonstrated over 100 km at the DoT-sponsored Advanced Optical Communications
+        Test Bed at IIT Madras.</p>
+      <p><span class="lab">Why it matters</span><br />
+        No expensive dedicated "dark fiber" needed — quantum security can run inside the same cables
+        telecom companies already lay. That makes quantum-safe networks economically realistic for
+        5G/6G India.</p>
+      <div class="figs">Distance: 100 km · Fiber: 4-core multi-core · Quantum + classical data on the same cable</div>
+    </article>
+
+    <article class="exp">
+      <div class="when">February–March 2021 · RRI × ISRO (QuEST)</div>
+      <h3>Keys beamed between buildings</h3>
+      <p><span class="lab">How it works</span><br />
+        In February 2021, Prof. Urbasi Sinha's QuIC lab at RRI beamed entangled photons <strong>50 m
+        between two buildings at night</strong> — darkness keeps sunlight from drowning out the faint
+        photon signal — India's first free-space entanglement-based QKD. In March 2021, ISRO's Space
+        Applications Centre went further: <strong>300 m of open-air quantum communication</strong>,
+        using an indigenous NAVIC satellite receiver to synchronise transmitter and receiver clocks to
+        nanosecond precision and a compact gimbal to steer the beam — and they ran a <strong>live
+        video call secured by the quantum keys</strong>.</p>
+      <p><span class="lab">Why it matters</span><br />
+        Proof that quantum keys can survive a trip through the atmosphere — the essential physics test
+        before satellites can beam keys down to Indian ground stations.</p>
+      <div class="figs">QuEST: 50 m, night, entanglement-based · ISRO SAC: 300 m, NAVIC time sync, live secured video call</div>
+    </article>
+
+    <article class="exp">
+      <div class="when">25 November 2025 · IIT Bombay</div>
+      <h3>Diamond compasses</h3>
+      <p><span class="lab">How it works</span><br />
+        A diamond with atomic "nitrogen-vacancy" defects acts as an <strong>atomic compass</strong>:
+        its electrons glow red under green light, and the glow shifts with magnetic fields — revealing
+        fields a billion times weaker than Earth's. Three indigenous platforms were demonstrated:
+        <strong>QMagPI</strong>, India's first portable quantum magnetometer; the <strong>Quantum
+        Diamond Microscope</strong>, a wide-field imager for nanoscale 3D magnetic imaging; and
+        <strong>Q-Confocal</strong>, which reads reactive-oxygen-species chemistry inside living cells
+        — a fingerprint of disease, demonstrated on glioblastoma cells.</p>
+      <p><span class="lab">Why it matters</span><br />
+        Finding buried structures and mineral deposits, detecting submarines or hidden objects,
+        mapping neuron activity, label-free early cancer diagnostics, and finding defects in
+        semiconductor chips. The same visit inaugurated IIT Bombay's Liquid Helium Facility — over
+        95% gas recovery — enabling cryogenic quantum experiments.</p>
+      <div class="figs">Sensitivity: nanotesla range · Platforms: QMagPI, Quantum Diamond Microscope (PQuest Group), Q-Confocal</div>
+    </article>
+
+    <article class="exp">
+      <div class="when">Announced 8 April 2026 · National Quantum Mission × QNu Labs</div>
+      <h3>A 1,000 km quantum backbone</h3>
+      <p><span class="lab">How it works</span><br />
+        Special "decoy-state differential phase shift" pulses survive up to <strong>200 km of ordinary
+        telecom fiber per hop</strong> without amplification; chaining five such links end to end
+        stretches secure key distribution to <strong>1,000 km</strong>. Quantum keys and 10 Gbps
+        classical traffic share the same fiber. Described as one of the world's longest QKD
+        deployments, built to work in challenging terrain including underwater and underground
+        networks.</p>
+      <p><span class="lab">Why it matters</span><br />
+        A national quantum-secure backbone for defence communications, banking networks and critical
+        infrastructure — the scale at which quantum security stops being a demo and becomes national
+        infrastructure.</p>
+      <div class="figs">Reach: 1,000 km · Per-hop: ~200 km on ordinary fiber · Quantum + 10 Gbps classical on one cable</div>
+    </article>
+  </section>
+
+  <section class="keypoints">
+    <h2>Also on the bench</h2>
+    <ul>
+      <li><strong>C-DOT's 14 quantum products</strong> (Aug 2026) — indigenous QKD systems (Q-AKSHAY CD fibre QKD, Q-AKSHAY MD measurement-device-independent QKD), quantum-safe encryptors (Q-SETU 80 Mbps, Q-MAHASETU 40 Gbps, defence-oriented Q-VIKRAM 1 Gbps, Q-AMOGH 200 Gbps), a single-photon detector, and post-quantum cryptography products.</li>
+      <li><strong>IISc's room-temperature entangled state</strong> (2025) — universal quantum gates and a six-qubit entangled state using a photonic quantum walk with ordinary beam splitters and waveplates, published in <em>Physical Review Applied</em> — a route to noise-resistant photonic quantum computing without cryogenics.</li>
+      <li><strong>IISER Pune's 3-minute materials probe</strong> (2022) — a beam-displacer plus CCD spectrometer measuring Faraday rotation to characterise quantum states in 2D materials in minutes instead of hours; featured as a <em>Nature</em> research highlight.</li>
+      <li><strong>IIT Bombay's light-controlled quantum states</strong> (~Dec 2025) — a single linearly-polarised laser pulse reversibly switching electron "valley" states in 2D semiconductors, a step toward light-controlled quantum devices.</li>
+      <li><strong>IIT Madras's CQuICC</strong> (2021) — the Centre for Quantum Information, Communication and Computing; the first Indian institution to join the IBM Quantum Network (Sep 2022), with an MPhasis grant of ₹21 crore backing quantum research.</li>
+    </ul>
+  </section>
+
+  <section class="facts">
+    <h2>Facts &amp; figures</h2>
+    <dl>
+      <div><dt>Longest single-fiber demo</dt><dd>380 km, IIT Delhi DPS-QKD (Oct 2023)</dd></div>
+      <div><dt>Longest quantum network</dt><dd>1,000 km, NQM + QNu Labs (Apr 2026)</dd></div>
+      <div><dt>First free-space entanglement QKD</dt><dd>50 m, RRI–ISRO QuEST (Feb 2021)</dd></div>
+      <div><dt>First intercity QKD</dt><dd>&gt;100 km, Prayagraj–Vindhyachal, up to 10 kHz sifted (Feb 2022)</dd></div>
+      <div><dt>Free-space key rate</dt><dd>~240 bps, QBER &lt;7%, IIT Delhi campus (Jun 2025)</dd></div>
+      <div><dt>QRNG speed</dt><dd>~150 kbps, NIST + Die-harder certified (Dec 2020)</dd></div>
+      <div><dt>Indigenous qubits</dt><dd>6, ring-resonator superconducting processor, DYSL-QT + TIFR + TCS (Aug 2024)</dd></div>
+      <div><dt>Military field trials</dt><dd>DRDO + Taqbit Labs, productised fibre QKD (Jul 2026)</dd></div>
+      <div><dt>Quantum products unveiled</dt><dd>14, C-DOT 43rd Foundation Day (Aug 2026)</dd></div>
+      <div><dt>Research centre</dt><dd>DRDO Quantum Technology Research Centre, Metcalfe House, Delhi (May 2025)</dd></div>
+    </dl>
+  </section>
+
+  <section class="references">
+    <h2>References</h2>
+    <p class="ref-lead">
+      The sources this page drew on — with a note on what each one was used for.
+    </p>
+    <ol>
+      <li>
+        <span>PIB, DRDO — intercity QKD demonstration (23 February 2022, PRID 1800648).</span>
+        <br /><span class="ref-use">Used for: Prayagraj–Vindhyachal link, &gt;100 km commercial fiber, 10 kHz sifted key rate, military key-hierarchy purpose.</span>
+      </li>
+      <li>
+        <span>Nature Scientific Reports — phase-encoded QKD up to 380 km (2023); reported via DailyWorld / New Kerala (6 October 2023).</span>
+        <br /><span class="ref-use">Used for: 380 km DPS-QKD, QBER &lt;2.5%, trusted-node-free, world-first claim, Kanseri team.</span>
+      </li>
+      <li>
+        <span>PIB, DRDO — free-space quantum secure communication (16 June 2025, PRID 2136702).</span>
+        <br /><span class="ref-use">Used for: &gt;1 km entanglement QKD, ~240 bps, QBER &lt;7%, DFTM project, DIA-CoE, "game changer" remark; also the 2024 100 km fiber milestone.</span>
+      </li>
+      <li>
+        <span>PIB, DRDO — fiber-optic branch-path QRNG (29 December 2020, PRID 1684381).</span>
+        <br /><span class="ref-use">Used for: ~150 kbps, NIST and Die-harder certification, SAG indigenous verification.</span>
+      </li>
+      <li>
+        <span>Indian Defence News — DRDO–TIFR 6-qubit processor milestone (August 2024).</span>
+        <br /><span class="ref-use">Used for: ring-resonator architecture, TIFR fabrication, DYSL-QT electronics, TCS cloud interface. Exact announcement day unverified.</span>
+      </li>
+      <li>
+        <span>Indian Defence News — DRDO + Taqbit Labs QKD field trials (July 2026).</span>
+        <br /><span class="ref-use">Used for: military field trials, multi-hop productised fibre QKD. Exact day and technical parameters not published.</span>
+      </li>
+      <li>
+        <span>Tele.net.in — STL + C-DOT multi-core-fibre QKD (7 May 2025).</span>
+        <br /><span class="ref-use">Used for: India's first 100 km MCF QKD, quantum + classical on four cores, no dark fiber needed.</span>
+      </li>
+      <li>
+        <span>Inside Quantum Technology (Mar 2021); Jagran Josh ISRO explainer.</span>
+        <br /><span class="ref-use">Used for: QuEST 50 m night entanglement demo; ISRO SAC 300 m link, NAVIC time sync, live quantum-secured video call.</span>
+      </li>
+      <li>
+        <span>Devdiscourse — quantum &amp; cryogenic milestones at IIT Bombay (25 November 2025).</span>
+        <br /><span class="ref-use">Used for: QMagPI, Quantum Diamond Microscope, Q-Confocal cancer sensing, Liquid Helium Facility.</span>
+      </li>
+      <li>
+        <span>PIB, Ministry of Science &amp; Technology — 1,000 km quantum network (8 April 2026, PRID 2250162).</span>
+        <br /><span class="ref-use">Used for: NQM 1,000 km demonstration, QNu Labs indigenous technology, defence/banking use.</span>
+      </li>
+      <li>
+        <span>TelecomTalk / Ministry of Communications — C-DOT's 14 quantum products (31 August 2026).</span>
+        <br /><span class="ref-use">Used for: product names and the QKD/PQC product range.</span>
+      </li>
+      <li>
+        <span>PIB, DRDO — Quantum Technology Research Centre inauguration (27 May 2025, PRID 2131757).</span>
+        <br /><span class="ref-use">Used for: QTRC at Metcalfe House, SAG and SSPL facility roles.</span>
+      </li>
+      <li>
+        <span>IIT (BHU) Foundation project page; IJAM journal (2025) — photon–magnon proposal and teleportation cryptosystem theory paper.</span>
+        <br /><span class="ref-use">Used for: the honesty note — these exist, but neither is a demonstrated teleportation experiment, so IIT BHU is not listed as one.</span>
+      </li>
+    </ol>
+  </section>
+
+  <section class="keypoints">
+    <h2>Coming up in Quantum Bharat</h2>
+    <ul>
+      <li><strong>Startups &amp; industry</strong> — QNu Labs, QpiAI, BosonQ Psi, and the companies building India's quantum stack.</li>
+      <li><strong>Jobs</strong> — the roles, the employers, indicative salaries, and how a student enters the field.</li>
+      <li>As the section grows, individual DRDO and IIT experiments can get their own pages slotted in right here.</li>
+    </ul>
+  </section>
+
+  <div class="pager" data-pagefind-ignore>
+    <a href="/quantum-bharat/mission/">
+      <span class="dir">← Back</span>
+      <span class="lbl">The National Quantum Mission</span>
+    </a>
+  </div>
+</SiteLayout>
