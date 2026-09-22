@@ -599,4 +599,67 @@ export const nobelLessons = {
       },
     ],
   },
+  "nobel-2025-clarke-devoret-martinis": {
+    simple: raw`
+      <p>On <strong>7 October 2025</strong>, the Royal Swedish Academy of Sciences announced a Nobel Prize this course had been waiting for. <strong>John Clarke, Michel Devoret and John Martinis</strong> won the Physics prize <em>"for the discovery of macroscopic quantum mechanical tunnelling and energy quantisation in an electric circuit."</em> In plain words: they proved that billions of electrons in a hand-held electric circuit can behave as a single quantum particle — and every superconducting qubit on Earth descends from that discovery.</p>
+      <p>The story starts in <strong>1984, in John Clarke's laboratory at UC Berkeley</strong>. The team was small: Clarke himself, the professor and SQUID pioneer; <strong>Michel Devoret</strong>, a young postdoc visiting from Saclay in France; and <strong>John Martinis</strong>, Clarke's own PhD student. The orthodoxy of the day said quantum mechanics was for atoms and photons — a circuit on your workbench was classical, full stop. They set out to prove the orthodoxy wrong.</p>
+      <p>Their device was a <strong>Josephson junction</strong> — two superconductors separated by an insulating layer so thin that electron pairs can tunnel straight through it — wired into a circuit and cooled to about <strong>0.01 kelvin</strong>, colder than deep space. They demonstrated two things. First, the circuit could escape from its zero-voltage state by <strong>quantum tunnelling</strong> — leaking through an energy barrier that no classical physics could cross. Second, the circuit's energy levels were <strong>quantized</strong>: discrete steps, like an atom's, not a smooth continuum. Their masterstroke was a 1984 calibration trick called <strong>resonant activation</strong>: they used microwaves to tickle the circuit between its energy levels, proving the levels were real — with data so clean it matched theory with <em>no fitted parameters at all</em>.</p>
+      <p>The key paper — Martinis, Devoret &amp; Clarke — was published on <strong>7 October 1985</strong>. The Nobel was announced on <strong>7 October 2025</strong>: exactly forty years to the day. Nobody plans that; the committee doesn't work that way. It is just how the arithmetic of history landed.</p>
+      <p><strong>Why this is the quantum computing Nobel:</strong> the trio had built the first <em>engineerable artificial atom</em> — a circuit you can design on paper that behaves like an atom. The direct line runs from Berkeley 1985 to the Cooper-pair box (1997), the <strong>first superconducting qubit</strong> (1999, coherence about 10 nanoseconds), the phase qubit and quantronium (2002), circuit QED (2004), the <strong>transmon</strong> (2007, Devoret a co-author — the chip inside Google's and IBM's processors today), and fluxonium pushing coherence toward milliseconds. And the human line is just as direct: Martinis joined <strong>Google in 2014 and led the 2019 quantum supremacy experiment</strong> — 53 transmon qubits doing in about 200 seconds what was estimated at 10,000 years classically. Devoret is now Chief Scientist for Quantum Hardware at Google Quantum AI.</p>
+      <p>The prize itself: announced 7 October 2025 in Stockholm, presented <strong>10 December 2025</strong> at the Stockholm Concert Hall by King Carl XVI Gustaf, <strong>11 million SEK split three equal ways</strong>. Clarke, 83 at the announcement, called it <em>"the surprise of my life."</em> And the timing: the <strong>centenary of quantum mechanics</strong> (Heisenberg, 1925) and the UN's International Year of Quantum Science and Technology. One honest footnote — the Nobel committee never said the quantum year influenced the choice; that timing link is commentators' inference, not a committee statement.</p>
+      <p class="myth"><strong>Common myth:</strong> "They won for inventing the qubit." They didn't — the first superconducting qubit came in 1999, fourteen years after their experiment. They discovered the <em>quantum behavior of electric circuits</em> that made qubits possible. The Nobel rewards the discovery, not the engineering that followed.</p>
+    `,
+    deeper: raw`
+      <p>A <strong>Josephson junction</strong> is two superconductors separated by a thin insulating barrier. Inside a superconductor, electrons bind into <strong>Cooper pairs</strong> that share a single macroscopic quantum phase — billions of pairs described by one wavefunction. Pairs can tunnel through the barrier, and the supercurrent depends on the phase difference \\(\\delta\\) across it: \\(I = I_c \\sin \\delta\\). That phase is the macroscopic quantum variable Clarke, Devoret and Martinis quantized.</p>
+      <p>Bias the junction with a current \\(I\\) and the phase lives in a <strong>washboard potential</strong>:</p>
+      <p>\\[U(\\delta) = -E_J \\cos \\delta - \\frac{\\hbar I}{2e}\\,\\delta, \\qquad E_J = \\frac{\\hbar I_c}{2e}.\\]</p>
+      <p>Tilt the washboard with the bias current and the phase sits in one well, oscillating at the plasma frequency \\(\\omega_p\\). Classically it can only escape over the barrier by thermal activation — a rate that freezes out exponentially as temperature falls. Quantum-mechanically it can also <strong>tunnel through</strong> the barrier, at a rate (Caldeira–Leggett) roughly \\(\\Gamma \\propto \\exp(-\\text{const} \\times \\Delta U / \\hbar \\omega_p)\\), nearly independent of temperature. The smoking gun of 1984–85: the measured escape rate <em>stopped falling</em> as the circuit was cooled toward 0.01 K — thermal activation would have kept dropping — and resonant microwaves enhanced the escape exactly at the predicted level spacings, proving the well's energy levels were discrete.</p>
+      <p>From junction to qubit, one property matters above all: <strong>anharmonicity</strong>. The cosine potential is not a parabola, so its levels are <em>not</em> equally spaced — which means you can address two of them, \\(|0\\rangle\\) and \\(|1\\rangle\\), without accidentally exciting the rest. That is the whole trick of the superconducting qubit. The family tree: the <strong>Cooper-pair box</strong> (charge qubit, 1997) works at \\(E_J/E_C \\sim 1\\); the <strong>transmon</strong> (2007) pushes \\(E_J/E_C \\gg 1\\), flattening the energy bands so the qubit barely notices charge noise — the breakthrough that made processors practical; the <strong>phase qubit</strong> (2002) is the direct descendant of the 1985 current-biased experiment; <strong>fluxonium</strong> (2009) adds a large inductance and reaches millisecond coherence.</p>
+      <p><strong>Circuit QED</strong> (2004) completed the picture: couple the artificial atom to a microwave resonator, and you can control it and read it out with microwave pulses — the architecture inside every modern superconducting processor, from lab chips to Google's Sycamore and IBM's Eagle/Heron lines.</p>
+      <p>The coherence arc, in one line: ~10 ns (1999) → microseconds (2002) → 100+ µs (modern transmons) → milliseconds (fluxonium). Forty years of engineering, standing on one discovery: <em>a circuit can be a quantum object</em>.</p>
+      <p><strong>Why this prize matters for quantum computing:</strong> the qubit <em>is</em> a quantized two-level system, and the 2025 prize is the discovery that such a system can be engineered in an electric circuit. Every time this course writes \\(|0\\rangle\\) and \\(|1\\rangle\\) for a superconducting qubit, it is using energy levels of the kind Clarke, Devoret and Martinis first resolved in 1985.</p>
+    `,
+    keyPoints: [
+      "Announced 7 October 2025 — exactly 40 years after the 7 October 1985 PRL paper — with the citation \"for the discovery of macroscopic quantum mechanical tunnelling and energy quantisation in an electric circuit\"; 11M SEK split three ways; presented 10 December 2025 in Stockholm.",
+      "Berkeley 1984–85: a current-biased Josephson junction at ~0.01 K showed macroscopic quantum tunnelling and quantized energy levels; resonant-activation calibration matched theory with no fitted parameters.",
+      "The work created the engineerable artificial atom: 1999 first superconducting qubit (~10 ns) → 2007 transmon, the chip inside Google/IBM processors → fluxonium toward millisecond coherence.",
+      "Martinis led Google's 2019 quantum supremacy demo (53 transmons, ~200 s vs ~10,000 years); Devoret is now Chief Scientist for Quantum Hardware at Google Quantum AI.",
+      "The timing hit the quantum centenary (1925–2025) and the UN International Year of Quantum — but the committee never cited the year as a reason; the classic Nobel delay lasted until the technological payoff was undeniable.",
+    ],
+    quiz: [
+      {
+        q: "What did Clarke, Devoret and Martinis demonstrate in 1984–85?",
+        options: [
+          "The first working quantum computer",
+          "That a Josephson-junction circuit cooled to ~0.01 K shows macroscopic quantum tunnelling and quantized energy levels",
+          "Quantum teleportation of photons over 144 kilometres",
+          "An algorithm for factoring large numbers",
+        ],
+        answer: 1,
+        why: "They showed billions of electrons in a circuit behaving as one quantum particle — the discovery, not a device. The first superconducting qubit came fourteen years later, in 1999.",
+      },
+      {
+        q: "Why was the 2007 transmon such a breakthrough?",
+        options: [
+          "It was the first circuit to show quantum tunnelling",
+          "It pushed E_J/E_C >> 1, flattening energy bands so the qubit is nearly immune to charge noise — making processors practical",
+          "It used photons instead of electric circuits",
+          "It proved entanglement over macroscopic distances",
+        ],
+        answer: 1,
+        why: "Devoret co-authored the transmon paper; its insensitivity to charge noise is why transmons power Google's and IBM's processors today.",
+      },
+      {
+        q: "What made the 1984–85 result convincing to skeptics?",
+        options: [
+          "The experiment was repeated a thousand times",
+          "Resonant-activation spectroscopy provided in-situ calibration, and the data matched Caldeira–Leggett theory with no fitted parameters",
+          "A Nobel laureate publicly endorsed it",
+          "It was performed at room temperature",
+        ],
+        answer: 1,
+        why: "The 1984 resonant-activation trick let them measure the quantized levels directly, and the tunnelling rates agreed with theory with zero free parameters — the gold standard of experimental proof.",
+      },
+    ],
+  },
 };

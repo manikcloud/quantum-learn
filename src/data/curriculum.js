@@ -136,7 +136,7 @@ export const modules = [
     title: "Nobel Prizes That Built Quantum",
     tagline: "The discoveries — and discoverers — behind quantum computing.",
     description:
-      "Ten Nobel Prizes that built the quantum world, from Planck's desperate mathematical trick in 1900 to the 2022 prize for proving entanglement real. Original enrichment: the human story behind the physics.",
+      "Eleven Nobel Prizes that built the quantum world, from Planck's desperate mathematical trick in 1900 to the 2025 prize for the superconducting circuits behind quantum computing. Original enrichment: the human story behind the physics.",
     lessons: [
       { slug: "nobel-1900-planck", title: "1900 · Planck and the Quantum Hypothesis" },
       { slug: "nobel-1921-einstein", title: "1921 · Einstein and the Photoelectric Effect" },
@@ -148,6 +148,7 @@ export const modules = [
       { slug: "nobel-1973-tunneling", title: "1973 · Tunneling: Esaki, Giaever & Josephson" },
       { slug: "nobel-2012-haroche-wineland", title: "2012 · Haroche & Wineland: Taming Single Quanta" },
       { slug: "nobel-2022-entanglement", title: "2022 · Aspect, Clauser & Zeilinger: Entanglement Proved" },
+      { slug: "nobel-2025-clarke-devoret-martinis", title: "2025 · Clarke, Devoret & Martinis: The Quantum Computing Nobel" },
     ],
   },
   {
